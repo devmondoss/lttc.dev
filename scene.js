@@ -139,7 +139,6 @@
       var copy = document.createElement('div');
       copy.style.cssText = 'flex:0 1 340px;min-width:260px;';
       copy.innerHTML =
-        '<p style="margin:0 0 20px;font-family:\'JetBrains Mono\',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">01 · SEÑAL VS RUIDO</p>' +
         '<h2 style="margin:0 0 16px;font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em;color:#0A0A0B">Señal, no ruido.</h2>' +
         '<p style="margin:0;font-size:16px;line-height:1.65;color:#5F5E5A;max-width:340px">El filtro financiero expulsa a los charlatanes antes de que hablen.</p>';
       stage.appendChild(copy);
