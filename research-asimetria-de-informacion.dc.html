@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&amp;display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #FAFAF8; color: #0A0A0B; font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: #0A0A0B; text-decoration: none; }
+    a:hover { color: #FF6B00; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</helmet>
+
+<div data-screen-label="Research · Asimetría de Información" style="min-height:100vh;background:#FAFAF8">
+
+  <div style="position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(10,10,11,0.08)">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="landing.dc.html" aria-label="Lattice" style="display:flex;align-items:center;color:#0A0A0B">
+        <span role="img" aria-label="Lattice" style="display:inline-block;width:76px;height:32px;background:currentColor;-webkit-mask:url('assets/wordmark.svg') left center/contain no-repeat;mask:url('assets/wordmark.svg') left center/contain no-repeat"></span>
+      </a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500">
+          <a href="landing.dc.html#producto" style="color:#3F3F44" style-hover="color:#FF6B00">Producto</a>
+          <a href="landing.dc.html#selector" style="color:#3F3F44" style-hover="color:#FF6B00">Makers</a>
+          <a href="landing.dc.html#terminal" style="color:#3F3F44" style-hover="color:#FF6B00">Terminal</a>
+          <a href="landing.dc.html#docs" style="color:#3F3F44" style-hover="color:#FF6B00">Docs</a>
+        </nav>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:10px">
+        <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+          <a href="landing.dc.html#selector" style="padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;color:#3F3F44" style-hover="color:#0A0A0B">Log in</a>
+        </sc-if>
+        <a href="landing.dc.html#selector" style="flex:none;white-space:nowrap;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25)" style-hover="color:#FFFFFF">Abrir la terminal</a>
+      </div>
+    </div>
+  </div>
+
+  <article style="padding:clamp(110px,15vh,150px) 24px clamp(72px,10vw,110px)">
+    <div style="max-width:900px;margin:0 auto">
+
+      <div style="max-width:68ch;margin:0 auto">
+        <p style="margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#8A8A90"><a href="landing.dc.html#producto" style="color:#8A8A90" style-hover="color:#FF6B00">Research</a> / Asimetría de Información</p>
+        <h1 style="margin:0 0 22px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(34px,5vw,52px);line-height:1.08;letter-spacing:-0.02em;text-wrap:pretty">El mercado de los limones tiene canal de Telegram</h1>
+        <p style="margin:0 0 36px;font-family:Fraunces,serif;font-style:italic;font-size:clamp(18px,2.3vw,21px);line-height:1.5;color:#5F5E5A;text-wrap:pretty">Cuando hablar es gratis, el buen análisis no encuentra comprador. El equipo de Lattice partió de ese diagnóstico y llegó a una sola conclusión operativa: la única forma de arreglar un mercado de información es hacer que equivocarse cueste.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px">
+          <div>
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">ESCRITO POR</p>
+            <p style="margin:0;font-size:14px;font-weight:500;color:#1A1A1D">Equipo Lattice</p>
+          </div>
+          <div>
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">PUBLICADO</p>
+            <p style="margin:0;font-size:14px;font-weight:500;color:#1A1A1D">2 de junio de 2026</p>
+          </div>
+          <div>
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">ÚLTIMA ACTUALIZACIÓN</p>
+            <p style="margin:0;font-size:14px;font-weight:500;color:#1A1A1D">10 de julio de 2026</p>
+          </div>
+        </div>
+        <div style="border-top:1px dotted #B9B7B0;margin-bottom:clamp(36px,5vw,52px)"></div>
+
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">El vendedor de autos usados sabe cuál de los dos coches del lote tiene la caja de cambios rota. El comprador no. Como no puede distinguirlos, no va a pagar el precio del auto bueno: va a pagar un promedio entre el bueno y el roto. Y ahí empieza el desastre, porque a ese precio promedio el dueño del auto bueno prefiere no vender. Se retira. Lo que queda en el lote es cada vez peor, el comprador lo intuye, ofrece menos, y el ciclo se repite hasta que solo quedan cacharros.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">George Akerlof describió esto en 1970 y le valió el Nobel. Lo llamó el mercado de los limones —"limón" es el auto malo—, y su hallazgo incómodo fue que no hace falta ningún estafador para que un mercado colapse. Basta con que el vendedor sepa algo que el comprador no puede verificar. La <span style="background:linear-gradient(90deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500">asimetría de información</span> —la brecha entre lo que sabe quien vende y lo que puede comprobar quien compra— no degrada el producto: expulsa al bueno.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Reemplácese el auto por un pronóstico y se obtiene el mercado de información que existe hoy. Ese fue el punto de partida del equipo de Lattice.</p>
+      </div>
+
+      <figure data-reveal="" style="margin:clamp(44px,6vw,64px) auto;width:100%;max-width:68ch">
+        <x-import component-from-global-scope="lattice-exhibit" from="./exhibits.js" exhibit="limones" hint-size="100%,460px" style="display:block;width:100%"></x-import>
+        <figcaption style="margin:14px 0 0;padding-top:10px;border-top:1px solid rgba(10,10,11,0.08);font-size:12.5px;line-height:1.6;color:#8A8A90"><strong style="color:#3F3F44;font-weight:600">Lectura:</strong> en A, el comprador no puede distinguir calidad, descuenta a todos y el oferente riguroso se retira; cada retiro baja la calidad media y realimenta el descuento. En B, el colateral y la garantía de reembolso hacen que el error tenga costo, de modo que el precio vuelve a informar sobre la calidad. <strong style="color:#3F3F44;font-weight:600">Fuente:</strong> esquema conceptual construido a partir de Akerlof, G. (1970), <em>The Market for "Lemons"</em>. Curvas ilustrativas del mecanismo; no representan datos empíricos.</figcaption>
+      </figure>
+
+      <div style="max-width:68ch;margin:0 auto">
+        <h2 style="margin:56px 0 20px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-0.02em">Por qué el buen análisis no encuentra comprador</h2>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Un analista que hizo el trabajo real —el que armó el modelo, revisó los datos, calibró la probabilidad— y un tipo que copió un gráfico y le puso una flecha verde publican en la misma pantalla, con la misma tipografía, con el mismo tono de certeza. Desde afuera son indistinguibles. El buen analista tiene además un problema estructural: no puede probar que es bueno sin exponer el análisis, y una vez que lo expone, ya lo regaló.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Como el lector no puede separarlos, hace lo mismo que el comprador de autos: descuenta a todos. Asume que le están vendiendo un limón. Ese descuento es lo que los economistas llaman <span style="background:linear-gradient(90deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500">selección adversa</span>: el precio cae hasta un punto en el que solo tiene sentido quedarse a quien no le costó nada producir lo que vende. El que hizo el trabajo se va a otro lado —a un fondo, a un empleo asalariado, al silencio— y el que se queda es el que puede publicar cien pronósticos al mes porque no le importa ninguno.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">El equipo insiste en ser preciso sobre dónde está la falla, porque de ese diagnóstico depende todo lo demás. No es que la gente mienta más que antes. Es que el costo de estar equivocado se externaliza por completo: lo paga el que siguió el consejo, nunca el que lo dio. El influencer financiero recomienda una posición, sus seguidores pierden, y al mes siguiente él tiene más audiencia, porque el algoritmo premia el volumen y la convicción, no el acierto. El sistema está haciendo exactamente lo que se le pidió.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Un problema de incentivos no se resuelve con mejores intenciones. Se resuelve cambiando el contrato.</p>
+
+        <h2 style="margin:56px 0 20px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-0.02em">El que da la opinión tiene que poder perder</h2>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Nassim Taleb (2018) formuló la corrección en una frase brutal: no me digas lo que pensás, decime qué tenés en la cartera. Su argumento sobre el <span style="background:linear-gradient(90deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500">skin in the game</span> —tener algo propio en riesgo— suele leerse mal, como si fuera un problema de alineación: compartir la ganancia entre asesor y cliente. Taleb dice lo contrario. No se trata de compartir la ganancia sino de compartir la pérdida. La simetría que importa no es cobrar juntos, es pagar juntos.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Lattice tomó ese principio y lo bajó a un contrato ejecutable, que es donde el argumento de Taleb todavía no había llegado. El Maker —quien vende un pronóstico— deposita un colateral reputacional: pone en garantía capital y reputación medible detrás de cada predicción. El Taker —quien lo compra— recibe una garantía de reembolso: si el pronóstico falla, el smart contract le devuelve lo que pagó y ejecuta la penalización sobre el Maker. Automáticamente, sin apelación, sin necesidad de que nadie se enoje.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Ese último punto llegó al diseño por una discusión interna que vale la pena contar. En cualquier plataforma social, cuando un gurú falla se activa un ciclo de resentimiento: linchamiento público, listas negras, y del otro lado alianzas defensivas entre quienes se cubren mutuamente. Robert Axelrod (1984) mostró que la reciprocidad estricta —el <em>tit for tat</em>— puede sostener la cooperación entre agentes, pero el equipo llegó a la conclusión de que ejecutarla con emociones humanas y sin árbitro produce lo contrario: colusión de un lado, represalia del otro, y en el medio un mercado que deja de descubrir precios porque la gente vota con su rencor y no con su criterio.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Por eso Lattice despersonaliza el castigo. El Taker no necesita odiar al Maker que falló, porque el sistema ya le cobró. La venganza se automatiza y, al automatizarse, deja de contaminar la señal.</p>
+        <div style="display:flex;gap:20px;margin:44px 0">
+          <span style="width:3px;flex:none;border-radius:2px;background:linear-gradient(180deg,#FF3333,#FF6B00,#F5A623)"></span>
+          <p style="margin:0;font-family:Fraunces,serif;font-style:italic;font-weight:400;font-size:clamp(24px,3.4vw,34px);line-height:1.3;color:#0A0A0B;text-wrap:pretty">El mercado no necesita creerte. Necesita poder cobrarte.</p>
+        </div>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Conviene decir con claridad qué es de quién. Akerlof describió la enfermedad en 1970. Taleb nombró el remedio en 2018. Axelrod explicó por qué la reciprocidad humana no alcanza para administrarlo. Ninguno de los tres escribió el contrato. La arquitectura que combina colateral, reembolso automático, reputación calculada y asignación de plazas —y en la que cada pieza existe para tapar un agujero que la anterior deja abierto— es autoría de Lattice.</p>
+
+        <h2 style="margin:56px 0 20px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-0.02em">La reputación no se vota: se calcula</h2>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">De ahí se sigue una decisión que el equipo tomó temprano y sin ambigüedad: en Lattice no hay reseñas. No hay estrellitas, no hay comentarios, no hay ranking de simpatía. Un sistema de calificaciones —el modelo de Amazon o TripAdvisor— es manipulable por construcción: un vendedor puede coordinar reseñas positivas, un competidor puede hundir a otro con reseñas falsas, y la reputación termina midiendo popularidad y coordinación, no calidad. Reintroducir opiniones habría sido reintroducir el ruido que el resto del sistema existe para eliminar.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">La reputación de un Maker no es una opinión agregada. Es un número calculado sobre hechos verificables: qué predijo, con qué cuota, y si ocurrió. Ese número es el <span style="background:linear-gradient(90deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500">score de confianza</span>, y el equipo se puso de acuerdo en cuatro variables con pesos deliberadamente desiguales: el yield o retorno real que generó (40%), porque es lo único que mide si el Maker creó valor y no solo si tuvo suerte; su porcentaje de aciertos (30%), la métrica más legible para quien compra; el tamaño de la muestra —cuántas predicciones tiene efectivamente resueltas— (20%), para que nadie parezca infalible con dos aciertos de dos; y la racha (10%), la métrica más ruidosa y manipulable de las cuatro, que pesa poco justamente por eso. Se recalcula sobre una ventana móvil de noventa días: no es un pedigrí acumulado de por vida, es la forma reciente.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Y no es decorativo. Ese score determina cuánto puede cobrar el Maker por cada pronóstico. La confiabilidad no es un badge en el perfil: es el precio. (Cómo se construye ese número, y por qué esos pesos y no otros, merece su propio texto.)</p>
+      </div>
+
+      <figure data-reveal="" style="margin:clamp(44px,6vw,64px) auto;width:100%;max-width:68ch">
+        <x-import component-from-global-scope="lattice-exhibit" from="./exhibits.js" exhibit="score" hint-size="100%,520px" style="display:block;width:100%"></x-import>
+        <figcaption style="margin:14px 0 0;padding-top:10px;border-top:1px solid rgba(10,10,11,0.08);font-size:12.5px;line-height:1.6;color:#8A8A90"><strong style="color:#3F3F44;font-weight:600">Lectura:</strong> la reputación no es un badge de perfil. El mismo número que ordena el ranking fija cuánto puede cobrar el Maker por cada pronóstico, y se recalcula cada vez que una predicción se resuelve. <strong style="color:#3F3F44;font-weight:600">Fuente:</strong> implementación del modelo de confiabilidad de Lattice (fuente única de precio y reputación).</figcaption>
+      </figure>
+
+      <div style="max-width:68ch;margin:0 auto">
+        <h2 style="margin:56px 0 20px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-0.02em">El alpha es hielo bajo el sol</h2>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Falta la pieza que hace que el mercado sobreviva en el tiempo, y es la que más discusión interna costó, porque es contraintuitiva: la información buena no se puede vender infinitas veces.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Un Maker en São Paulo detecta una discrepancia a las 08:00. En ese momento su ventaja informativa —el <em>alpha</em>, el rendimiento que supera al mercado— es máxima. Si vendiera ese insight a diez mil personas, esas diez mil ejecutarían la misma operación, el mercado subyacente se ajustaría en minutos y el alpha valdría cero. Habría vendido un hielo y entregado un charco.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Hay además un problema de oferta que el equipo detectó modelando el caso extremo: sin ningún límite, un evento popular atrae a más Makers vendiendo el mismo insight que Takers dispuestos a comprarlo. La ventaja se reparte hasta desaparecer antes siquiera de ejecutarse. El mercado se congestiona del lado equivocado.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Por eso Lattice asigna las plazas por evento mediante <span style="background:linear-gradient(90deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500">capital allocation</span>: el número de compradores habilitados para un pronóstico se deriva del volumen real del mercado subyacente. Un evento profundo, con mucha liquidez, absorbe más órdenes sin moverse y habilita más plazas. Un mercado delgado habilita pocas. No es escasez fabricada para generar urgencia —eso sería un truco de casino—: es la capacidad física del mercado que se está explotando, traducida en cupos.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Y hay un piso deliberado que evita que esto se convierta en un club. El tramo de entrada, el pronóstico de un dólar, no tiene límite de plazas. La escasez opera sobre el alpha caro y estrecho, nunca sobre el acceso. Habría sido incoherente sostener que el talento no debe pedir permiso para entrar y después construir un mercado donde entrar requiere permiso.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Dicho con precisión: Lattice no vende verdad. Vende velocidad de procesamiento de la verdad, durante la ventana en que esa verdad todavía es privada.</p>
+      </div>
+
+      <figure data-reveal="" style="margin:clamp(44px,6vw,64px) auto;width:100%;max-width:68ch">
+        <x-import component-from-global-scope="lattice-exhibit" from="./exhibits.js" exhibit="alpha" hint-size="100%,460px" style="display:block;width:100%"></x-import>
+        <figcaption style="margin:14px 0 0;padding-top:10px;border-top:1px solid rgba(10,10,11,0.08);font-size:12.5px;line-height:1.6;color:#8A8A90"><strong style="color:#3F3F44;font-weight:600">Lectura:</strong> en A, la ventaja informativa se degrada apenas se ejecuta: Lattice no vende verdad, vende la ventana en que esa verdad todavía es privada. En B, las plazas escalan con el volumen del evento —un mercado profundo absorbe más órdenes sin moverse—, de modo que la escasez recae sobre el alpha caro y estrecho, nunca sobre el acceso: el tramo de entrada permanece abierto sin límite. <strong style="color:#3F3F44;font-weight:600">Fuente:</strong> mecanismo de asignación de plazas de Lattice; curvas ilustrativas del principio, no datos de mercado. Marco conceptual: Grossman, S. y Stiglitz, J. (1980).</figcaption>
+      </figure>
+
+      <div style="max-width:68ch;margin:0 auto">
+        <h2 style="margin:56px 0 20px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-0.02em">La objeción más fuerte</h2>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">La crítica seria a todo lo anterior es que Lattice, si funciona, se mata a sí misma. Si el análisis de élite deja de estar encerrado en un fondo de Connecticut y se distribuye a cualquiera que pueda pagar diez dólares, la asimetría se reduce, los precios se vuelven eficientes, el alpha desaparece y con él la razón para comprar un pronóstico. Equilibrio perfecto, muerte térmica: sin diferencia de temperatura no hay trabajo posible.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Grossman y Stiglitz (1980) formalizaron esa tensión, y la respuesta está dentro de su propia paradoja: si un mercado fuera perfectamente eficiente desde el punto de vista informativo, nadie tendría incentivo para producir información —conseguirla cuesta— y entonces el mercado dejaría de ser eficiente. La eficiencia perfecta es imposible como estado estable. Tiene que existir un retorno positivo a la información, o el sistema se desarma.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">A eso se suman dos razones por las que la simetría total no llega. La primera es la entropía: el mundo genera asimetrías nuevas todos los días y la información caduca. La segunda es que dos personas con el mismo dato en la pantalla no toman la misma decisión. La ejecución, la gestión de riesgo y la tolerancia a la pérdida siguen siendo profundamente desiguales. Lattice puede igualar el insumo; no iguala el temperamento, y no promete hacerlo.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Queda una objeción menor pero honesta, y el equipo la asume: la garantía de reembolso podría empujar a los Makers hacia pronósticos seguros y aburridos, porque el castigo por fallar es real. Es un riesgo genuino. La respuesta está en el diseño de la penalización: fallar un pronóstico declarado al 90% de probabilidad debe costar mucho más que fallar uno declarado al 51%. Un sistema que castiga por igual todos los errores premia la cobardía. Uno que castiga la sobreconfianza premia la calibración, que es exactamente lo que el Taker quiere comprar.</p>
+
+        <h2 style="margin:56px 0 20px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-0.02em">Coberturas para quien nunca las tuvo</h2>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">La consecuencia que más le importa al equipo no es financiera sino social.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Una aerolínea que teme una suba del petróleo compra derivados y se cubre. Un fondo que teme una suba de tasas se cubre. Un desarrollador freelance en Buenos Aires que cobra en cripto y teme exactamente lo mismo no se cubre, porque nadie le va a redactar un contrato de derivados por su portafolio de cuatro cifras: la barrera de entrada es prohibitiva y siempre lo fue. Su única opción frente a la incertidumbre es aguantar.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">Un mercado de pronósticos verificables abre una puerta intermedia. Ese freelance puede comprarle el análisis macro a quien tiene el mejor track record auditado y ajustar su exposición con esa información; si el Maker se equivoca, recupera lo que pagó. La incertidumbre no desaparece —nada la hace desaparecer—, pero por primera vez tiene un precio accesible y una contraparte que responde. Lo mismo vale para el agricultor que necesita una lectura climática y hoy solo tiene el rumor del pueblo.</p>
+        <p style="margin:0 0 26px;font-size:17.5px;line-height:1.7;color:#26262B">La asimetría de información nunca fue un problema abstracto de los libros de texto. Siempre fue la razón por la cual algunos pueden protegerse del futuro y otros solo pueden esperarlo.</p>
+
+        <div style="margin:64px 0 0;border-top:1px solid rgba(10,10,11,0.12);padding-top:24px">
+          <p style="margin:0 0 14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">FUENTES</p>
+          <ul style="margin:0;padding:0 0 0 18px;font-size:13.5px;line-height:1.9;color:#5F5E5A">
+            <li>George Akerlof, "The Market for 'Lemons'" (1970)</li>
+            <li>Nassim Nicholas Taleb, <em>Skin in the Game</em> (2018)</li>
+            <li>Robert Axelrod, <em>The Evolution of Cooperation</em> (1984)</li>
+            <li>Sanford Grossman y Joseph Stiglitz, "On the Impossibility of Informationally Efficient Markets" (1980)</li>
+          </ul>
+        </div>
+
+        <p style="margin:40px 0 0;font-size:12px;line-height:1.7;color:#8A8A90">Lattice no ofrece asesoramiento de inversión ni instrumentos financieros regulados. Los pronósticos son análisis de terceros; la garantía de reembolso es contractual y no constituye una garantía de rendimiento.</p>
+      </div>
+
+      <div style="margin:clamp(48px,7vw,72px) auto 0;border-top:1px solid rgba(10,10,11,0.12);padding-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
+        <a href="research-democracia-del-intelecto.dc.html" style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">← ANTERIOR</span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px">Democracia del Intelecto</span>
+        </a>
+        <a href="landing.dc.html#producto" style="padding:12px 24px;border-radius:999px;font-size:14px;font-weight:600;color:#0A0A0B;border:1.5px solid rgba(10,10,11,0.22)" style-hover="border-color:#0A0A0B;color:#0A0A0B">Volver a Research</a>
+        <a href="research-constitucion-humanista.dc.html" style="display:flex;flex-direction:column;gap:3px;text-align:right;min-width:120px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">SIGUIENTE →</span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px">Constitución Humanista</span>
+        </a>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    isDesktop: typeof window === 'undefined' ? true : !window.matchMedia('(max-width: 1020px)').matches,
+  };
+
+  componentDidMount() {
+    this._mql = window.matchMedia('(max-width: 1020px)');
+    this._onMql = () => this.setState({ isDesktop: !this._mql.matches });
+    this._mql.addEventListener('change', this._onMql);
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    this._io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          this._io.unobserve(e.target);
+        }
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    const scan = () => {
+      document.querySelectorAll('[data-reveal]:not([data-reveal-on])').forEach((el) => {
+        el.setAttribute('data-reveal-on', '1');
+        const r = el.getBoundingClientRect();
+        if (r.top > window.innerHeight * 0.92) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(22px)';
+        }
+        el.style.transition = 'opacity 0.7s cubic-bezier(0.2,0.6,0.2,1), transform 0.7s cubic-bezier(0.2,0.6,0.2,1)';
+        this._io.observe(el);
+      });
+    };
+    scan();
+    this._t = setInterval(scan, 800);
+    this._t2 = setTimeout(() => clearInterval(this._t), 6000);
+  }
+
+  componentWillUnmount() {
+    if (this._mql) this._mql.removeEventListener('change', this._onMql);
+    if (this._io) this._io.disconnect();
+    clearInterval(this._t);
+    clearTimeout(this._t2);
+  }
+
+  renderVals() {
+    return { isDesktop: this.state.isDesktop };
+  }
+}
+
+</script>
+</body>
+</html>

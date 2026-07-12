@@ -1,0 +1,461 @@
+/* Lattice — "Signal vs Noise": escena full-height scrubbeada por scroll.
+   GSAP + ScrollTrigger desde CDN; fallback a scroll listener + rAF.
+   Fase A: circle packing caótico (grises + brasas sunset) con aro interrumpido por texto.
+   Fase B: el ruido sale a la izquierda, entra el círculo ordenado.
+   Fase C: distribución pareja sunset, aro grafito instrumental, tags monospace fuera del aro.
+   prefers-reduced-motion → estado ORDEN final estático. */
+(function () {
+  'use strict';
+  if (customElements.get('signal-noise-scene')) return;
+
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var SUNSET = { r: 255, g: 107, b: 0 };
+  var INK = { r: 10, g: 10, b: 11 };
+  var EMBERS = ['#FF3333', '#FF6B00', '#F5A623'];
+
+  var RING_PHRASES = [
+    { t: '1000x gem', ang: -38 },
+    { t: "it's pointless", ang: 62 },
+    { t: 'lmao', ang: 148 },
+    { t: 'buy my coin', ang: 232 }
+  ];
+
+  var OUT_WORDS = [
+    { t: 'wen', x: 88, y: 12, rot: 8, s: 14 },
+    { t: 'to the moon', x: 6, y: 9, rot: -6, s: 16 },
+    { t: 'jsjs', x: 92, y: 60, rot: -10, s: 13 },
+    { t: 'xd', x: 4, y: 68, rot: 12, s: 14 }
+  ];
+
+  var BADGES = [
+    { t: 'Yield +42%', dot: '#F5A623', ang: -90 },
+    { t: 'Stake Locked', dot: '#FF6B00', ang: -28 },
+    { t: '14x Racha', dot: '#F5A623', ang: 42 },
+    { t: 'Reembolso Activo', dot: '#FF6B00', ang: 158 },
+    { t: 'Audited', dot: '#8A8A90', neutral: true, ang: 216 }
+  ];
+
+  function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+  function lin(p, a, b) { return clamp01((p - a) / (b - a)); }
+  function seg(p, a, b) {
+    var t = lin(p, a, b);
+    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // power2.inOut
+  }
+  function easeOut(t) { return 1 - Math.pow(1 - t, 2); }
+  function mix(a, b, t) { return a + (b - a) * t; }
+  function lerpColor(a, b, t) {
+    return 'rgb(' + Math.round(mix(a.r, b.r, t)) + ',' + Math.round(mix(a.g, b.g, t)) + ',' + Math.round(mix(a.b, b.b, t)) + ')';
+  }
+  function svg(tag, attrs) {
+    var n = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function polar(r, deg) {
+    var a = deg * Math.PI / 180;
+    return [300 + Math.cos(a) * r, 300 + Math.sin(a) * r];
+  }
+
+  // Circle packing caótico: relleno parejo del disco (r = sqrt(rand) * R), radios variados.
+  function chaosPts(count, rMax) {
+    var out = [];
+    for (var i = 0; i < count; i++) {
+      var a = Math.random() * Math.PI * 2;
+      var r = Math.sqrt(Math.random()) * rMax;
+      var ember = Math.random() < 0.15;
+      var v = 10 + Math.floor(Math.random() * 175); // negro → gris claro
+      out.push({
+        x: 300 + Math.cos(a) * r,
+        y: 300 + Math.sin(a) * r,
+        rad: 1.5 + Math.random() * 5,
+        fill: ember ? EMBERS[Math.floor(Math.random() * 3)] : 'rgb(' + v + ',' + v + ',' + v + ')',
+        o: Math.random()
+      });
+    }
+    return out;
+  }
+
+  // Distribución pareja tipo Poisson-disc (best-candidate sampling).
+  function evenPts(count, rMax) {
+    var pts = [];
+    for (var i = 0; i < count; i++) {
+      var best = null, bestD = -1;
+      for (var c = 0; c < 26; c++) {
+        var a = Math.random() * Math.PI * 2;
+        var r = Math.sqrt(0.04 + 0.96 * Math.random()) * rMax;
+        var x = 300 + Math.cos(a) * r, y = 300 + Math.sin(a) * r;
+        var dmin = 1e9;
+        for (var j = 0; j < pts.length; j++) {
+          var dx = pts[j].x - x, dy = pts[j].y - y;
+          var d2 = dx * dx + dy * dy;
+          if (d2 < dmin) dmin = d2;
+        }
+        if (dmin > bestD) { bestD = dmin; best = { x: x, y: y, o: Math.random() }; }
+      }
+      pts.push(best);
+    }
+    return pts;
+  }
+
+  // Aro con gaps donde el texto lo interrumpe (estilo póster editorial).
+  function ringWithGaps(r, gaps) {
+    var sorted = gaps.slice().sort(function (a, b) { return a.ang - b.ang; });
+    var d = '';
+    for (var i = 0; i < sorted.length; i++) {
+      var start = sorted[i].ang + sorted[i].half;
+      var next = sorted[(i + 1) % sorted.length];
+      var end = (i === sorted.length - 1 ? next.ang + 360 : next.ang) - next.half;
+      var span = end - start;
+      if (span <= 0) continue;
+      var p0 = polar(r, start), p1 = polar(r, end);
+      d += 'M ' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) +
+        ' A ' + r + ' ' + r + ' 0 ' + (span > 180 ? 1 : 0) + ' 1 ' +
+        p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' ';
+    }
+    return d;
+  }
+
+  class SignalNoiseScene extends HTMLElement {
+    connectedCallback() {
+      if (this._built) return;
+      this._built = true;
+      var self = this;
+      this._reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      this.style.display = 'block';
+      this.style.position = 'relative';
+      this.style.height = this._reduced ? 'auto' : '360vh';
+
+      // ── stage (sticky, 100vh) ──
+      var stage = document.createElement('div');
+      stage.style.cssText =
+        'position:' + (this._reduced ? 'relative' : 'sticky') + ';top:0;height:' +
+        (this._reduced ? 'auto' : '100vh') + ';min-height:560px;display:flex;flex-wrap:wrap;' +
+        'align-items:center;justify-content:center;gap:32px 56px;padding:48px 24px;box-sizing:border-box;overflow:hidden;';
+      this.appendChild(stage);
+      this._stage = stage;
+
+      // ── copy fijo ──
+      var copy = document.createElement('div');
+      copy.style.cssText = 'flex:0 1 340px;min-width:260px;';
+      copy.innerHTML =
+        '<p style="margin:0 0 20px;font-family:\'JetBrains Mono\',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">01 · SEÑAL VS RUIDO</p>' +
+        '<h2 style="margin:0 0 16px;font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em;color:#0A0A0B">Señal, no ruido.</h2>' +
+        '<p style="margin:0;font-size:16px;line-height:1.65;color:#5F5E5A;max-width:340px">El filtro financiero expulsa a los charlatanes antes de que hablen.</p>';
+      stage.appendChild(copy);
+
+      // ── escena ──
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'position:relative;flex:0 1 auto;width:min(82vw,500px);aspect-ratio:1/1;';
+      stage.appendChild(wrap);
+      this._wrap = wrap;
+      this._copy = copy;
+
+      // Ajuste por altura: que el círculo completo + tags entren en el stage
+      this._layoutScene = function () {
+        var vh = window.innerHeight || 800;
+        var vw = window.innerWidth || 1200;
+        var stacked = copy.getBoundingClientRect().top < wrap.getBoundingClientRect().top - 10 ||
+          (vw - 48) < (340 + 56 + 380);
+        var avail = vh - 96 - (stacked ? copy.offsetHeight + 32 : 0);
+        var size = Math.max(240, Math.min(500, 0.82 * vw, avail));
+        wrap.style.width = size + 'px';
+      };
+      this._onResize = function () { self._layoutScene(); };
+      window.addEventListener('resize', this._onResize);
+      requestAnimationFrame(this._onResize);
+      setTimeout(this._onResize, 400);
+
+      var svgRoot = svg('svg', { viewBox: '0 0 600 600' });
+      svgRoot.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;overflow:visible;';
+      wrap.appendChild(svgRoot);
+
+      // ═ FASE A: mundo ruidoso ═
+      var gA = svg('g', {});
+      svgRoot.appendChild(gA);
+      this._gA = gA;
+
+      // aro interrumpido por frases de charlatán
+      var gaps = RING_PHRASES.map(function (ph) {
+        var w = ph.t.length * 7.4 + 18; // ancho estimado px
+        return { ang: ph.ang, half: (w / 2 / 250) * 180 / Math.PI };
+      });
+      this._ringA = svg('path', { d: ringWithGaps(250, gaps), fill: 'none', stroke: '#B9B7B0', 'stroke-width': 1, opacity: 0 });
+      gA.appendChild(this._ringA);
+
+      this._ringTexts = svg('g', { opacity: 0 });
+      RING_PHRASES.forEach(function (ph) {
+        var pos = polar(250, ph.ang);
+        var t = svg('text', {
+          x: pos[0], y: pos[1], 'text-anchor': 'middle', 'dominant-baseline': 'middle',
+          'font-size': 14, fill: '#6B6A66'
+        });
+        t.style.cssText = 'font-family:Inter,sans-serif;font-style:italic;';
+        t.textContent = ph.t;
+        self._ringTexts.appendChild(t);
+      });
+      gA.appendChild(this._ringTexts);
+
+      // circle packing caótico: grises + brasas sunset ahogadas
+      this._crowd = chaosPts(140, 236).map(function (pt) {
+        var c = svg('circle', { cx: pt.x, cy: pt.y, r: pt.rad, fill: pt.fill, opacity: 0 });
+        gA.appendChild(c);
+        return { el: c, o: pt.o };
+      });
+
+      // mini-card del experto (close-up)
+      var card = svg('g', {});
+      card.appendChild(svg('rect', { x: 254, y: 268, width: 92, height: 64, rx: 10, fill: '#FFFFFF', stroke: '#0A0A0B', 'stroke-width': 1.5 }));
+      card.appendChild(svg('circle', { cx: 274, cy: 290, r: 8, fill: '#0A0A0B' }));
+      card.appendChild(svg('rect', { x: 290, y: 284, width: 42, height: 4, rx: 2, fill: '#C9C7BF' }));
+      card.appendChild(svg('rect', { x: 290, y: 294, width: 30, height: 4, rx: 2, fill: '#C9C7BF' }));
+      card.appendChild(svg('rect', { x: 266, y: 310, width: 66, height: 4, rx: 2, fill: '#E4E2DA' }));
+      gA.appendChild(card);
+      this._card = card;
+
+      // nodo experto (vista de multitud): brasa más entre las brasas
+      this._expert = svg('circle', { cx: 300, cy: 300, r: 6, fill: '#0A0A0B', opacity: 0 });
+      gA.appendChild(this._expert);
+
+      // estallido de micro-notificaciones
+      this._burst = [];
+      for (var b = 0; b < 18; b++) {
+        var ang = Math.random() * Math.PI * 2;
+        var isHeart = b % 5 === 0;
+        var n;
+        if (isHeart) {
+          n = svg('text', { x: 0, y: 0, 'font-size': 12, fill: '#1A1A1D', 'text-anchor': 'middle', opacity: 0 });
+          n.textContent = '♥';
+        } else {
+          n = svg('circle', { cx: 0, cy: 0, r: 2.6, fill: '#1A1A1D', opacity: 0 });
+        }
+        gA.appendChild(n);
+        this._burst.push({ el: n, heart: isHeart, dx: Math.cos(ang), dy: Math.sin(ang), dist: 60 + Math.random() * 95, start: 0.03 + Math.random() * 0.07 });
+      }
+
+      // jerga flotando FUERA del aro, gris muy tenue (HTML)
+      var wordLayer = document.createElement('div');
+      wordLayer.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
+      wrap.appendChild(wordLayer);
+      this._wordLayer = wordLayer;
+      this._words = OUT_WORDS.map(function (w, i) {
+        var s = document.createElement('span');
+        s.textContent = w.t;
+        s.style.cssText =
+          'position:absolute;left:' + w.x + '%;top:' + w.y + '%;font-family:Inter,sans-serif;font-style:italic;' +
+          'font-size:' + w.s + 'px;color:#C4C2BB;opacity:0;white-space:nowrap;will-change:transform,opacity;';
+        wordLayer.appendChild(s);
+        return { el: s, rot: w.rot, i: i };
+      });
+
+      // ═ FASES B+C: círculo Lattice (instrumento) ═
+      var gB = svg('g', { opacity: 0 });
+      svgRoot.appendChild(gB);
+      this._gB = gB;
+
+      // aro-guía concéntrico tenue + aro principal grafito
+      gB.appendChild(svg('circle', { cx: 300, cy: 300, r: 262, fill: 'none', stroke: '#EDEBE4', 'stroke-width': 1 }));
+      gB.appendChild(svg('circle', { cx: 300, cy: 300, r: 250, fill: 'none', stroke: '#3A3A42', 'stroke-width': 1.8 }));
+
+      // puntos sunset parejos (Poisson-disc)
+      this._latticeNodes = evenPts(30, 226).map(function (pt) {
+        var gold = Math.random() < 0.3;
+        var c = svg('circle', { cx: pt.x, cy: pt.y, r: 3, fill: gold ? '#F5A623' : '#FF6B00', opacity: 0 });
+        gB.appendChild(c);
+        return { el: c, o: pt.o };
+      });
+
+      this._centerNode = svg('circle', { cx: 300, cy: 300, r: 7, fill: '#FF6B00', opacity: 0 });
+      gB.appendChild(this._centerNode);
+
+      // "análisis" publicado (hairlines)
+      var lines = svg('g', { opacity: 0 });
+      lines.appendChild(svg('rect', { x: 272, y: 254, width: 56, height: 3.5, rx: 1.75, fill: '#C9C7BF' }));
+      lines.appendChild(svg('rect', { x: 280, y: 264, width: 40, height: 3.5, rx: 1.75, fill: '#DDDBD3' }));
+      gB.appendChild(lines);
+      this._lines = lines;
+
+      // pulso del smart contract
+      this._pulse = svg('circle', { cx: 300, cy: 300, r: 12, fill: 'none', stroke: '#FF6B00', 'stroke-width': 1.5, opacity: 0 });
+      gB.appendChild(this._pulse);
+
+      // candado minimalista que envuelve el nodo
+      var lock = svg('g', { opacity: 0 });
+      lock.appendChild(svg('path', { d: 'M 292 292 a 8 8 0 0 1 16 0', fill: 'none', stroke: '#0A0A0B', 'stroke-width': 2 }));
+      lock.appendChild(svg('rect', { x: 286, y: 292, width: 28, height: 22, rx: 6, fill: '#FFFFFF', stroke: '#0A0A0B', 'stroke-width': 2 }));
+      gB.appendChild(lock);
+      this._lock = lock;
+
+      // tags monospace por FUERA del aro (status pills)
+      var badgeLayer = document.createElement('div');
+      badgeLayer.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
+      wrap.appendChild(badgeLayer);
+      this._badges = BADGES.map(function (bd) {
+        var s = document.createElement('span');
+        s.style.cssText =
+          'position:absolute;left:0;top:0;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;white-space:nowrap;' +
+          "font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.03em;opacity:0;will-change:transform,opacity;" +
+          (bd.neutral
+            ? 'background:#F5F5F3;border:0.5px solid #DDDBD3;color:#5F5E5A;'
+            : 'background:#FFF1E3;border:0.5px solid #FBDBB6;color:#3F3F44;');
+        var dot = document.createElement('span');
+        dot.style.cssText = 'width:6px;height:6px;border-radius:50%;background:' + bd.dot + ';flex:none;';
+        var txt = document.createElement('span');
+        txt.textContent = bd.t;
+        s.appendChild(dot);
+        s.appendChild(txt);
+        badgeLayer.appendChild(s);
+        return { el: s, ang: bd.ang };
+      });
+
+      if (this._reduced) {
+        this._apply(1);
+        return;
+      }
+
+      this._apply(0);
+      this._initScrub();
+    }
+
+    disconnectedCallback() {
+      if (this._tween && this._tween.scrollTrigger) this._tween.scrollTrigger.kill();
+      if (this._tween) this._tween.kill && this._tween.kill();
+      if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+      if (this._onResize) window.removeEventListener('resize', this._onResize);
+      cancelAnimationFrame(this._raf);
+      this.innerHTML = '';
+      this._built = false;
+    }
+
+    _initScrub() {
+      var self = this;
+      Promise.all([
+        import('https://esm.sh/gsap'),
+        import('https://esm.sh/gsap/ScrollTrigger')
+      ]).then(function (mods) {
+        var gsap = mods[0].gsap || mods[0].default;
+        var ScrollTrigger = mods[1].ScrollTrigger || mods[1].default;
+        gsap.registerPlugin(ScrollTrigger);
+        var proxy = { p: 0 };
+        self._tween = gsap.to(proxy, {
+          p: 1,
+          ease: 'none',
+          scrollTrigger: { trigger: self, start: 'top top', end: 'bottom bottom', scrub: 0.4 },
+          onUpdate: function () { self._apply(proxy.p); }
+        });
+      }).catch(function () { self._fallbackScroll(); });
+    }
+
+    _fallbackScroll() {
+      var self = this;
+      var current = 0, target = 0;
+      var measure = function () {
+        var r = self.getBoundingClientRect();
+        var total = r.height - window.innerHeight;
+        target = total > 0 ? clamp01(-r.top / total) : 0;
+      };
+      this._onScroll = measure;
+      window.addEventListener('scroll', measure, { passive: true });
+      measure();
+      var tick = function () {
+        current += (target - current) * 0.12;
+        self._apply(current);
+        self._raf = requestAnimationFrame(tick);
+      };
+      this._raf = requestAnimationFrame(tick);
+    }
+
+    _apply(p) {
+      // ── FASE A (0–0.35): ruido ──
+      var zoom = mix(2.2, 1, seg(p, 0.06, 0.32));
+      var crowdIn = seg(p, 0.14, 0.32);
+      var out = seg(p, 0.35, 0.58);        // FASE B: sale a la izquierda
+      var inB = seg(p, 0.4, 0.6);          // círculo nuevo entra desde la derecha
+      var txA = -840 * out;
+
+      this._gA.setAttribute('transform',
+        'translate(' + txA + ' 0) translate(300 300) scale(' + zoom.toFixed(4) + ') translate(-300 -300)');
+      this._gA.setAttribute('opacity', String(1 - 0.25 * out));
+      this._ringA.setAttribute('opacity', String(crowdIn * 0.9));
+      this._ringTexts.setAttribute('opacity', String(crowdIn));
+
+      var cardOp = 1 - lin(p, 0.14, 0.26);
+      this._card.setAttribute('opacity', String(cardOp));
+
+      var expertColor = lerpColor(INK, SUNSET, seg(p, 0.16, 0.3));
+      this._expert.setAttribute('opacity', String(lin(p, 0.14, 0.24)));
+      this._expert.setAttribute('fill', expertColor);
+
+      for (var i = 0; i < this._crowd.length; i++) {
+        var cr = this._crowd[i];
+        cr.el.setAttribute('opacity', String(seg(p, 0.14 + cr.o * 0.12, 0.3 + cr.o * 0.06) * 0.92));
+      }
+
+      for (var b = 0; b < this._burst.length; b++) {
+        var bu = this._burst[b];
+        var t = lin(p, bu.start, bu.start + 0.14);
+        var d = 18 + bu.dist * easeOut(t);
+        var x = 300 + bu.dx * d, y = 300 + bu.dy * d;
+        if (bu.heart) { bu.el.setAttribute('x', x); bu.el.setAttribute('y', y); }
+        else { bu.el.setAttribute('cx', x); bu.el.setAttribute('cy', y); }
+        bu.el.setAttribute('opacity', String(clamp01(4 * t * (1 - t))));
+      }
+
+      var wordOp = crowdIn * (1 - lin(p, 0.33, 0.46));
+      for (var w = 0; w < this._words.length; w++) {
+        var wd = this._words[w];
+        wd.el.style.opacity = String(wordOp * 0.85);
+        wd.el.style.transform =
+          'translateX(' + (-110 * out) + 'vw) rotate(' + wd.rot + 'deg) translateY(' + (Math.sin(p * 7 + wd.i) * 6) + 'px)';
+      }
+
+      // ── FASES B+C: Lattice ──
+      var settle = mix(1.03, 1, seg(p, 0.94, 1));
+      var scaleB = (0.97 + 0.03 * inB) * settle;
+      var txB = mix(840, 0, inB);
+      this._gB.setAttribute('transform',
+        'translate(' + txB + ' 0) translate(300 300) scale(' + scaleB.toFixed(4) + ') translate(-300 -300)');
+      this._gB.setAttribute('opacity', String(clamp01(inB * 2)));
+
+      // nodo publica
+      var pop = seg(p, 0.58, 0.63);
+      this._centerNode.setAttribute('opacity', String(pop));
+      this._centerNode.setAttribute('r', String(7 * (0.4 + 0.6 * pop)));
+      this._lines.setAttribute('opacity', String(seg(p, 0.6, 0.65) * (1 - 0.4 * seg(p, 0.9, 1))));
+
+      // micro-momento smart contract (~1s real): trapecio + pulso claro
+      var lockOp = Math.min(seg(p, 0.63, 0.67), 1 - seg(p, 0.79, 0.83));
+      var lockScale = mix(1.6, 1, easeOut(lin(p, 0.63, 0.7)));
+      this._lock.setAttribute('opacity', String(clamp01(lockOp)));
+      this._lock.setAttribute('transform', 'translate(300 300) scale(' + lockScale.toFixed(3) + ') translate(-300 -300)');
+
+      var pt = lin(p, 0.66, 0.8);
+      this._pulse.setAttribute('r', String(12 + 30 * easeOut(pt)));
+      this._pulse.setAttribute('opacity', String(pt > 0 && pt < 1 ? (1 - pt) * 0.6 : 0));
+
+      // la red se llena, pareja y sunset
+      for (var n = 0; n < this._latticeNodes.length; n++) {
+        var ln = this._latticeNodes[n];
+        var np = seg(p, 0.82 + ln.o * 0.08, 0.88 + ln.o * 0.08);
+        ln.el.setAttribute('opacity', String(np));
+        ln.el.setAttribute('r', String(3 * (0.3 + 0.7 * np)));
+      }
+
+      // tags fuera del aro: fade + leve float, nunca tocan el aro
+      var orbit = (1 - p) * 14;
+      for (var g = 0; g < this._badges.length; g++) {
+        var bg = this._badges[g];
+        var bo = seg(p, 0.88 + g * 0.02, 0.93 + g * 0.02);
+        var a = (bg.ang + orbit) * Math.PI / 180;
+        var bx = 50 + Math.cos(a) * 48, by = 50 + Math.sin(a) * 48;
+        bg.el.style.left = bx + '%';
+        bg.el.style.top = by + '%';
+        bg.el.style.opacity = String(bo);
+        bg.el.style.transform =
+          'translate(-50%,-50%) translateY(' + (10 * (1 - bo) + Math.sin(p * 9 + g * 1.7) * 2.5) + 'px)';
+      }
+    }
+  }
+
+  customElements.define('signal-noise-scene', SignalNoiseScene);
+})();

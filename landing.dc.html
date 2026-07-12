@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&amp;display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/isotipo.svg">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #FAFAF8; color: #0A0A0B; font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: #0A0A0B; text-decoration: none; }
+    a:hover { color: #FF6B00; }
+    @keyframes latticePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</helmet>
+
+<div data-screen-label="Lattice Landing" style="min-height:100vh;background:#FAFAF8;overflow-x:clip">
+
+  <!-- ═══ 01 NAVBAR ═══ -->
+  <div ref="{{ navRef }}" style="position:fixed;top:0;left:0;right:0;z-index:60;background:transparent;transition:background 0.35s ease, box-shadow 0.35s ease">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="#" aria-label="Lattice" style="display:flex;align-items:center;color:#0A0A0B">
+        <span role="img" aria-label="Lattice" style="display: inline-block; width: 146px; height: 63px; background: currentColor; -webkit-mask: url('assets/wordmark.svg') left center/contain no-repeat; mask: url('assets/wordmark.svg') left center/contain no-repeat"></span>
+      </a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500">
+          <a href="#producto" style="color:#3F3F44" style-hover="color:#FF6B00">Producto</a>
+          <a href="#selector" style="color:#3F3F44" style-hover="color:#FF6B00">Makers</a>
+          <a href="#terminal" style="color:#3F3F44" style-hover="color:#FF6B00">Terminal</a>
+          <a href="#docs" style="color:#3F3F44" style-hover="color:#FF6B00">Docs</a>
+        </nav>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:10px">
+        <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+          <a href="#selector" style="padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;color:#3F3F44" style-hover="color:#0A0A0B">Log in</a>
+        </sc-if>
+        <a href="#selector" style="flex:none;white-space:nowrap;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25);transition:box-shadow 0.25s ease, transform 0.25s ease" style-hover="box-shadow:0 8px 26px rgba(255,80,20,0.4);transform:translateY(-1px);color:#FFFFFF">Abrir la terminal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 02 HERO ═══ -->
+  <section data-screen-label="Hero" style="position:relative;padding:clamp(96px,14vh,150px) 24px clamp(48px,7vw,96px)">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:row-reverse;flex-wrap:wrap;align-items:center;gap:clamp(20px,4vw,56px)">
+      <div style="flex:1 1 380px;min-width:300px;max-width:620px;margin:0 auto">
+        <x-import component-from-global-scope="lattice-globe" from="./globe.js" speed="{{ globeSpeed }}" show-chips="{{ showChipsAttr }}" hint-size="100%,420px" style="display:block;width:100%"></x-import>
+      </div>
+      <div style="flex:1 1 420px;min-width:290px">
+
+        <h1 style="margin:0 0 22px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(40px,5.4vw,68px);line-height:1.04;letter-spacing:-0.035em">Haz que la verdad sea <span style="background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent">rentable</span>.</h1>
+        <p style="margin:0 0 34px;font-size:clamp(16px,2vw,18px);line-height:1.65;color:#3F3F44;max-width:520px">Accede a pronósticos de expertos auditados on-chain. Si su modelo falla, el smart contract te devuelve tu dinero automáticamente</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+          <a href="#selector" style="padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 24px rgba(255,80,20,0.28);transition:box-shadow 0.25s ease, transform 0.25s ease" style-hover="box-shadow:0 10px 32px rgba(255,80,20,0.45);transform:translateY(-2px);color:#FFFFFF">Abrir la terminal</a>
+          <a href="#selector" style="padding:13px 26px;border-radius:999px;font-size:15px;font-weight:600;color:#0A0A0B;border:1.5px solid rgba(10,10,11,0.22);background:transparent;transition:border-color 0.25s ease" style-hover="border-color:#0A0A0B;color:#0A0A0B">Ver makers</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 03 SEÑAL VS RUIDO (escena scrubbeada por scroll) ═══ -->
+  <section id="manifiesto" data-screen-label="Señal vs Ruido" style="background:#FFFFFF;border-top:1px solid rgba(10,10,11,0.06)">
+    <x-import component-from-global-scope="signal-noise-scene" from="./scene.js" hint-size="100%,640px" style="display:block;width:100%"></x-import>
+  </section>
+
+  <!-- ═══ 04 LA TESIS (índice de research) ═══ -->
+  <section id="producto" data-screen-label="La Tesis" style="padding:clamp(88px,12vw,150px) 24px">
+    <div style="max-width:1160px;margin:0 auto">
+      <div data-reveal="" style="max-width:760px;margin-bottom:clamp(40px,6vw,64px)">
+
+        <h2 style="margin:0 0 18px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">Tres problemas que ningún feed puede resolver.</h2>
+        <p style="margin:0;font-size:clamp(15px,1.8vw,17px);line-height:1.7;color:#5F5E5A;text-wrap:pretty">La investigación detrás de Lattice: quién tiene derecho a ser escuchado, por qué el buen análisis desaparece del mercado, y qué preguntas no se le pueden hacer a un mercado sin destruir la respuesta.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+        <a data-tesis="1" data-reveal="" href="research-democracia-del-intelecto.dc.html" style="position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:300px;background:#F1EFE8;border-radius:22px;padding:clamp(26px,3vw,36px);cursor:pointer;transition:transform 0.45s ease, box-shadow 0.45s ease;color:#0A0A0B" style-hover="color:#0A0A0B">
+          <span data-tesis-bg="" style="position:absolute;inset:0;background-image:url('assets/gradient-1.png');background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 0.45s ease, transform 0.45s ease"></span>
+          <span style="position:relative;display:block;margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A90" data-dim="">01</span>
+          <span style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Democracia del Intelecto</span>
+          <span style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">El diploma era una tecnología de verificación. La reemplazamos por un historial.</span>
+          <span style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">5 min · Leer →</span>
+        </a>
+        <a data-tesis="2" data-reveal="" href="research-asimetria-de-informacion.dc.html" style="position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:300px;background:#F1EFE8;border-radius:22px;padding:clamp(26px,3vw,36px);cursor:pointer;transition:transform 0.45s ease, box-shadow 0.45s ease;color:#0A0A0B" style-hover="color:#0A0A0B">
+          <span data-tesis-bg="" style="position:absolute;inset:0;background-image:url('assets/gradient-2.png');background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 0.45s ease, transform 0.45s ease"></span>
+          <span style="position:relative;display:block;margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A90" data-dim="">02</span>
+          <span style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Asimetría de Información</span>
+          <span style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">Cuando hablar es gratis, el buen análisis no encuentra comprador. Cómo el colateral lo trae de vuelta.</span>
+          <span style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">7 min · Leer →</span>
+        </a>
+        <a data-tesis="3" data-reveal="" href="research-constitucion-humanista.dc.html" style="position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:300px;background:#F1EFE8;border-radius:22px;padding:clamp(26px,3vw,36px);cursor:pointer;transition:transform 0.45s ease, box-shadow 0.45s ease;color:#0A0A0B" style-hover="color:#0A0A0B">
+          <span data-tesis-bg="" style="position:absolute;inset:0;background-image:url('assets/gradient-3.png');background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 0.45s ease, transform 0.45s ease"></span>
+          <span style="position:relative;display:block;margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A90" data-dim="">03</span>
+          <span style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Constitución Humanista</span>
+          <span style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">Hay mercados que fabrican el hecho que miden. Estos son los que Lattice no lista.</span>
+          <span style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">6 min · Leer →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 05 FEATURES / TERMINAL ═══ -->
+  <section id="terminal" data-screen-label="Terminal" style="background:#FFFFFF;border-top:1px solid rgba(10,10,11,0.06);padding:clamp(88px,12vw,150px) 24px">
+    <div style="max-width:1240px;margin:0 auto">
+      <div data-reveal="" style="max-width:720px;margin-bottom:clamp(40px,6vw,60px)">
+
+        <h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">La ventaja, en números.</h2>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:stretch;margin-bottom:20px">
+
+        <!-- BLOQUE A · panel oscuro: insight + live feed -->
+        <div data-reveal="" style="flex:1.25 1 460px;min-width:300px;min-height:420px;background:#0A0A0B;border-radius:16px;padding:clamp(16px,2.2vw,26px);display:flex;flex-wrap:wrap;gap:clamp(16px,2vw,24px);box-shadow:0 24px 60px rgba(10,10,11,0.18)">
+
+          <!-- A1 · Insight card -->
+          <div style="flex:1 1 230px;min-width:225px;background:linear-gradient(160deg,#221510,#0F0C0A 55%,#181008);border:1px solid rgba(245,166,35,0.2);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#F5F5F3">INSIGHT #04217</span>
+              <span style="flex:none;padding:3px 9px;border:1px solid rgba(245,166,35,0.55);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#F5A623">CIERRA EN 6D</span>
+            </div>
+            <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">CRYPTO · SPREAD 0.1%</p>
+            <div aria-hidden="true" style="filter:blur(7px);user-select:none;pointer-events:none">
+              <p style="margin:0 0 6px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;line-height:1.4;color:#F5F5F3">BTC rompe $128K antes del 30/09 — prob. declarada 78%</p>
+              <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#B4B2AA">entrada 122.4K · objetivo 128K · stop 117.9K</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#F5A623);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B">C</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:#F5F5F3">@cold_stat17</span>
+              <span style="padding:2px 8px;border:1px solid rgba(245,166,35,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#F5A623">RACHA 14×</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#B4B2AA">71% ACIERTO</span>
+            </div>
+            <a href="#selector" style="margin-top:auto;text-align:center;padding:12px 16px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 22px rgba(255,80,20,0.35);transition:box-shadow 0.25s ease" style-hover="box-shadow:0 10px 30px rgba(255,80,20,0.55);color:#FFFFFF">Desbloquear Alpha — $5.00</a>
+            <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.09em;color:#8A8A90;text-align:center">SI FALLA → REEMBOLSO AUTOMÁTICO DESDE LA GARANTÍA</p>
+          </div>
+
+          <!-- A2 · Live feed -->
+          <div style="flex:1.4 1 260px;min-width:250px">
+            <x-import component-from-global-scope="lattice-live-feed" from="./terminal-widgets.js" hint-size="100%,300px" style="display:block;width:100%;height:100%"></x-import>
+          </div>
+        </div>
+
+        <!-- BLOQUE B · termómetro -->
+        <div data-reveal="" style="flex:1 1 320px;min-width:280px;min-height:420px;background:#F1EFE8;border-radius:16px;padding:clamp(18px,2.4vw,26px)">
+          <x-import component-from-global-scope="lattice-termometro" from="./terminal-widgets.js" hint-size="100%,300px" style="display:block;width:100%;height:100%"></x-import>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;align-items:stretch">
+        <a data-reveal="" href="ventaja.dc.html#reembolso" style="display:flex;flex-direction:column;align-items:flex-start;background:#F1EFE8;border-radius:16px;padding:24px;color:#0A0A0B;transition:background 0.3s ease, transform 0.3s ease" style-hover="background:#EAE7DC;transform:translateY(-2px);color:#0A0A0B">
+          <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="Cápsula contenida dentro de otra" style="width:40px;height:40px;flex:none;display:block;margin-bottom:28px">
+            <rect x="7" y="16" width="34" height="16" rx="8" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
+            <rect x="16" y="20.5" width="16" height="7" rx="3.5" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
+          </svg>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Reembolso</span>
+          <span style="font-size:13px;line-height:1.5;color:#6B6A66">Si el Maker falla, el contrato te devuelve lo que pagaste. Automático, sin disputas.</span>
+        </a>
+        <a data-reveal="" href="ventaja.dc.html#reputacion" style="display:flex;flex-direction:column;align-items:flex-start;background:#F1EFE8;border-radius:16px;padding:24px;color:#0A0A0B;transition:background 0.3s ease, transform 0.3s ease" style-hover="background:#EAE7DC;transform:translateY(-2px);color:#0A0A0B">
+          <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="Tres cuadrados superpuestos en diagonal" style="width:40px;height:40px;flex:none;display:block;margin-bottom:28px">
+            <rect x="10" y="10" width="16" height="16" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
+            <rect x="16" y="16" width="16" height="16" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
+            <rect x="22" y="22" width="16" height="16" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
+          </svg>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Reputación</span>
+          <span style="font-size:13px;line-height:1.5;color:#6B6A66">Un número calculado sobre hechos resueltos, no sobre opiniones.</span>
+        </a>
+        <a data-reveal="" href="ventaja.dc.html#termometro" style="display:flex;flex-direction:column;align-items:flex-start;background:#F1EFE8;border-radius:16px;padding:24px;color:#0A0A0B;transition:background 0.3s ease, transform 0.3s ease" style-hover="background:#EAE7DC;transform:translateY(-2px);color:#0A0A0B">
+          <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="Curva de campana con línea base" style="width:40px;height:40px;flex:none;display:block;margin-bottom:28px">
+            <line x1="6" y1="38" x2="42" y2="38" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" vector-effect="non-scaling-stroke"></line>
+            <path d="M 8 34 C 13 33 16 27 19 18 C 21 11.5 23.5 11.5 25.5 18 C 29 29 35 33 42 34" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Termómetro</span>
+          <span style="font-size:13px;line-height:1.5;color:#6B6A66">El rendimiento del mercado en vivo: mínimo, promedio, tu Maker y el tope.</span>
+        </a>
+        <a data-reveal="" href="ventaja.dc.html#categorias" style="display:flex;flex-direction:column;align-items:flex-start;background:#F1EFE8;border-radius:16px;padding:24px;color:#0A0A0B;transition:background 0.3s ease, transform 0.3s ease" style-hover="background:#EAE7DC;transform:translateY(-2px);color:#0A0A0B">
+          <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="Cadena de nodos en zigzag" style="width:40px;height:40px;flex:none;display:block;margin-bottom:28px">
+            <circle cx="9" cy="34" r="3.5" fill="none" stroke="#0A0A0B" stroke-width="1.25" vector-effect="non-scaling-stroke"></circle>
+            <circle cx="20" cy="16" r="3.5" fill="none" stroke="#0A0A0B" stroke-width="1.25" vector-effect="non-scaling-stroke"></circle>
+            <circle cx="31" cy="32" r="3.5" fill="none" stroke="#0A0A0B" stroke-width="1.25" vector-effect="non-scaling-stroke"></circle>
+            <circle cx="42" cy="14" r="3.5" fill="none" stroke="#0A0A0B" stroke-width="1.25" vector-effect="non-scaling-stroke"></circle>
+            <line x1="11.3" y1="30.2" x2="17.7" y2="19.8" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" vector-effect="non-scaling-stroke"></line>
+            <line x1="22.5" y1="19.7" x2="28.5" y2="28.3" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" vector-effect="non-scaling-stroke"></line>
+            <line x1="33.3" y1="28.2" x2="39.7" y2="17.8" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" vector-effect="non-scaling-stroke"></line>
+          </svg>
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Categorías</span>
+          <span style="font-size:13px;line-height:1.5;color:#6B6A66">Solo mercados con oráculo objetivo. Nada que no se pueda resolver.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 06 EL SELECTOR ═══ -->
+  <section id="selector" data-screen-label="El Selector" style="padding:clamp(88px,12vw,150px) 24px clamp(48px,6vw,72px)">
+    <div style="max-width:1160px;margin:0 auto">
+      <div data-reveal="" style="max-width:720px;margin:0 auto clamp(40px,6vw,60px);text-align:center">
+
+        <h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">¿De qué lado del contrato estás?</h2>
+      </div>
+
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));border-radius:20px;overflow:hidden;border:1px solid rgba(10,10,11,0.12)">
+
+        <!-- HEMISFERIO IZQUIERDO · EL MAKER -->
+        <div data-hemi="maker" tabindex="0" role="button" aria-label="Soy Maker: tengo el alpha" style="background:#FAFAF8;color:#0A0A0B;padding:clamp(28px,4vw,48px) clamp(24px,3.4vw,44px);cursor:pointer;display:flex;flex-direction:column;gap:16px;transition:background-color 0.5s ease, color 0.5s ease;outline:none">
+          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ EL MAKER</p>
+          <h3 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);letter-spacing:-0.03em;line-height:1.08">Tengo el alpha.</h3>
+          <p data-th-body="" style="margin:0;font-size:15px;line-height:1.65;color:#3F3F44;transition:color 0.5s ease;max-width:440px">Publicá tu análisis con colateral. El contrato audita cada acierto y construye un track record que nadie puede borrar. Tu precisión, por fin, cotiza.</p>
+
+          <div data-th-card="" style="background:#F1EFE8;border:1px solid rgba(10,10,11,0.35);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;margin:6px 0;transition:background-color 0.5s ease, border-color 0.5s ease">
+            <p data-th-clabel="" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;font-weight:600;color:#0A0A0B;transition:color 0.5s ease">⚡ INSIGHT DE MAKER</p>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#F5A623);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B;flex:none">Q</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8A8A90">@quant_ia · hace 25 min</span>
+              <span style="padding:2px 9px;border:1px solid rgba(138,138,144,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;color:#8A8A90">World Cup Winner</span>
+            </div>
+            <p data-th-cbody="" style="margin:0;font-size:13.5px;line-height:1.6;color:#3F3F44;transition:color 0.5s ease">El mercado sobre-descuenta a Francia por la lesión de Mbappé, pero el xG del equipo sin él sigue top-3 del torneo. Value claro en la banda.</p>
+            <div data-th-lock="" style="border:1px dashed rgba(10,10,11,0.25);border-radius:10px;padding:14px;transition:border-color 0.5s ease">
+              <p style="margin:0 0 8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.14em;color:#8A8A90">GANANCIAS EN VIVO</p>
+              <div style="position:relative;display:flex;align-items:baseline;gap:10px">
+                <span data-earn-total="" style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:32px;letter-spacing:-0.02em">$127</span>
+                <span data-earn-float="" style="position:absolute;left:100px;top:2px;opacity:0;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:#FF6B00;pointer-events:none">+$3</span>
+              </div>
+              <p style="margin:8px 0 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A8A90"><span data-earn-takers="">38</span> takers desbloquearon</p>
+            </div>
+            <div style="display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#8A8A90">
+              <span>RACHA 14×</span>
+              <span>COLATERAL ◆2,400</span>
+            </div>
+          </div>
+
+          <span data-th-cta="" style="align-self:flex-start;padding:13px 26px;border-radius:999px;font-size:14.5px;font-weight:600;background:#0A0A0B;color:#F5F5F3;transition:background-color 0.5s ease, color 0.5s ease">Convertirme en Maker</span>
+          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:#8A8A90">Depositás reputación. Si fallás, el contrato paga.</p>
+        </div>
+
+        <!-- HEMISFERIO DERECHO · EL TAKER -->
+        <div data-hemi="taker" tabindex="0" role="button" aria-label="Soy Taker: busco la asimetría" style="background:#0A0A0B;color:#F5F5F3;padding:clamp(28px,4vw,48px) clamp(24px,3.4vw,44px);cursor:pointer;display:flex;flex-direction:column;gap:16px;transition:background-color 0.5s ease, color 0.5s ease;outline:none">
+          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ EL TAKER</p>
+          <h3 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);letter-spacing:-0.03em;line-height:1.08">Busco la asimetría.</h3>
+          <p data-th-body="" style="margin:0;font-size:15px;line-height:1.65;color:#B4B2AA;transition:color 0.5s ease;max-width:440px">Comprá la lectura de los pronosticadores mejor calibrados de la red. Si su modelo falla, el contrato te devuelve lo que pagaste.</p>
+
+          <div data-th-card="" style="background:#111113;border:1px solid rgba(245,245,243,0.18);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;margin:6px 0;transition:background-color 0.5s ease, border-color 0.5s ease">
+            <p data-th-clabel="" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;font-weight:600;color:#F5A623;transition:color 0.5s ease">⚡ INSIGHT DE MAKER</p>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#F5A623);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B;flex:none">Q</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8A8A90">@quant_ia · hace 25 min</span>
+              <span style="padding:2px 9px;border:1px solid rgba(138,138,144,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;color:#8A8A90">World Cup Winner</span>
+            </div>
+            <p data-th-cbody="" style="margin:0;font-size:13.5px;line-height:1.6;color:#B4B2AA;transition:color 0.5s ease">El mercado sobre-descuenta a Francia por la lesión de Mbappé, pero el xG del equipo sin él sigue top-3 del torneo. Value claro en la banda.</p>
+            <div data-th-lock="" style="border:1px dashed rgba(245,245,243,0.2);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;transition:border-color 0.5s ease">
+              <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.14em;color:#8A8A90">🔒 PICK EXACTO RESERVADO</p>
+              <p data-th-cbody="" aria-hidden="true" style="margin:0;filter:blur(6px);user-select:none;pointer-events:none;font-size:13px;line-height:1.5;color:#B4B2AA;transition:color 0.5s ease">Francia −1.5 en la semifinal · stake 3% · cuota 2.4 · entrada antes del sorteo de la banda.</p>
+              <span data-th-cbtn="" style="padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;background:#F5A623;color:#0A0A0B;transition:background-color 0.5s ease, color 0.5s ease">Comprar por $3 para ver</span>
+            </div>
+            <div style="display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em">
+              <span style="color:#F5A623">🔥 +31%</span>
+              <span style="color:#8A8A90">GARANTÍA ACTIVA</span>
+            </div>
+          </div>
+
+          <span data-th-cta="" style="align-self:flex-start;padding:13px 26px;border-radius:999px;font-size:14.5px;font-weight:600;background:#F5A623;color:#0A0A0B;transition:background-color 0.5s ease, color 0.5s ease">Abrir la terminal</span>
+          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:#8A8A90">Desde $1. Sin permiso, sin credenciales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 SYSTEM AUDIT LOG ═══ -->
+  <section id="auditoria" data-screen-label="Audit Log" style="padding:0 24px clamp(88px,12vw,140px)">
+    <div data-reveal="" style="max-width:1160px;margin:0 auto;background:#FAFAF8;border:1px solid rgba(10,10,11,0.12);border-radius:14px;padding:clamp(20px,3vw,28px)">
+      <p style="margin:0 0 14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ SYSTEM AUDIT LOG</p>
+      <x-import component-from-global-scope="lattice-audit-log" from="./terminal-widgets.js" hint-size="100%,140px" style="display:block;width:100%"></x-import>
+      <div style="border-top:1px solid rgba(10,10,11,0.1);margin-top:16px;padding-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#3F3F44">&gt; <span style="color:#FF6B00;font-weight:600">[REG]</span> Acceso anticipado:</span>
+        <input data-waitlist-email="" type="email" placeholder="tu@email.com" aria-label="Email para acceso anticipado" style="flex:1;min-width:180px;padding:11px 16px;border:1px solid rgba(10,10,11,0.18);border-radius:999px;background:#FFFFFF;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#0A0A0B;outline:none">
+        <a data-waitlist-submit="" href="#" style="flex:none;white-space:nowrap;padding:11px 22px;border-radius:999px;font-size:13.5px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25)" style-hover="color:#FFFFFF">Registrarme</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 09 FOOTER ═══ -->
+  <footer id="docs" data-screen-label="Footer" style="background:#F5F5F3;border-top:1px solid rgba(10,10,11,0.08);padding:clamp(56px,8vw,88px) 24px 36px">
+    <div style="max-width:1160px;margin:0 auto">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(36px,6vw,80px);margin-bottom:clamp(44px,6vw,64px)">
+        <div style="flex:1 1 260px;min-width:240px">
+          <a href="#" aria-label="Lattice" style="display:flex;align-items:center;color:#0A0A0B;margin-bottom:14px">
+            <span role="img" aria-label="Lattice" style="display: inline-block; width: 184px; height: 85px; background: currentColor; -webkit-mask: url('assets/wordmark.svg') left center/contain no-repeat; mask: url('assets/wordmark.svg') left center/contain no-repeat"></span>
+          </a>
+          <p style="margin:0;font-family:Fraunces,serif;font-style:italic;font-size:19px;color:#3F3F44">La verdad tiene precio.</p>
+        </div>
+        <div style="flex:2 1 520px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:28px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">PRODUCTO</p>
+            <a href="#producto" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Cómo funciona</a>
+            <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Garantía</a>
+            <a href="#selector" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">El selector</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">MAKERS</p>
+            <a href="#selector" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Convertirme en Maker</a>
+            <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Reputation Ledger</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">TERMINAL</p>
+            <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Heat map</a>
+            <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Señales</a>
+            <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">API</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">DOCS</p>
+            <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Whitepaper</a>
+            <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Guías</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">SEGURIDAD</p>
+            <a href="#auditoria" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Auditorías</a>
+            <a href="#auditoria" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Smart contracts</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">LEGAL</p>
+            <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Términos</a>
+            <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Privacidad</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(10,10,11,0.08);padding-top:24px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:baseline">
+        <p style="margin:0;font-size:12px;color:#8A8A90;max-width:640px;line-height:1.6">Lattice no es una casa de apuestas ni una plataforma de inversión. Es una red de reputación. Opera bajo smart contracts auditables.</p>
+        <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A8A90">© 2026 Lattice</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;globeSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:2.5,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Globo&quot;},&quot;showChips&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Globo&quot;}}">
+class Component extends DCLogic {
+  state = {
+    isDesktop: typeof window === 'undefined' ? true : !window.matchMedia('(max-width: 1020px)').matches,
+  };
+
+  navRef = React.createRef();
+
+  componentDidMount() {
+    this._mql = window.matchMedia('(max-width: 1020px)');
+    this._onMql = () => this.setState({ isDesktop: !this._mql.matches });
+    this._mql.addEventListener('change', this._onMql);
+
+    this._onScroll = () => {
+      const el = this.navRef.current;
+      if (!el) return;
+      const on = window.scrollY > 24;
+      el.style.background = on ? 'rgba(255,255,255,0.94)' : 'transparent';
+      el.style.boxShadow = on ? '0 1px 0 rgba(10,10,11,0.08)' : 'none';
+      el.style.backdropFilter = on ? 'blur(12px)' : 'none';
+      el.style.webkitBackdropFilter = on ? 'blur(12px)' : 'none';
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+
+    // ── El Selector: inversión de tema + ganancias en vivo ──
+    const initSelector = () => {
+      const maker = document.querySelector('[data-hemi="maker"]');
+      const taker = document.querySelector('[data-hemi="taker"]');
+      if (!maker || !taker) return false;
+      if (maker.getAttribute('data-hemi-init')) return true;
+      maker.setAttribute('data-hemi-init', '1');
+      const theme = (hemi, light) => {
+        hemi.style.backgroundColor = light ? '#FAFAF8' : '#0A0A0B';
+        hemi.style.color = light ? '#0A0A0B' : '#F5F5F3';
+        hemi.querySelectorAll('[data-th-body], [data-th-cbody]').forEach((el) => {
+          el.style.color = light ? '#3F3F44' : '#B4B2AA';
+        });
+        hemi.querySelectorAll('[data-th-card]').forEach((el) => {
+          el.style.backgroundColor = light ? '#F1EFE8' : '#111113';
+          el.style.borderColor = light ? 'rgba(10,10,11,0.35)' : 'rgba(245,245,243,0.18)';
+        });
+        hemi.querySelectorAll('[data-th-clabel]').forEach((el) => {
+          el.style.color = light ? '#0A0A0B' : '#F5A623';
+        });
+        hemi.querySelectorAll('[data-th-cbtn], [data-th-cta]').forEach((el) => {
+          el.style.backgroundColor = light ? '#0A0A0B' : '#F5A623';
+          el.style.color = light ? '#F5F5F3' : '#0A0A0B';
+        });
+        hemi.querySelectorAll('[data-th-lock]').forEach((el) => {
+          el.style.borderColor = light ? 'rgba(10,10,11,0.25)' : 'rgba(245,245,243,0.2)';
+        });
+      };
+      const setSide = (makerLight) => { theme(maker, makerLight); theme(taker, !makerLight); };
+      setSide(true);
+      if (window.matchMedia('(hover: hover)').matches) {
+        maker.addEventListener('mouseenter', () => setSide(true));
+        taker.addEventListener('mouseenter', () => setSide(false));
+        maker.addEventListener('focusin', () => setSide(true));
+        taker.addEventListener('focusin', () => setSide(false));
+      } else {
+        this._hemiIO = new IntersectionObserver((es) => {
+          es.forEach((e) => { if (e.isIntersecting) setSide(e.target === maker); });
+        }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+        this._hemiIO.observe(maker);
+        this._hemiIO.observe(taker);
+      }
+      // Ganancias en vivo del Maker
+      const reducedSel = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const totalEl = maker.querySelector('[data-earn-total]');
+      const floatEl = maker.querySelector('[data-earn-float]');
+      const takersEl = maker.querySelector('[data-earn-takers]');
+      if (totalEl && takersEl && !reducedSel) {
+        let total = 127;
+        let takers = 38;
+        this._earnTimer = setInterval(() => {
+          const inc = 1 + Math.floor(Math.random() * 5);
+          const from = total;
+          total += inc;
+          takers += 1;
+          takersEl.textContent = String(takers);
+          if (floatEl) {
+            floatEl.textContent = '+$' + inc;
+            floatEl.style.transition = 'none';
+            floatEl.style.opacity = '0';
+            floatEl.style.transform = 'translateY(8px)';
+            void floatEl.offsetHeight;
+            floatEl.style.transition = 'opacity 0.5s ease, transform 1.5s ease';
+            floatEl.style.opacity = '1';
+            floatEl.style.transform = 'translateY(-16px)';
+            setTimeout(() => { floatEl.style.opacity = '0'; }, 950);
+          }
+          const t0 = performance.now();
+          const step = (t) => {
+            const p = Math.min(1, (t - t0) / 500);
+            totalEl.textContent = '$' + Math.round(from + (total - from) * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) this._earnRaf = requestAnimationFrame(step);
+          };
+          this._earnRaf = requestAnimationFrame(step);
+        }, 2700);
+      }
+      return true;
+    };
+    if (!initSelector()) {
+      this._selTimer = setInterval(() => { if (initSelector()) clearInterval(this._selTimer); }, 400);
+    }
+
+    // Hover gradiente en cards de La Tesis (fade-in del gradiente + lift)
+    const canHover = window.matchMedia('(hover: hover)').matches;
+    const setCard = (card, on) => {
+      const bg = card.querySelector('[data-tesis-bg]');
+      if (bg) {
+        bg.style.opacity = on ? '1' : '0';
+        bg.style.transform = on ? 'scale(1)' : 'scale(1.06)';
+      }
+      card.style.transform = on ? 'translateY(-2px)' : 'translateY(0)';
+      card.style.boxShadow = on ? '0 14px 34px rgba(10,10,11,0.16)' : 'none';
+      card.querySelectorAll('[data-dim]').forEach((el) => {
+        if (el.dataset.c0 === undefined) el.dataset.c0 = el.style.color || '';
+        el.style.color = on ? '#1A1A1D' : el.dataset.c0;
+      });
+    };
+    const initCards = () => {
+      document.querySelectorAll('[data-tesis]:not([data-tesis-init])').forEach((card) => {
+        card.setAttribute('data-tesis-init', '1');
+        if (canHover) {
+          card.addEventListener('mouseenter', () => setCard(card, true));
+          card.addEventListener('mouseleave', () => setCard(card, false));
+          card.addEventListener('focus', () => setCard(card, true));
+          card.addEventListener('blur', () => setCard(card, false));
+        } else {
+          if (!this._cardIO) {
+            this._cardIO = new IntersectionObserver((es) => {
+              es.forEach((e) => setCard(e.target, e.isIntersecting));
+            }, { rootMargin: '-18% 0px -18% 0px' });
+          }
+          this._cardIO.observe(card);
+        }
+      });
+    };
+    initCards();
+    this._cardTimer = setInterval(initCards, 800);
+    this._cardStop = setTimeout(() => clearInterval(this._cardTimer), 6000);
+
+    // Reveals fade-up (respetando prefers-reduced-motion)
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduced) {
+      this._io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+            this._io.unobserve(e.target);
+          }
+        }
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+
+      const scan = () => {
+        document.querySelectorAll('[data-reveal]:not([data-reveal-on])').forEach((el) => {
+          el.setAttribute('data-reveal-on', '1');
+          const r = el.getBoundingClientRect();
+          if (r.top > window.innerHeight * 0.92) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(22px)';
+          }
+          el.style.transition = 'opacity 0.7s cubic-bezier(0.2,0.6,0.2,1), transform 0.7s cubic-bezier(0.2,0.6,0.2,1)';
+          this._io.observe(el);
+        });
+      };
+      scan();
+      this._scanTimer = setInterval(scan, 800);
+      this._scanStop = setTimeout(() => clearInterval(this._scanTimer), 6000);
+    }
+
+    // ── Waitlist: registro anticipado (SYSTEM AUDIT LOG) ──
+    const initWaitlist = () => {
+      const input = document.querySelector('[data-waitlist-email]');
+      const btn = document.querySelector('[data-waitlist-submit]');
+      if (!input || !btn) return false;
+      if (btn.getAttribute('data-waitlist-init')) return true;
+      btn.setAttribute('data-waitlist-init', '1');
+      const submit = async (e) => {
+        if (e) e.preventDefault();
+        const email = input.value.trim();
+        if (!email) return;
+        const original = btn.textContent;
+        btn.textContent = 'Enviando…';
+        btn.style.pointerEvents = 'none';
+        try {
+          const res = await fetch('/api/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+          if (res.ok) {
+            btn.textContent = '¡Listo!';
+            input.value = '';
+          } else {
+            const data = await res.json().catch(() => ({}));
+            btn.textContent = data.error === 'invalid_email' ? 'Email inválido' : 'Error, reintentá';
+          }
+        } catch (err) {
+          btn.textContent = 'Error, reintentá';
+        } finally {
+          setTimeout(() => { btn.textContent = original; btn.style.pointerEvents = ''; }, 2400);
+        }
+      };
+      btn.addEventListener('click', submit);
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(e); });
+      return true;
+    };
+    if (!initWaitlist()) {
+      this._waitlistTimer = setInterval(() => { if (initWaitlist()) clearInterval(this._waitlistTimer); }, 400);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._mql) this._mql.removeEventListener('change', this._onMql);
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._io) this._io.disconnect();
+    if (this._cardIO) this._cardIO.disconnect();
+    if (this._hemiIO) this._hemiIO.disconnect();
+    clearInterval(this._earnTimer);
+    clearInterval(this._selTimer);
+    cancelAnimationFrame(this._earnRaf);
+    clearInterval(this._scanTimer);
+    clearTimeout(this._scanStop);
+    clearInterval(this._cardTimer);
+    clearTimeout(this._cardStop);
+    clearInterval(this._waitlistTimer);
+  }
+
+  renderVals() {
+    return {
+      isDesktop: this.state.isDesktop,
+      navRef: this.navRef,
+      globeSpeed: String(this.props.globeSpeed ?? 1),
+      showChipsAttr: (this.props.showChips ?? true) ? 'true' : 'false',
+    };
+  }
+}
+
+</script>
+</body>
+</html>
