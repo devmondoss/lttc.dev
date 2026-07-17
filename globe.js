@@ -54,22 +54,57 @@
     return { location: CITY[k], size: whale ? 0.07 : 0.035 };
   });
 
-  // Arcos: 4 pares al azar entre ciudades del set fijo (todos los extremos en
-  // tierra; la línea que cruza el océano es la conexión, y es esperada).
-  // Emparejar consecutivas de un shuffle garantiza pares distintos, sin
-  // auto-loops ni ciudad repetida. Los primeros 2 arcos son "hot" (sunset).
+  var ARC_HOT_COUNT = 5;   // moderado: antes 2, +3
+  var ARC_GRAY_COUNT = 2;
+  var ARC_CITY_CAP = 2;    // ninguna ciudad es "hub": máx 2 arcos hot por ciudad
+
+  // Distancia angular aproximada entre dos ciudades usando solo la diferencia
+  // de longitud (más simple que great-circle completo, alcanza para rankear
+  // "lejos" vs "cerca" a los fines de elegir pares).
+  function lngDist(a, b) {
+    var d = Math.abs(CITY[a][1] - CITY[b][1]);
+    return Math.min(d, 360 - d);
+  }
+
+  // Arcos "hot" (naranja/sunset): se arman a partir de un pool de los pares
+  // MÁS LEJANOS entre sí (tercio superior por distancia de longitud), para
+  // que se lean como operación global y no tráfico entre vecinos. Se cachea
+  // un cupo por ciudad (ARC_CITY_CAP) para que ninguna se vuelva un hub con
+  // demasiadas líneas, y nunca se repite un mismo par. El pool lejano se
+  // baraja para que no sean siempre los mismos pares en cada carga.
+  //
+  // Arcos grises de fondo: pares al azar entre las ciudades que no quedaron
+  // usadas en los arcos hot (son "ruido" de fondo, no la señal — no llevan
+  // preferencia de distancia).
   var ARCS = (function () {
-    var pool = shuffle(CITY_KEYS);
-    var arcs = [];
-    for (var i = 0; arcs.length < 4 && i + 1 < pool.length; i += 2) {
-      arcs.push({
-        a: pool[i],
-        b: pool[i + 1],
-        color: arcs.length < 2 ? SUNSET[arcs.length] : '138,138,144',
-        hot: arcs.length < 2
-      });
+    var pairs = [];
+    for (var i = 0; i < CITY_KEYS.length; i++) {
+      for (var j = i + 1; j < CITY_KEYS.length; j++) {
+        pairs.push([CITY_KEYS[i], CITY_KEYS[j], lngDist(CITY_KEYS[i], CITY_KEYS[j])]);
+      }
     }
-    return arcs;
+    pairs.sort(function (p, q) { return q[2] - p[2]; });
+    var farPool = shuffle(pairs.slice(0, Math.ceil(pairs.length / 3)));
+
+    var hotArcs = [];
+    var useCount = {};
+    CITY_KEYS.forEach(function (k) { useCount[k] = 0; });
+    for (var fi = 0; fi < farPool.length && hotArcs.length < ARC_HOT_COUNT; fi++) {
+      var a = farPool[fi][0], b = farPool[fi][1];
+      if (useCount[a] >= ARC_CITY_CAP || useCount[b] >= ARC_CITY_CAP) continue;
+      hotArcs.push({ a: a, b: b, color: SUNSET[hotArcs.length % SUNSET.length], hot: true });
+      useCount[a]++; useCount[b]++;
+    }
+
+    var usedInHot = {};
+    hotArcs.forEach(function (arc) { usedInHot[arc.a] = true; usedInHot[arc.b] = true; });
+    var grayPool = shuffle(CITY_KEYS.filter(function (k) { return !usedInHot[k]; }));
+    var grayArcs = [];
+    for (var gi = 0; grayArcs.length < ARC_GRAY_COUNT && gi + 1 < grayPool.length; gi += 2) {
+      grayArcs.push({ a: grayPool[gi], b: grayPool[gi + 1], color: '138,138,144', hot: false });
+    }
+
+    return hotArcs.concat(grayArcs);
   })();
 
   // Chips: 5 ciudades al azar del set fijo, cada una con una categoría. Los
@@ -85,6 +120,36 @@
     { icon: '🛒', es: 'Retail',   en: 'Retail',   amount: '$1,480' }
   ];
   var CHIP_CITIES = sample(CITY_KEYS, CATEGORIES.length);
+
+  // NBA no tiene sentido geográfico fuera de Norteamérica (antes podía caer,
+  // por ejemplo, en Canberra). CHIP_CITIES[i] se empareja posicionalmente con
+  // CATEGORIES[i]; si a NBA le tocó una ciudad fuera de esta región, se
+  // intercambia con la ciudad de otra categoría que sí sea de la región (o,
+  // si ninguna de las 8 sorteadas lo es, se toma una directo del pool). Las
+  // demás categorías no llevan restricción geográfica, como se pidió.
+  (function fixNbaGeography() {
+    var NBA_REGION = ['newyork', 'denver', 'mexicocity'];
+    var nbaIdx = -1;
+    for (var i = 0; i < CATEGORIES.length; i++) {
+      if (CATEGORIES[i].en === 'NBA') { nbaIdx = i; break; }
+    }
+    if (nbaIdx < 0 || NBA_REGION.indexOf(CHIP_CITIES[nbaIdx]) >= 0) return;
+    for (var j = 0; j < CHIP_CITIES.length; j++) {
+      if (j !== nbaIdx && NBA_REGION.indexOf(CHIP_CITIES[j]) >= 0) {
+        var tmp = CHIP_CITIES[nbaIdx];
+        CHIP_CITIES[nbaIdx] = CHIP_CITIES[j];
+        CHIP_CITIES[j] = tmp;
+        return;
+      }
+    }
+    for (var k = 0; k < NBA_REGION.length; k++) {
+      if (CHIP_CITIES.indexOf(NBA_REGION[k]) < 0) {
+        CHIP_CITIES[nbaIdx] = NBA_REGION[k];
+        return;
+      }
+    }
+  })();
+
   var CHIPS = CATEGORIES.map(function (cat, i) {
     return {
       city: CHIP_CITIES[i],
