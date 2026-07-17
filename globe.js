@@ -76,13 +76,13 @@
   // labels traen ES/EN para que el selector de idioma pueda intercambiarlos.
   var CATEGORIES = [
     { icon: '₿',  es: 'Crypto',   en: 'Crypto',   amount: '+$1,240' },
-    { icon: '🗳', es: 'Política', en: 'Politics', amount: '+$890' },
-    { icon: '⚽', es: 'Fútbol',   en: 'Soccer',   amount: '$432' },
-    { icon: '🏀', es: 'NBA',      en: 'NBA',      amount: '$176' },
-    { icon: '📈', es: 'Economía', en: 'Economy',  amount: '$54' },
-    { icon: '🤖', es: 'IA',       en: 'AI',       amount: '+$1,580' },
-    { icon: '☁️', es: 'Clima',    en: 'Climate',  amount: '$245' },
-    { icon: '🛒', es: 'Retail',   en: 'Retail',   amount: '$97' }
+    { icon: '🗳', es: 'Política', en: 'Politics', amount: '+$2,150' },
+    { icon: '⚽', es: 'Fútbol',   en: 'Soccer',   amount: '$3,600' },
+    { icon: '🏀', es: 'NBA',      en: 'NBA',      amount: '$4,900' },
+    { icon: '📈', es: 'Economía', en: 'Economy',  amount: '$1,890' },
+    { icon: '🤖', es: 'IA',       en: 'AI',       amount: '+$6,750' },
+    { icon: '☁️', es: 'Clima',    en: 'Climate',  amount: '$2,300' },
+    { icon: '🛒', es: 'Retail',   en: 'Retail',   amount: '$1,480' }
   ];
   var CHIP_CITIES = sample(CITY_KEYS, CATEGORIES.length);
   var CHIPS = CATEGORIES.map(function (cat, i) {
@@ -95,9 +95,19 @@
     };
   });
 
+  // Convierte [lat,lng] a un punto 3D sobre la esfera unitaria. Portado
+  // literalmente de la latLonTo3D real de COBE (src/index.js) para que mi
+  // overlay (arcos/whales/chips) quede en la MISMA convención de ejes que usa
+  // COBE para ubicar sus markers nativos y el mapa de puntos. La versión
+  // anterior (sin el offset de -PI en la longitud, y con seno/coseno
+  // intercambiados entre X y Z) producía un giro fijo de 90° respecto al
+  // mapa real: por eso arcos/whales/chips nunca coincidían con tierra firme
+  // aunque los markers nativos sí, sin importar en qué phi estuviera el globo.
   function xyz(loc) {
-    var la = loc[0] * DEG, lo = loc[1] * DEG;
-    return [Math.cos(la) * Math.sin(lo), Math.sin(la), Math.cos(la) * Math.cos(lo)];
+    var latRad = loc[0] * DEG;
+    var lonRad = loc[1] * DEG - Math.PI;
+    var cosLat = Math.cos(latRad);
+    return [-cosLat * Math.cos(lonRad), Math.sin(latRad), cosLat * Math.sin(lonRad)];
   }
 
   function slerp(a, b, t) {
