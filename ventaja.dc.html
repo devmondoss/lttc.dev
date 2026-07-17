@@ -17,6 +17,13 @@
     body { margin: 0; background: #FAFAF8; color: #0A0A0B; font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
     a { color: #0A0A0B; text-decoration: none; }
     a:hover { color: #FF6B00; }
+    .nav-cta-short { display: none; }
+    @media (max-width: 400px) {
+      .nav-cta-full { display: none; }
+      .nav-cta-short { display: inline; }
+      .nav-actions { gap: 6px; }
+      [data-lang-toggle] { padding: 5px 8px !important; }
+    }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
@@ -34,22 +41,22 @@
       </a>
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
         <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500">
-          <a href="landing.dc.html#producto" data-i18n-href-base="landing.dc.html#producto" data-i18n="nav.producto" style="color:#3F3F44" style-hover="color:#FF6B00">Producto</a>
-          <a href="landing.dc.html#selector" data-i18n-href-base="landing.dc.html#selector" data-i18n="nav.makers" style="color:#3F3F44" style-hover="color:#FF6B00">Makers</a>
+          <a href="landing.dc.html#producto" data-i18n-href-base="landing.dc.html#producto" data-i18n="nav.research" style="color:#3F3F44" style-hover="color:#FF6B00">Research</a>
           <a href="landing.dc.html#terminal" data-i18n-href-base="landing.dc.html#terminal" data-i18n="nav.terminal" style="color:#3F3F44" style-hover="color:#FF6B00">Terminal</a>
+          <a href="landing.dc.html#selector" data-i18n-href-base="landing.dc.html#selector" data-i18n="nav.makers" style="color:#3F3F44" style-hover="color:#FF6B00">Makers</a>
           <a href="landing.dc.html#docs" data-i18n-href-base="landing.dc.html#docs" data-i18n="nav.docs" style="color:#3F3F44" style-hover="color:#FF6B00">Docs</a>
         </nav>
       </sc-if>
-      <div style="display:flex;align-items:center;gap:10px">
+      <div class="nav-actions" style="display:flex;align-items:center;gap:10px">
         <div data-lang-toggle="" role="group" aria-label="Idioma / Language" style="display:flex;align-items:center;gap:6px;flex:none;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:0.04em;cursor:pointer;user-select:none;padding:6px 11px;border-radius:999px;border:1px solid rgba(10,10,11,0.12)">
           <span data-lang-opt="es" style="transition:color 0.2s ease">ES</span>
           <span aria-hidden="true" style="color:#C9C7BF">·</span>
           <span data-lang-opt="en" style="transition:color 0.2s ease">EN</span>
         </div>
         <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
-          <a href="landing.dc.html#selector" data-i18n-href-base="landing.dc.html#selector" data-i18n="nav.login" style="padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;color:#3F3F44" style-hover="color:#0A0A0B">Log in</a>
+          <a href="landing.dc.html#selector" data-i18n-href-base="landing.dc.html#selector" data-i18n="nav.login" style="padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;color:#3F3F44" style-hover="color:#0A0A0B">Log in</a>
         </sc-if>
-        <a href="landing.dc.html#selector" data-i18n-href-base="landing.dc.html#selector" data-i18n="cta.openTerminal" style="flex:none;white-space:nowrap;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25)" style-hover="color:#FFFFFF">Abrir la terminal</a>
+        <a href="landing.dc.html#selector" data-i18n-href-base="landing.dc.html#selector" style="flex:none;white-space:nowrap;padding:clamp(7px,2vw,8px) clamp(12px,4vw,16px);border-radius:999px;font-size:clamp(12px,3vw,13px);font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25)" style-hover="color:#FFFFFF"><span class="nav-cta-full" data-i18n="cta.openTerminal">Abrir la terminal</span><span class="nav-cta-short" data-i18n="nav.terminal">Terminal</span></a>
       </div>
     </div>
   </div>
@@ -217,7 +224,7 @@ class Component extends DCLogic {
   // Traducciones propias de /ventaja. No se traducen Lattice, Maker, Taker.
   T = {
     es: {
-      'nav.producto': 'Producto',
+      'nav.research': 'Research',
       'nav.makers': 'Makers',
       'nav.terminal': 'Terminal',
       'nav.docs': 'Docs',
@@ -238,7 +245,7 @@ class Component extends DCLogic {
       'backToTerminal': '← Volver a la terminal',
     },
     en: {
-      'nav.producto': 'Product',
+      'nav.research': 'Research',
       'nav.makers': 'Makers',
       'nav.terminal': 'Terminal',
       'nav.docs': 'Docs',
