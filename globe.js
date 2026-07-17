@@ -25,7 +25,12 @@
     delhi:      [28.6139, 77.2090],
     bangkok:    [13.7563, 100.5018],
     seoul:      [37.5665, 126.9780],
-    canberra:   [-35.2809, 149.1300]
+    canberra:   [-35.2809, 149.1300],
+    berlin:     [52.5200, 13.4050],
+    paris:      [48.8566, 2.3522],
+    milan:      [45.4642, 9.1900],
+    beijing:    [39.9042, 116.4074],
+    sacramento: [38.5816, -121.4944]
   };
   var CITY_KEYS = Object.keys(CITY);
 
@@ -117,37 +122,51 @@
     { icon: '📈', es: 'Economía', en: 'Economy',  amount: '$1,890' },
     { icon: '🤖', es: 'IA',       en: 'AI',       amount: '+$6,750' },
     { icon: '☁️', es: 'Clima',    en: 'Climate',  amount: '$2,300' },
-    { icon: '🛒', es: 'Retail',   en: 'Retail',   amount: '$1,480' }
+    { icon: '🛒', es: 'Retail',   en: 'Retail',   amount: '$1,480' },
+    { icon: '🚢', es: 'Comercio', en: 'Trade',    amount: '$3,150' }
   ];
   var CHIP_CITIES = sample(CITY_KEYS, CATEGORIES.length);
 
-  // NBA no tiene sentido geográfico fuera de Norteamérica (antes podía caer,
-  // por ejemplo, en Canberra). CHIP_CITIES[i] se empareja posicionalmente con
-  // CATEGORIES[i]; si a NBA le tocó una ciudad fuera de esta región, se
-  // intercambia con la ciudad de otra categoría que sí sea de la región (o,
-  // si ninguna de las 8 sorteadas lo es, se toma una directo del pool). Las
-  // demás categorías no llevan restricción geográfica, como se pidió.
-  (function fixNbaGeography() {
-    var NBA_REGION = ['newyork', 'denver', 'mexicocity'];
-    var nbaIdx = -1;
-    for (var i = 0; i < CATEGORIES.length; i++) {
-      if (CATEGORIES[i].en === 'NBA') { nbaIdx = i; break; }
-    }
-    if (nbaIdx < 0 || NBA_REGION.indexOf(CHIP_CITIES[nbaIdx]) >= 0) return;
-    for (var j = 0; j < CHIP_CITIES.length; j++) {
-      if (j !== nbaIdx && NBA_REGION.indexOf(CHIP_CITIES[j]) >= 0) {
-        var tmp = CHIP_CITIES[nbaIdx];
-        CHIP_CITIES[nbaIdx] = CHIP_CITIES[j];
-        CHIP_CITIES[j] = tmp;
-        return;
+  // Algunas categorías tienen una región geográfica fija (a diferencia del
+  // resto, que cae en cualquier ciudad del sorteo): Fútbol/Soccer en una
+  // capital europea, NBA en Norteamérica, Comercio/Trade específicamente en
+  // Beijing, IA/AI específicamente en California (Sacramento — tierra
+  // adentro, mismo criterio por el que se había usado Denver en vez de San
+  // Francisco). CHIP_CITIES[i] se empareja posicionalmente con CATEGORIES[i];
+  // para cada categoría con restricción, si le tocó una ciudad fuera de su
+  // región, se intercambia con la de otra categoría que sí sea de esa región
+  // (o, si ninguna de las sorteadas lo es, se toma una directo del pool de
+  // la región). Las regiones no se superponen entre sí, así que el orden en
+  // que se procesan no importa. Las demás categorías siguen sin restricción.
+  var CATEGORY_REGION = {
+    NBA:    ['newyork', 'denver', 'mexicocity'],
+    Soccer: ['berlin', 'madrid', 'paris', 'milan'],
+    Trade:  ['beijing'],
+    AI:     ['sacramento']
+  };
+  (function fixCategoryGeography() {
+    Object.keys(CATEGORY_REGION).forEach(function (catEn) {
+      var region = CATEGORY_REGION[catEn];
+      var idx = -1;
+      for (var i = 0; i < CATEGORIES.length; i++) {
+        if (CATEGORIES[i].en === catEn) { idx = i; break; }
       }
-    }
-    for (var k = 0; k < NBA_REGION.length; k++) {
-      if (CHIP_CITIES.indexOf(NBA_REGION[k]) < 0) {
-        CHIP_CITIES[nbaIdx] = NBA_REGION[k];
-        return;
+      if (idx < 0 || region.indexOf(CHIP_CITIES[idx]) >= 0) return;
+      for (var j = 0; j < CHIP_CITIES.length; j++) {
+        if (j !== idx && region.indexOf(CHIP_CITIES[j]) >= 0) {
+          var tmp = CHIP_CITIES[idx];
+          CHIP_CITIES[idx] = CHIP_CITIES[j];
+          CHIP_CITIES[j] = tmp;
+          return;
+        }
       }
-    }
+      for (var k = 0; k < region.length; k++) {
+        if (CHIP_CITIES.indexOf(region[k]) < 0) {
+          CHIP_CITIES[idx] = region[k];
+          return;
+        }
+      }
+    });
   })();
 
   var CHIPS = CATEGORIES.map(function (cat, i) {
