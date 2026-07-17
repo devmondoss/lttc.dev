@@ -182,9 +182,10 @@
   // (NBA se sacó de los chips: al quedar cerca de IA/Sacramento en varios
   // sorteos, las etiquetas se pisaban y saturaban el globo.)
   var CATEGORY_REGION = {
-    Soccer: ['berlin', 'madrid', 'paris', 'milan'],
-    Trade:  ['beijing'],
-    AI:     ['sacramento']
+    Soccer:   ['berlin', 'madrid', 'paris', 'milan'],
+    Trade:    ['beijing'],
+    AI:       ['sacramento'],
+    Politics: ['newyork']
   };
   (function fixCategoryGeography() {
     Object.keys(CATEGORY_REGION).forEach(function (catEn) {
