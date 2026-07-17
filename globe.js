@@ -71,16 +71,42 @@
     return Math.min(d, 360 - d);
   }
 
+  // ¿Se cruzan los segmentos de círculo máximo (great-circle) entre a1-b1 y
+  // a2-b2 en algún punto de la esfera? Dos great circles se cruzan siempre en
+  // un par de puntos antipodales (n1×n2 y su opuesto); alcanza con verificar
+  // si alguno de esos dos puntos cae DENTRO de ambos arcos (no solo sobre las
+  // circunferencias completas). Se usa para que ningún par de trazos del
+  // globo se dibuje cruzándose entre sí — evita el efecto "telaraña" incluso
+  // cuando se priorizan pares lejanos (que, al ser arcos largos, son los que
+  // más chance tienen de cruzar a otro).
+  function greatCircleIntersect(a1, b1, a2, b2) {
+    function cross(u, v) { return [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]]; }
+    function dot(u, v) { return u[0] * v[0] + u[1] * v[1] + u[2] * v[2]; }
+    function angle(u, v) { return Math.acos(Math.max(-1, Math.min(1, dot(u, v)))); }
+    function onSegment(p, a, b) {
+      var ab = angle(a, b), ap = angle(a, p), pb = angle(p, b);
+      return Math.abs(ap + pb - ab) < 1e-3;
+    }
+    var n1 = cross(a1, b1), n2 = cross(a2, b2);
+    var line = cross(n1, n2);
+    var len = Math.sqrt(dot(line, line));
+    if (len < 1e-9) return false; // arcos sobre el mismo plano: no se consideran "cruce"
+    var p = [line[0] / len, line[1] / len, line[2] / len];
+    var negP = [-p[0], -p[1], -p[2]];
+    return (onSegment(p, a1, b1) && onSegment(p, a2, b2)) || (onSegment(negP, a1, b1) && onSegment(negP, a2, b2));
+  }
+
   // Arcos "hot" (naranja/sunset): se arman a partir de un pool de los pares
-  // MÁS LEJANOS entre sí (tercio superior por distancia de longitud), para
-  // que se lean como operación global y no tráfico entre vecinos. Se cachea
-  // un cupo por ciudad (ARC_CITY_CAP) para que ninguna se vuelva un hub con
-  // demasiadas líneas, y nunca se repite un mismo par. El pool lejano se
-  // baraja para que no sean siempre los mismos pares en cada carga.
+  // MÁS LEJANOS entre sí (tercio superior por distancia de longitud, con el
+  // resto como respaldo si hiciera falta), para que se lean como operación
+  // global y no tráfico entre vecinos. Reglas duras: cupo de ARC_CITY_CAP
+  // arcos hot por ciudad, nunca se repite un mismo par, y NINGÚN arco (hot o
+  // gris) se dibuja si cruza a otro ya elegido — así el resultado se lee
+  // limpio en vez de telaraña aunque haya varios arcos largos a la vez.
   //
   // Arcos grises de fondo: pares al azar entre las ciudades que no quedaron
-  // usadas en los arcos hot (son "ruido" de fondo, no la señal — no llevan
-  // preferencia de distancia).
+  // usadas en los arcos hot cuando es posible (son "ruido" de fondo, no la
+  // señal), con la misma regla de no-cruce.
   var ARCS = (function () {
     var pairs = [];
     for (var i = 0; i < CITY_KEYS.length; i++) {
@@ -89,27 +115,43 @@
       }
     }
     pairs.sort(function (p, q) { return q[2] - p[2]; });
-    var farPool = shuffle(pairs.slice(0, Math.ceil(pairs.length / 3)));
+    var farThird = pairs.slice(0, Math.ceil(pairs.length / 3));
+    var rest = pairs.slice(Math.ceil(pairs.length / 3));
+    var hotCandidates = shuffle(farThird).concat(shuffle(rest));
 
-    var hotArcs = [];
+    function crossesPlaced(placed, a, b) {
+      var A3 = xyz(CITY[a]), B3 = xyz(CITY[b]);
+      for (var i = 0; i < placed.length; i++) {
+        if (greatCircleIntersect(A3, B3, xyz(CITY[placed[i].a]), xyz(CITY[placed[i].b]))) return true;
+      }
+      return false;
+    }
+
+    var placed = [];
     var useCount = {};
     CITY_KEYS.forEach(function (k) { useCount[k] = 0; });
-    for (var fi = 0; fi < farPool.length && hotArcs.length < ARC_HOT_COUNT; fi++) {
-      var a = farPool[fi][0], b = farPool[fi][1];
+    for (var fi = 0; fi < hotCandidates.length && placed.length < ARC_HOT_COUNT; fi++) {
+      var a = hotCandidates[fi][0], b = hotCandidates[fi][1];
       if (useCount[a] >= ARC_CITY_CAP || useCount[b] >= ARC_CITY_CAP) continue;
-      hotArcs.push({ a: a, b: b, color: SUNSET[hotArcs.length % SUNSET.length], hot: true });
+      if (crossesPlaced(placed, a, b)) continue;
+      placed.push({ a: a, b: b, color: SUNSET[placed.length % SUNSET.length], hot: true });
       useCount[a]++; useCount[b]++;
     }
+    var hotArcs = placed.slice();
 
     var usedInHot = {};
     hotArcs.forEach(function (arc) { usedInHot[arc.a] = true; usedInHot[arc.b] = true; });
-    var grayPool = shuffle(CITY_KEYS.filter(function (k) { return !usedInHot[k]; }));
-    var grayArcs = [];
-    for (var gi = 0; grayArcs.length < ARC_GRAY_COUNT && gi + 1 < grayPool.length; gi += 2) {
-      grayArcs.push({ a: grayPool[gi], b: grayPool[gi + 1], color: '138,138,144', hot: false });
+    var grayCandidates = shuffle(pairs.filter(function (p) { return !usedInHot[p[0]] && !usedInHot[p[1]]; }))
+      .concat(shuffle(pairs));
+    var grayStart = placed.length;
+    for (var gi = 0; gi < grayCandidates.length && placed.length - grayStart < ARC_GRAY_COUNT; gi++) {
+      var ga = grayCandidates[gi][0], gb = grayCandidates[gi][1];
+      if (placed.some(function (x) { return (x.a === ga && x.b === gb) || (x.a === gb && x.b === ga); })) continue;
+      if (crossesPlaced(placed, ga, gb)) continue;
+      placed.push({ a: ga, b: gb, color: '138,138,144', hot: false });
     }
 
-    return hotArcs.concat(grayArcs);
+    return placed;
   })();
 
   // Chips: 5 ciudades al azar del set fijo, cada una con una categoría. Los
@@ -118,7 +160,6 @@
     { icon: '₿',  es: 'Crypto',   en: 'Crypto',   amount: '+$1,240' },
     { icon: '🗳', es: 'Política', en: 'Politics', amount: '+$2,150' },
     { icon: '⚽', es: 'Fútbol',   en: 'Soccer',   amount: '$3,600' },
-    { icon: '🏀', es: 'NBA',      en: 'NBA',      amount: '$4,900' },
     { icon: '📈', es: 'Economía', en: 'Economy',  amount: '$1,890' },
     { icon: '🤖', es: 'IA',       en: 'AI',       amount: '+$6,750' },
     { icon: '☁️', es: 'Clima',    en: 'Climate',  amount: '$2,300' },
@@ -129,17 +170,18 @@
 
   // Algunas categorías tienen una región geográfica fija (a diferencia del
   // resto, que cae en cualquier ciudad del sorteo): Fútbol/Soccer en una
-  // capital europea, NBA en Norteamérica, Comercio/Trade específicamente en
-  // Beijing, IA/AI específicamente en California (Sacramento — tierra
-  // adentro, mismo criterio por el que se había usado Denver en vez de San
-  // Francisco). CHIP_CITIES[i] se empareja posicionalmente con CATEGORIES[i];
-  // para cada categoría con restricción, si le tocó una ciudad fuera de su
-  // región, se intercambia con la de otra categoría que sí sea de esa región
-  // (o, si ninguna de las sorteadas lo es, se toma una directo del pool de
-  // la región). Las regiones no se superponen entre sí, así que el orden en
-  // que se procesan no importa. Las demás categorías siguen sin restricción.
+  // capital europea, Comercio/Trade específicamente en Beijing, IA/AI
+  // específicamente en California (Sacramento — tierra adentro, mismo
+  // criterio por el que se había usado Denver en vez de San Francisco).
+  // CHIP_CITIES[i] se empareja posicionalmente con CATEGORIES[i]; para cada
+  // categoría con restricción, si le tocó una ciudad fuera de su región, se
+  // intercambia con la de otra categoría que sí sea de esa región (o, si
+  // ninguna de las sorteadas lo es, se toma una directo del pool de la
+  // región). Las regiones no se superponen entre sí, así que el orden en que
+  // se procesan no importa. Las demás categorías siguen sin restricción.
+  // (NBA se sacó de los chips: al quedar cerca de IA/Sacramento en varios
+  // sorteos, las etiquetas se pisaban y saturaban el globo.)
   var CATEGORY_REGION = {
-    NBA:    ['newyork', 'denver', 'mexicocity'],
     Soccer: ['berlin', 'madrid', 'paris', 'milan'],
     Trade:  ['beijing'],
     AI:     ['sacramento']
