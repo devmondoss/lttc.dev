@@ -34,7 +34,7 @@
       connectedCallback() {
         if (this._built) return;
         this._built = true;
-        this.style.cssText += 'display:flex;flex-direction:column;height:100%;min-height:280px;';
+        this.style.cssText += 'display:flex;flex-direction:column;height:100%;min-height:210px;';
 
         var head = document.createElement('div');
         head.style.cssText = 'display:flex;justify-content:flex-end;align-items:center;padding-bottom:10px;';
@@ -58,7 +58,7 @@
 
         this._i = 0;
         this._clock = new Date();
-        for (var k = 3; k >= 0; k--) this._list.appendChild(this._row(this._next(), true));
+        for (var k = 2; k >= 0; k--) this._list.appendChild(this._row(this._next(), true));
 
         if (!REDUCED) {
           var self = this;
@@ -112,7 +112,7 @@
         row.style.opacity = '1';
         row.style.transform = 'none';
         var kids = this._list.children;
-        if (kids.length > 4) {
+        if (kids.length > 3) {
           var last = kids[kids.length - 1];
           last.style.maxHeight = '0';
           last.style.opacity = '0';

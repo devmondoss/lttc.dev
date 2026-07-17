@@ -79,7 +79,10 @@
     { icon: '🗳', es: 'Política', en: 'Politics', amount: '+$890' },
     { icon: '⚽', es: 'Fútbol',   en: 'Soccer',   amount: '$432' },
     { icon: '🏀', es: 'NBA',      en: 'NBA',      amount: '$176' },
-    { icon: '📈', es: 'Economía', en: 'Economy',  amount: '$54' }
+    { icon: '📈', es: 'Economía', en: 'Economy',  amount: '$54' },
+    { icon: '🤖', es: 'IA',       en: 'AI',       amount: '+$1,580' },
+    { icon: '☁️', es: 'Clima',    en: 'Climate',  amount: '$245' },
+    { icon: '🛒', es: 'Retail',   en: 'Retail',   amount: '$97' }
   ];
   var CHIP_CITIES = sample(CITY_KEYS, CATEGORIES.length);
   var CHIPS = CATEGORIES.map(function (cat, i) {
@@ -346,6 +349,14 @@
       ctx.clearRect(0, 0, size, size);
       var now = performance.now();
 
+      // Los arcos elevados ("lift") pueden proyectar fuera del disco del
+      // globo cerca del horizonte; se recortan al círculo para que nunca
+      // se dibuje un trazo flotando sobre el fondo/página.
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.clip();
+
       for (var ai = 0; ai < ARCS.length; ai++) {
         var arc = ARCS[ai];
         var A = xyz(CITY[arc.a]), B = xyz(CITY[arc.b]);
@@ -353,7 +364,7 @@
         for (var i = 0; i <= N; i++) {
           var t = i / N;
           var p = slerp(A, B, t);
-          var lift = 1 + 0.3 * Math.sin(Math.PI * t);
+          var lift = 1 + 0.12 * Math.sin(Math.PI * t);
           var q = this._project([p[0] * lift, p[1] * lift, p[2] * lift]);
           var sxp = cx + q[0] * R, syp = cy - q[1] * R, z = q[2];
           if (prev) {
@@ -373,7 +384,7 @@
         if (arc.hot && !this._reduced) {
           var tt = ((now / 3800) + ai * 0.45) % 1;
           var pp = slerp(A, B, tt);
-          var lift2 = 1 + 0.3 * Math.sin(Math.PI * tt);
+          var lift2 = 1 + 0.12 * Math.sin(Math.PI * tt);
           var qq = this._project([pp[0] * lift2, pp[1] * lift2, pp[2] * lift2]);
           if (qq[2] > 0) {
             ctx.fillStyle = 'rgba(' + arc.color + ',0.95)';
@@ -383,6 +394,7 @@
           }
         }
       }
+      ctx.restore();
 
       for (var wi = 0; wi < WHALES.length; wi++) {
         var w = WHALES[wi];
