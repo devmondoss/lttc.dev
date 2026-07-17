@@ -36,17 +36,22 @@
       </a>
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
         <nav style="display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500">
-          <a href="#producto" style="color:#3F3F44" style-hover="color:#FF6B00">Producto</a>
-          <a href="#selector" style="color:#3F3F44" style-hover="color:#FF6B00">Makers</a>
-          <a href="#terminal" style="color:#3F3F44" style-hover="color:#FF6B00">Terminal</a>
-          <a href="#docs" style="color:#3F3F44" style-hover="color:#FF6B00">Docs</a>
+          <a href="#producto" data-i18n="nav.producto" style="color:#3F3F44" style-hover="color:#FF6B00">Producto</a>
+          <a href="#selector" data-i18n="nav.makers" style="color:#3F3F44" style-hover="color:#FF6B00">Makers</a>
+          <a href="#terminal" data-i18n="nav.terminal" style="color:#3F3F44" style-hover="color:#FF6B00">Terminal</a>
+          <a href="#docs" data-i18n="nav.docs" style="color:#3F3F44" style-hover="color:#FF6B00">Docs</a>
         </nav>
       </sc-if>
       <div style="display:flex;align-items:center;gap:10px">
+        <div data-lang-toggle="" role="group" aria-label="Idioma / Language" style="display:flex;align-items:center;gap:6px;flex:none;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:0.04em;cursor:pointer;user-select:none;padding:6px 11px;border-radius:999px;border:1px solid rgba(10,10,11,0.12)">
+          <span data-lang-opt="es" style="transition:color 0.2s ease">ES</span>
+          <span aria-hidden="true" style="color:#C9C7BF">·</span>
+          <span data-lang-opt="en" style="transition:color 0.2s ease">EN</span>
+        </div>
         <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
-          <a href="#selector" style="padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;color:#3F3F44" style-hover="color:#0A0A0B">Log in</a>
+          <a href="#selector" data-i18n="nav.login" style="padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;color:#3F3F44" style-hover="color:#0A0A0B">Log in</a>
         </sc-if>
-        <a href="#selector" style="flex:none;white-space:nowrap;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25);transition:box-shadow 0.25s ease, transform 0.25s ease" style-hover="box-shadow:0 8px 26px rgba(255,80,20,0.4);transform:translateY(-1px);color:#FFFFFF">Abrir la terminal</a>
+        <a href="#selector" data-i18n="cta.openTerminal" style="flex:none;white-space:nowrap;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25);transition:box-shadow 0.25s ease, transform 0.25s ease" style-hover="box-shadow:0 8px 26px rgba(255,80,20,0.4);transform:translateY(-1px);color:#FFFFFF">Abrir la terminal</a>
       </div>
     </div>
   </div>
@@ -59,11 +64,11 @@
       </div>
       <div style="flex:1 1 420px;min-width:290px">
 
-        <h1 style="margin:0 0 22px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(40px,5.4vw,68px);line-height:1.04;letter-spacing:-0.035em">Haz que la verdad sea <span style="background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent">rentable</span>.</h1>
-        <p style="margin:0 0 34px;font-size:clamp(16px,2vw,18px);line-height:1.65;color:#3F3F44;max-width:520px">Accede a pronósticos de expertos auditados on-chain. Si su modelo falla, el smart contract te devuelve tu dinero automáticamente</p>
+        <h1 style="margin:0 0 22px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(40px,5.4vw,68px);line-height:1.04;letter-spacing:-0.035em"><span data-i18n="hero.h1a">Haz que la verdad sea </span><span data-i18n="hero.h1b" style="background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent">rentable</span><span data-i18n="hero.h1c">.</span></h1>
+        <p data-i18n="hero.sub" style="margin:0 0 34px;font-size:clamp(16px,2vw,18px);line-height:1.65;color:#3F3F44;max-width:520px">Accede a pronósticos de expertos auditados on-chain. Si su modelo falla, el smart contract te devuelve tu dinero automáticamente</p>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
-          <a href="#selector" style="padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 24px rgba(255,80,20,0.28);transition:box-shadow 0.25s ease, transform 0.25s ease" style-hover="box-shadow:0 10px 32px rgba(255,80,20,0.45);transform:translateY(-2px);color:#FFFFFF">Abrir la terminal</a>
-          <a href="#selector" style="padding:13px 26px;border-radius:999px;font-size:15px;font-weight:600;color:#0A0A0B;border:1.5px solid rgba(10,10,11,0.22);background:transparent;transition:border-color 0.25s ease" style-hover="border-color:#0A0A0B;color:#0A0A0B">Ver makers</a>
+          <a href="#selector" data-i18n="cta.openTerminal" style="padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 24px rgba(255,80,20,0.28);transition:box-shadow 0.25s ease, transform 0.25s ease" style-hover="box-shadow:0 10px 32px rgba(255,80,20,0.45);transform:translateY(-2px);color:#FFFFFF">Abrir la terminal</a>
+          <a href="#selector" data-i18n="cta.seeMakers" style="padding:13px 26px;border-radius:999px;font-size:15px;font-weight:600;color:#0A0A0B;border:1.5px solid rgba(10,10,11,0.22);background:transparent;transition:border-color 0.25s ease" style-hover="border-color:#0A0A0B;color:#0A0A0B">Ver makers</a>
         </div>
       </div>
     </div>
@@ -79,30 +84,30 @@
     <div style="max-width:1160px;margin:0 auto">
       <div data-reveal="" style="max-width:760px;margin-bottom:clamp(40px,6vw,64px)">
 
-        <h2 style="margin:0 0 18px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">Tres problemas que ningún feed puede resolver.</h2>
-        <p style="margin:0;font-size:clamp(15px,1.8vw,17px);line-height:1.7;color:#5F5E5A;text-wrap:pretty">La investigación detrás de Lattice: quién tiene derecho a ser escuchado, por qué el buen análisis desaparece del mercado, y qué preguntas no se le pueden hacer a un mercado sin destruir la respuesta.</p>
+        <h2 data-i18n="tesis.heading" style="margin:0 0 18px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">Tres problemas que ningún feed puede resolver.</h2>
+        <p data-i18n="tesis.sub" style="margin:0;font-size:clamp(15px,1.8vw,17px);line-height:1.7;color:#5F5E5A;text-wrap:pretty">La investigación detrás de Lattice: quién tiene derecho a ser escuchado, por qué el buen análisis desaparece del mercado, y qué preguntas no se le pueden hacer a un mercado sin destruir la respuesta.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
         <a data-tesis="1" data-reveal="" href="research-democracia-del-intelecto.dc.html" style="position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:300px;background:#F1EFE8;border-radius:22px;padding:clamp(26px,3vw,36px);cursor:pointer;transition:transform 0.45s ease, box-shadow 0.45s ease;color:#0A0A0B" style-hover="color:#0A0A0B">
           <span data-tesis-bg="" style="position:absolute;inset:0;background-image:url('assets/gradient-1.png');background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 0.45s ease, transform 0.45s ease"></span>
           <span style="position:relative;display:block;margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A90" data-dim="">01</span>
-          <span style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Democracia del Intelecto</span>
-          <span style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">El diploma era una tecnología de verificación. La reemplazamos por un historial.</span>
-          <span style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">5 min · Leer →</span>
+          <span data-i18n="tesis.c1.title" style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Democracia del Intelecto</span>
+          <span data-i18n="tesis.c1.desc" style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">El diploma era una tecnología de verificación. La reemplazamos por un historial.</span>
+          <span data-i18n="tesis.c1.read" style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">5 min · Leer →</span>
         </a>
         <a data-tesis="2" data-reveal="" href="research-asimetria-de-informacion.dc.html" style="position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:300px;background:#F1EFE8;border-radius:22px;padding:clamp(26px,3vw,36px);cursor:pointer;transition:transform 0.45s ease, box-shadow 0.45s ease;color:#0A0A0B" style-hover="color:#0A0A0B">
           <span data-tesis-bg="" style="position:absolute;inset:0;background-image:url('assets/gradient-2.png');background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 0.45s ease, transform 0.45s ease"></span>
           <span style="position:relative;display:block;margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A90" data-dim="">02</span>
-          <span style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Asimetría de Información</span>
-          <span style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">Cuando hablar es gratis, el buen análisis no encuentra comprador. Cómo el colateral lo trae de vuelta.</span>
-          <span style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">7 min · Leer →</span>
+          <span data-i18n="tesis.c2.title" style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Asimetría de Información</span>
+          <span data-i18n="tesis.c2.desc" style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">Cuando hablar es gratis, el buen análisis no encuentra comprador. Cómo el colateral lo trae de vuelta.</span>
+          <span data-i18n="tesis.c2.read" style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">7 min · Leer →</span>
         </a>
         <a data-tesis="3" data-reveal="" href="research-constitucion-humanista.dc.html" style="position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:300px;background:#F1EFE8;border-radius:22px;padding:clamp(26px,3vw,36px);cursor:pointer;transition:transform 0.45s ease, box-shadow 0.45s ease;color:#0A0A0B" style-hover="color:#0A0A0B">
           <span data-tesis-bg="" style="position:absolute;inset:0;background-image:url('assets/gradient-3.png');background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 0.45s ease, transform 0.45s ease"></span>
           <span style="position:relative;display:block;margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A90" data-dim="">03</span>
-          <span style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Constitución Humanista</span>
-          <span style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">Hay mercados que fabrican el hecho que miden. Estos son los que Lattice no lista.</span>
-          <span style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">6 min · Leer →</span>
+          <span data-i18n="tesis.c3.title" style="position:relative;display:block;margin:0 0 12px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;letter-spacing:-0.02em;line-height:1.25">Constitución Humanista</span>
+          <span data-i18n="tesis.c3.desc" style="position:relative;display:block;margin:0 0 24px;font-size:15px;line-height:1.65;color:#5F5E5A" data-dim="">Hay mercados que fabrican el hecho que miden. Estos son los que Lattice no lista.</span>
+          <span data-i18n="tesis.c3.read" style="position:relative;display:block;margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#8A8A90" data-dim="">6 min · Leer →</span>
         </a>
       </div>
     </div>
@@ -113,7 +118,7 @@
     <div style="max-width:1240px;margin:0 auto">
       <div data-reveal="" style="max-width:720px;margin-bottom:clamp(40px,6vw,60px)">
 
-        <h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">La ventaja, en números.</h2>
+        <h2 data-i18n="terminal.heading" style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">La ventaja, en números.</h2>
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:stretch;margin-bottom:20px">
@@ -125,21 +130,21 @@
           <div style="flex:1 1 230px;min-width:225px;background:linear-gradient(160deg,#221510,#0F0C0A 55%,#181008);border:1px solid rgba(245,166,35,0.2);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
               <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#F5F5F3">INSIGHT #04217</span>
-              <span style="flex:none;padding:3px 9px;border:1px solid rgba(245,166,35,0.55);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#F5A623">CIERRA EN 6D</span>
+              <span data-i18n="insight.closesIn" style="flex:none;padding:3px 9px;border:1px solid rgba(245,166,35,0.55);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#F5A623">CIERRA EN 6D</span>
             </div>
             <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">CRYPTO · SPREAD 0.1%</p>
             <div aria-hidden="true" style="filter:blur(7px);user-select:none;pointer-events:none">
-              <p style="margin:0 0 6px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;line-height:1.4;color:#F5F5F3">BTC rompe $128K antes del 30/09 — prob. declarada 78%</p>
-              <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#B4B2AA">entrada 122.4K · objetivo 128K · stop 117.9K</p>
+              <p data-i18n="insight.blurTitle" style="margin:0 0 6px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;line-height:1.4;color:#F5F5F3">BTC rompe $128K antes del 30/09 — prob. declarada 78%</p>
+              <p data-i18n="insight.blurMeta" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#B4B2AA">entrada 122.4K · objetivo 128K · stop 117.9K</p>
             </div>
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
               <span style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#F5A623);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B">C</span>
               <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:#F5F5F3">@cold_stat17</span>
-              <span style="padding:2px 8px;border:1px solid rgba(245,166,35,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#F5A623">RACHA 14×</span>
-              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#B4B2AA">71% ACIERTO</span>
+              <span data-i18n="insight.streak" style="padding:2px 8px;border:1px solid rgba(245,166,35,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#F5A623">RACHA 14×</span>
+              <span data-i18n="insight.hitRate" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#B4B2AA">71% ACIERTO</span>
             </div>
-            <a href="#selector" style="margin-top:auto;text-align:center;padding:12px 16px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 22px rgba(255,80,20,0.35);transition:box-shadow 0.25s ease" style-hover="box-shadow:0 10px 30px rgba(255,80,20,0.55);color:#FFFFFF">Desbloquear Alpha — $5.00</a>
-            <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.09em;color:#8A8A90;text-align:center">SI FALLA → REEMBOLSO AUTOMÁTICO DESDE LA GARANTÍA</p>
+            <a href="#selector" data-i18n="insight.unlock" style="margin-top:auto;text-align:center;padding:12px 16px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 22px rgba(255,80,20,0.35);transition:box-shadow 0.25s ease" style-hover="box-shadow:0 10px 30px rgba(255,80,20,0.55);color:#FFFFFF">Desbloquear Alpha — $5.00</a>
+            <p data-i18n="insight.refundNote" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.09em;color:#8A8A90;text-align:center">SI FALLA → REEMBOLSO AUTOMÁTICO DESDE LA GARANTÍA</p>
           </div>
 
           <!-- A2 · Live feed -->
@@ -160,8 +165,8 @@
             <rect x="7" y="16" width="34" height="16" rx="8" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
             <rect x="16" y="20.5" width="16" height="7" rx="3.5" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
           </svg>
-          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Reembolso</span>
-          <span style="font-size:13px;line-height:1.5;color:#6B6A66">Si el Maker falla, el contrato te devuelve lo que pagaste. Automático, sin disputas.</span>
+          <span data-i18n="feat.reembolso.t" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Reembolso</span>
+          <span data-i18n="feat.reembolso.d" style="font-size:13px;line-height:1.5;color:#6B6A66">Si el Maker falla, el contrato te devuelve lo que pagaste. Automático, sin disputas.</span>
         </a>
         <a data-reveal="" href="ventaja.dc.html#reputacion" style="display:flex;flex-direction:column;align-items:flex-start;background:#F1EFE8;border-radius:16px;padding:24px;color:#0A0A0B;transition:background 0.3s ease, transform 0.3s ease" style-hover="background:#EAE7DC;transform:translateY(-2px);color:#0A0A0B">
           <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="Tres cuadrados superpuestos en diagonal" style="width:40px;height:40px;flex:none;display:block;margin-bottom:28px">
@@ -169,16 +174,16 @@
             <rect x="16" y="16" width="16" height="16" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
             <rect x="22" y="22" width="16" height="16" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></rect>
           </svg>
-          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Reputación</span>
-          <span style="font-size:13px;line-height:1.5;color:#6B6A66">Un número calculado sobre hechos resueltos, no sobre opiniones.</span>
+          <span data-i18n="feat.reputacion.t" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Reputación</span>
+          <span data-i18n="feat.reputacion.d" style="font-size:13px;line-height:1.5;color:#6B6A66">Un número calculado sobre hechos resueltos, no sobre opiniones.</span>
         </a>
         <a data-reveal="" href="ventaja.dc.html#termometro" style="display:flex;flex-direction:column;align-items:flex-start;background:#F1EFE8;border-radius:16px;padding:24px;color:#0A0A0B;transition:background 0.3s ease, transform 0.3s ease" style-hover="background:#EAE7DC;transform:translateY(-2px);color:#0A0A0B">
           <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="Curva de campana con línea base" style="width:40px;height:40px;flex:none;display:block;margin-bottom:28px">
             <line x1="6" y1="38" x2="42" y2="38" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" vector-effect="non-scaling-stroke"></line>
             <path d="M 8 34 C 13 33 16 27 19 18 C 21 11.5 23.5 11.5 25.5 18 C 29 29 35 33 42 34" fill="none" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
           </svg>
-          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Termómetro</span>
-          <span style="font-size:13px;line-height:1.5;color:#6B6A66">El rendimiento del mercado en vivo: mínimo, promedio, tu Maker y el tope.</span>
+          <span data-i18n="feat.termometro.t" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Termómetro</span>
+          <span data-i18n="feat.termometro.d" style="font-size:13px;line-height:1.5;color:#6B6A66">El rendimiento del mercado en vivo: mínimo, promedio, tu Maker y el tope.</span>
         </a>
         <a data-reveal="" href="ventaja.dc.html#categorias" style="display:flex;flex-direction:column;align-items:flex-start;background:#F1EFE8;border-radius:16px;padding:24px;color:#0A0A0B;transition:background 0.3s ease, transform 0.3s ease" style-hover="background:#EAE7DC;transform:translateY(-2px);color:#0A0A0B">
           <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="Cadena de nodos en zigzag" style="width:40px;height:40px;flex:none;display:block;margin-bottom:28px">
@@ -190,8 +195,8 @@
             <line x1="22.5" y1="19.7" x2="28.5" y2="28.3" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" vector-effect="non-scaling-stroke"></line>
             <line x1="33.3" y1="28.2" x2="39.7" y2="17.8" stroke="#0A0A0B" stroke-width="1.25" stroke-linecap="round" vector-effect="non-scaling-stroke"></line>
           </svg>
-          <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Categorías</span>
-          <span style="font-size:13px;line-height:1.5;color:#6B6A66">Solo mercados con oráculo objetivo. Nada que no se pueda resolver.</span>
+          <span data-i18n="feat.categorias.t" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:6px">Categorías</span>
+          <span data-i18n="feat.categorias.d" style="font-size:13px;line-height:1.5;color:#6B6A66">Solo mercados con oráculo objetivo. Nada que no se pueda resolver.</span>
         </a>
       </div>
     </div>
@@ -202,70 +207,70 @@
     <div style="max-width:1160px;margin:0 auto">
       <div data-reveal="" style="max-width:720px;margin:0 auto clamp(40px,6vw,60px);text-align:center">
 
-        <h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">¿De qué lado del contrato estás?</h2>
+        <h2 data-i18n="selector.heading" style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em">¿De qué lado del contrato estás?</h2>
       </div>
 
       <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));border-radius:20px;overflow:hidden;border:1px solid rgba(10,10,11,0.12)">
 
         <!-- HEMISFERIO IZQUIERDO · EL MAKER -->
         <div data-hemi="maker" tabindex="0" role="button" aria-label="Soy Maker: tengo el alpha" style="background:#FAFAF8;color:#0A0A0B;padding:clamp(28px,4vw,48px) clamp(24px,3.4vw,44px);cursor:pointer;display:flex;flex-direction:column;gap:16px;transition:background-color 0.5s ease, color 0.5s ease;outline:none">
-          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ EL MAKER</p>
-          <h3 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);letter-spacing:-0.03em;line-height:1.08">Tengo el alpha.</h3>
-          <p data-th-body="" style="margin:0;font-size:15px;line-height:1.65;color:#3F3F44;transition:color 0.5s ease;max-width:440px">Publicá tu análisis con colateral. El contrato audita cada acierto y construye un track record que nadie puede borrar. Tu precisión, por fin, cotiza.</p>
+          <p data-i18n="maker.eyebrow" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ EL MAKER</p>
+          <h3 data-i18n="maker.h" style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);letter-spacing:-0.03em;line-height:1.08">Tengo el alpha.</h3>
+          <p data-th-body="" data-i18n="maker.body" style="margin:0;font-size:15px;line-height:1.65;color:#3F3F44;transition:color 0.5s ease;max-width:440px">Publicá tu análisis con colateral. El contrato audita cada acierto y construye un track record que nadie puede borrar. Tu precisión, por fin, cotiza.</p>
 
           <div data-th-card="" style="background:#F1EFE8;border:1px solid rgba(10,10,11,0.35);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;margin:6px 0;transition:background-color 0.5s ease, border-color 0.5s ease">
-            <p data-th-clabel="" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;font-weight:600;color:#0A0A0B;transition:color 0.5s ease">⚡ INSIGHT DE MAKER</p>
+            <p data-th-clabel="" data-i18n="th.clabel" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;font-weight:600;color:#0A0A0B;transition:color 0.5s ease">⚡ INSIGHT DE MAKER</p>
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
               <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#F5A623);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B;flex:none">Q</span>
-              <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8A8A90">@quant_ia · hace 25 min</span>
+              <span data-i18n="th.author" style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8A8A90">@quant_ia · hace 25 min</span>
               <span style="padding:2px 9px;border:1px solid rgba(138,138,144,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;color:#8A8A90">World Cup Winner</span>
             </div>
-            <p data-th-cbody="" style="margin:0;font-size:13.5px;line-height:1.6;color:#3F3F44;transition:color 0.5s ease">El mercado sobre-descuenta a Francia por la lesión de Mbappé, pero el xG del equipo sin él sigue top-3 del torneo. Value claro en la banda.</p>
+            <p data-th-cbody="" data-i18n="th.cbody" style="margin:0;font-size:13.5px;line-height:1.6;color:#3F3F44;transition:color 0.5s ease">El mercado sobre-descuenta a Francia por la lesión de Mbappé, pero el xG del equipo sin él sigue top-3 del torneo. Value claro en la banda.</p>
             <div data-th-lock="" style="border:1px dashed rgba(10,10,11,0.25);border-radius:10px;padding:14px;transition:border-color 0.5s ease">
-              <p style="margin:0 0 8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.14em;color:#8A8A90">GANANCIAS EN VIVO</p>
+              <p data-i18n="maker.liveGains" style="margin:0 0 8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.14em;color:#8A8A90">GANANCIAS EN VIVO</p>
               <div style="position:relative;display:flex;align-items:baseline;gap:10px">
                 <span data-earn-total="" style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:32px;letter-spacing:-0.02em">$127</span>
                 <span data-earn-float="" style="position:absolute;left:100px;top:2px;opacity:0;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:#FF6B00;pointer-events:none">+$3</span>
               </div>
-              <p style="margin:8px 0 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A8A90"><span data-earn-takers="">38</span> takers desbloquearon</p>
+              <p style="margin:8px 0 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A8A90"><span data-earn-takers="">38</span> <span data-i18n="maker.takers">takers desbloquearon</span></p>
             </div>
             <div style="display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#8A8A90">
-              <span>RACHA 14×</span>
-              <span>COLATERAL ◆2,400</span>
+              <span data-i18n="maker.streak">RACHA 14×</span>
+              <span data-i18n="maker.collateral">COLATERAL ◆2,400</span>
             </div>
           </div>
 
-          <span data-th-cta="" style="align-self:flex-start;padding:13px 26px;border-radius:999px;font-size:14.5px;font-weight:600;background:#0A0A0B;color:#F5F5F3;transition:background-color 0.5s ease, color 0.5s ease">Convertirme en Maker</span>
-          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:#8A8A90">Depositás reputación. Si fallás, el contrato paga.</p>
+          <span data-th-cta="" data-i18n="maker.cta" style="align-self:flex-start;padding:13px 26px;border-radius:999px;font-size:14.5px;font-weight:600;background:#0A0A0B;color:#F5F5F3;transition:background-color 0.5s ease, color 0.5s ease">Convertirme en Maker</span>
+          <p data-i18n="maker.foot" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:#8A8A90">Depositás reputación. Si fallás, el contrato paga.</p>
         </div>
 
         <!-- HEMISFERIO DERECHO · EL TAKER -->
         <div data-hemi="taker" tabindex="0" role="button" aria-label="Soy Taker: busco la asimetría" style="background:#0A0A0B;color:#F5F5F3;padding:clamp(28px,4vw,48px) clamp(24px,3.4vw,44px);cursor:pointer;display:flex;flex-direction:column;gap:16px;transition:background-color 0.5s ease, color 0.5s ease;outline:none">
-          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ EL TAKER</p>
-          <h3 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);letter-spacing:-0.03em;line-height:1.08">Busco la asimetría.</h3>
-          <p data-th-body="" style="margin:0;font-size:15px;line-height:1.65;color:#B4B2AA;transition:color 0.5s ease;max-width:440px">Comprá la lectura de los pronosticadores mejor calibrados de la red. Si su modelo falla, el contrato te devuelve lo que pagaste.</p>
+          <p data-i18n="taker.eyebrow" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ EL TAKER</p>
+          <h3 data-i18n="taker.h" style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);letter-spacing:-0.03em;line-height:1.08">Busco la asimetría.</h3>
+          <p data-th-body="" data-i18n="taker.body" style="margin:0;font-size:15px;line-height:1.65;color:#B4B2AA;transition:color 0.5s ease;max-width:440px">Comprá la lectura de los pronosticadores mejor calibrados de la red. Si su modelo falla, el contrato te devuelve lo que pagaste.</p>
 
           <div data-th-card="" style="background:#111113;border:1px solid rgba(245,245,243,0.18);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;margin:6px 0;transition:background-color 0.5s ease, border-color 0.5s ease">
-            <p data-th-clabel="" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;font-weight:600;color:#F5A623;transition:color 0.5s ease">⚡ INSIGHT DE MAKER</p>
+            <p data-th-clabel="" data-i18n="th.clabel" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;font-weight:600;color:#F5A623;transition:color 0.5s ease">⚡ INSIGHT DE MAKER</p>
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
               <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#F5A623);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B;flex:none">Q</span>
-              <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8A8A90">@quant_ia · hace 25 min</span>
+              <span data-i18n="th.author" style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8A8A90">@quant_ia · hace 25 min</span>
               <span style="padding:2px 9px;border:1px solid rgba(138,138,144,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.06em;color:#8A8A90">World Cup Winner</span>
             </div>
-            <p data-th-cbody="" style="margin:0;font-size:13.5px;line-height:1.6;color:#B4B2AA;transition:color 0.5s ease">El mercado sobre-descuenta a Francia por la lesión de Mbappé, pero el xG del equipo sin él sigue top-3 del torneo. Value claro en la banda.</p>
+            <p data-th-cbody="" data-i18n="th.cbody" style="margin:0;font-size:13.5px;line-height:1.6;color:#B4B2AA;transition:color 0.5s ease">El mercado sobre-descuenta a Francia por la lesión de Mbappé, pero el xG del equipo sin él sigue top-3 del torneo. Value claro en la banda.</p>
             <div data-th-lock="" style="border:1px dashed rgba(245,245,243,0.2);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;transition:border-color 0.5s ease">
-              <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.14em;color:#8A8A90">🔒 PICK EXACTO RESERVADO</p>
-              <p data-th-cbody="" aria-hidden="true" style="margin:0;filter:blur(6px);user-select:none;pointer-events:none;font-size:13px;line-height:1.5;color:#B4B2AA;transition:color 0.5s ease">Francia −1.5 en la semifinal · stake 3% · cuota 2.4 · entrada antes del sorteo de la banda.</p>
-              <span data-th-cbtn="" style="padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;background:#F5A623;color:#0A0A0B;transition:background-color 0.5s ease, color 0.5s ease">Comprar por $3 para ver</span>
+              <p data-i18n="taker.reserved" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.14em;color:#8A8A90">🔒 PICK EXACTO RESERVADO</p>
+              <p data-th-cbody="" data-i18n="taker.blurPick" aria-hidden="true" style="margin:0;filter:blur(6px);user-select:none;pointer-events:none;font-size:13px;line-height:1.5;color:#B4B2AA;transition:color 0.5s ease">Francia −1.5 en la semifinal · stake 3% · cuota 2.4 · entrada antes del sorteo de la banda.</p>
+              <span data-th-cbtn="" data-i18n="taker.buyToSee" style="padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;background:#F5A623;color:#0A0A0B;transition:background-color 0.5s ease, color 0.5s ease">Comprar por $3 para ver</span>
             </div>
             <div style="display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em">
               <span style="color:#F5A623">🔥 +31%</span>
-              <span style="color:#8A8A90">GARANTÍA ACTIVA</span>
+              <span data-i18n="taker.guaranteeActive" style="color:#8A8A90">GARANTÍA ACTIVA</span>
             </div>
           </div>
 
-          <span data-th-cta="" style="align-self:flex-start;padding:13px 26px;border-radius:999px;font-size:14.5px;font-weight:600;background:#F5A623;color:#0A0A0B;transition:background-color 0.5s ease, color 0.5s ease">Abrir la terminal</span>
-          <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:#8A8A90">Desde $1. Sin permiso, sin credenciales.</p>
+          <span data-th-cta="" data-i18n="cta.openTerminal" style="align-self:flex-start;padding:13px 26px;border-radius:999px;font-size:14.5px;font-weight:600;background:#F5A623;color:#0A0A0B;transition:background-color 0.5s ease, color 0.5s ease">Abrir la terminal</span>
+          <p data-i18n="taker.foot" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:#8A8A90">Desde $1. Sin permiso, sin credenciales.</p>
         </div>
       </div>
     </div>
@@ -277,9 +282,9 @@
       <p style="margin:0 0 14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90">◆ SYSTEM AUDIT LOG</p>
       <x-import component-from-global-scope="lattice-audit-log" from="./terminal-widgets.js" hint-size="100%,140px" style="display:block;width:100%"></x-import>
       <div style="border-top:1px solid rgba(10,10,11,0.1);margin-top:16px;padding-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#3F3F44">&gt; <span style="color:#FF6B00;font-weight:600">[REG]</span> Acceso anticipado:</span>
-        <input data-waitlist-email="" type="email" placeholder="tu@email.com" aria-label="Email para acceso anticipado" style="flex:1;min-width:180px;padding:11px 16px;border:1px solid rgba(10,10,11,0.18);border-radius:999px;background:#FFFFFF;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#0A0A0B;outline:none">
-        <a data-waitlist-submit="" href="#" style="flex:none;white-space:nowrap;padding:11px 22px;border-radius:999px;font-size:13.5px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25)" style-hover="color:#FFFFFF">Registrarme</a>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#3F3F44">&gt; <span style="color:#FF6B00;font-weight:600">[REG]</span> <span data-i18n="audit.earlyAccess">Acceso anticipado:</span></span>
+        <input data-waitlist-email="" data-i18n-ph="audit.emailPh" type="email" placeholder="tu@email.com" aria-label="Email para acceso anticipado" style="flex:1;min-width:180px;padding:11px 16px;border:1px solid rgba(10,10,11,0.18);border-radius:999px;background:#FFFFFF;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#0A0A0B;outline:none">
+        <a data-waitlist-submit="" data-i18n="audit.register" href="#" style="flex:none;white-space:nowrap;padding:11px 22px;border-radius:999px;font-size:13.5px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 6px 18px rgba(255,80,20,0.25)" style-hover="color:#FFFFFF">Registrarme</a>
       </div>
     </div>
   </section>
@@ -292,45 +297,45 @@
           <a href="#" aria-label="Lattice" style="display:flex;align-items:center;color:#0A0A0B;margin-bottom:14px">
             <span role="img" aria-label="Lattice" style="display: inline-block; width: 184px; height: 85px; background: currentColor; -webkit-mask: url('assets/wordmark.svg') left center/contain no-repeat; mask: url('assets/wordmark.svg') left center/contain no-repeat"></span>
           </a>
-          <p style="margin:0;font-family:Fraunces,serif;font-style:italic;font-size:19px;color:#3F3F44">La verdad tiene precio.</p>
+          <p data-i18n="footer.tagline" style="margin:0;font-family:Fraunces,serif;font-style:italic;font-size:19px;color:#3F3F44">La verdad tiene precio.</p>
         </div>
         <div style="flex:2 1 520px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:28px">
           <div style="display:flex;flex-direction:column;gap:10px">
-            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">PRODUCTO</p>
-            <a href="#producto" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Cómo funciona</a>
-            <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Garantía</a>
-            <a href="#selector" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">El selector</a>
+            <p data-i18n="footer.col.producto" style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">PRODUCTO</p>
+            <a href="#producto" data-i18n="footer.howItWorks" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Cómo funciona</a>
+            <a href="#terminal" data-i18n="footer.guarantee" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Garantía</a>
+            <a href="#selector" data-i18n="footer.theSelector" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">El selector</a>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px">
             <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">MAKERS</p>
-            <a href="#selector" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Convertirme en Maker</a>
+            <a href="#selector" data-i18n="footer.becomeMaker" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Convertirme en Maker</a>
             <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Reputation Ledger</a>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px">
             <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">TERMINAL</p>
             <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Heat map</a>
-            <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Señales</a>
+            <a href="#terminal" data-i18n="footer.signals" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Señales</a>
             <a href="#terminal" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">API</a>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px">
             <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">DOCS</p>
             <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Whitepaper</a>
-            <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Guías</a>
+            <a href="#" data-i18n="footer.guides" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Guías</a>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px">
-            <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">SEGURIDAD</p>
-            <a href="#auditoria" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Auditorías</a>
+            <p data-i18n="footer.col.security" style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">SEGURIDAD</p>
+            <a href="#auditoria" data-i18n="footer.audits" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Auditorías</a>
             <a href="#auditoria" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Smart contracts</a>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px">
             <p style="margin:0 0 4px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90">LEGAL</p>
-            <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Términos</a>
-            <a href="#" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Privacidad</a>
+            <a href="#" data-i18n="footer.terms" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Términos</a>
+            <a href="#" data-i18n="footer.privacy" style="font-size:13.5px;color:#3F3F44" style-hover="color:#FF6B00">Privacidad</a>
           </div>
         </div>
       </div>
       <div style="border-top:1px solid rgba(10,10,11,0.08);padding-top:24px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:baseline">
-        <p style="margin:0;font-size:12px;color:#8A8A90;max-width:640px;line-height:1.6">Lattice no es una casa de apuestas ni una plataforma de inversión. Es una red de reputación. Opera bajo smart contracts auditables.</p>
+        <p data-i18n="footer.disclaimer" style="margin:0;font-size:12px;color:#8A8A90;max-width:640px;line-height:1.6">Lattice no es una casa de apuestas ni una plataforma de inversión. Es una red de reputación. Opera bajo smart contracts auditables.</p>
         <p style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A8A90">© 2026 Lattice</p>
       </div>
     </div>
@@ -343,6 +348,174 @@
 class Component extends DCLogic {
   state = {
     isDesktop: typeof window === 'undefined' ? true : !window.matchMedia('(max-width: 1020px)').matches,
+    lang: (typeof navigator !== 'undefined' && (navigator.language || '').toLowerCase().indexOf('en') === 0) ? 'en' : 'es',
+  };
+
+  // Diccionario de traducciones. Cada clave data-i18n resuelve a su texto según
+  // el idioma activo. No se traducen nombres de marca (Lattice, Maker, Taker).
+  T = {
+    es: {
+      'nav.producto': 'Producto',
+      'nav.makers': 'Makers',
+      'nav.terminal': 'Terminal',
+      'nav.docs': 'Docs',
+      'nav.login': 'Log in',
+      'cta.openTerminal': 'Abrir la terminal',
+      'cta.seeMakers': 'Ver makers',
+      'hero.h1a': 'Haz que la verdad sea ',
+      'hero.h1b': 'rentable',
+      'hero.h1c': '.',
+      'hero.sub': 'Accede a pronósticos de expertos auditados on-chain. Si su modelo falla, el smart contract te devuelve tu dinero automáticamente',
+      'tesis.heading': 'Tres problemas que ningún feed puede resolver.',
+      'tesis.sub': 'La investigación detrás de Lattice: quién tiene derecho a ser escuchado, por qué el buen análisis desaparece del mercado, y qué preguntas no se le pueden hacer a un mercado sin destruir la respuesta.',
+      'tesis.c1.title': 'Democracia del Intelecto',
+      'tesis.c1.desc': 'El diploma era una tecnología de verificación. La reemplazamos por un historial.',
+      'tesis.c1.read': '5 min · Leer →',
+      'tesis.c2.title': 'Asimetría de Información',
+      'tesis.c2.desc': 'Cuando hablar es gratis, el buen análisis no encuentra comprador. Cómo el colateral lo trae de vuelta.',
+      'tesis.c2.read': '7 min · Leer →',
+      'tesis.c3.title': 'Constitución Humanista',
+      'tesis.c3.desc': 'Hay mercados que fabrican el hecho que miden. Estos son los que Lattice no lista.',
+      'tesis.c3.read': '6 min · Leer →',
+      'terminal.heading': 'La ventaja, en números.',
+      'insight.closesIn': 'CIERRA EN 6D',
+      'insight.blurTitle': 'BTC rompe $128K antes del 30/09 — prob. declarada 78%',
+      'insight.blurMeta': 'entrada 122.4K · objetivo 128K · stop 117.9K',
+      'insight.streak': 'RACHA 14×',
+      'insight.hitRate': '71% ACIERTO',
+      'insight.unlock': 'Desbloquear Alpha — $5.00',
+      'insight.refundNote': 'SI FALLA → REEMBOLSO AUTOMÁTICO DESDE LA GARANTÍA',
+      'feat.reembolso.t': 'Reembolso',
+      'feat.reembolso.d': 'Si el Maker falla, el contrato te devuelve lo que pagaste. Automático, sin disputas.',
+      'feat.reputacion.t': 'Reputación',
+      'feat.reputacion.d': 'Un número calculado sobre hechos resueltos, no sobre opiniones.',
+      'feat.termometro.t': 'Termómetro',
+      'feat.termometro.d': 'El rendimiento del mercado en vivo: mínimo, promedio, tu Maker y el tope.',
+      'feat.categorias.t': 'Categorías',
+      'feat.categorias.d': 'Solo mercados con oráculo objetivo. Nada que no se pueda resolver.',
+      'selector.heading': '¿De qué lado del contrato estás?',
+      'maker.eyebrow': '◆ EL MAKER',
+      'maker.h': 'Tengo el alpha.',
+      'maker.body': 'Publicá tu análisis con colateral. El contrato audita cada acierto y construye un track record que nadie puede borrar. Tu precisión, por fin, cotiza.',
+      'maker.liveGains': 'GANANCIAS EN VIVO',
+      'maker.takers': 'takers desbloquearon',
+      'maker.streak': 'RACHA 14×',
+      'maker.collateral': 'COLATERAL ◆2,400',
+      'maker.cta': 'Convertirme en Maker',
+      'maker.foot': 'Depositás reputación. Si fallás, el contrato paga.',
+      'taker.eyebrow': '◆ EL TAKER',
+      'taker.h': 'Busco la asimetría.',
+      'taker.body': 'Comprá la lectura de los pronosticadores mejor calibrados de la red. Si su modelo falla, el contrato te devuelve lo que pagaste.',
+      'taker.reserved': '🔒 PICK EXACTO RESERVADO',
+      'taker.blurPick': 'Francia −1.5 en la semifinal · stake 3% · cuota 2.4 · entrada antes del sorteo de la banda.',
+      'taker.buyToSee': 'Comprar por $3 para ver',
+      'taker.guaranteeActive': 'GARANTÍA ACTIVA',
+      'taker.foot': 'Desde $1. Sin permiso, sin credenciales.',
+      'th.clabel': '⚡ INSIGHT DE MAKER',
+      'th.author': '@quant_ia · hace 25 min',
+      'th.cbody': 'El mercado sobre-descuenta a Francia por la lesión de Mbappé, pero el xG del equipo sin él sigue top-3 del torneo. Value claro en la banda.',
+      'audit.earlyAccess': 'Acceso anticipado:',
+      'audit.emailPh': 'tu@email.com',
+      'audit.register': 'Registrarme',
+      'audit.sending': 'Enviando…',
+      'audit.done': '¡Listo!',
+      'audit.invalid': 'Email inválido',
+      'audit.error': 'Error, reintentá',
+      'footer.tagline': 'La verdad tiene precio.',
+      'footer.col.producto': 'PRODUCTO',
+      'footer.col.security': 'SEGURIDAD',
+      'footer.howItWorks': 'Cómo funciona',
+      'footer.guarantee': 'Garantía',
+      'footer.theSelector': 'El selector',
+      'footer.becomeMaker': 'Convertirme en Maker',
+      'footer.signals': 'Señales',
+      'footer.guides': 'Guías',
+      'footer.audits': 'Auditorías',
+      'footer.terms': 'Términos',
+      'footer.privacy': 'Privacidad',
+      'footer.disclaimer': 'Lattice no es una casa de apuestas ni una plataforma de inversión. Es una red de reputación. Opera bajo smart contracts auditables.',
+    },
+    en: {
+      'nav.producto': 'Product',
+      'nav.makers': 'Makers',
+      'nav.terminal': 'Terminal',
+      'nav.docs': 'Docs',
+      'nav.login': 'Log in',
+      'cta.openTerminal': 'Open the terminal',
+      'cta.seeMakers': 'See makers',
+      'hero.h1a': 'Make the truth ',
+      'hero.h1b': 'profitable',
+      'hero.h1c': '.',
+      'hero.sub': "Access forecasts from top experts, audited on-chain. If their model fails, the smart contract refunds you automatically.",
+      'tesis.heading': 'Three problems no feed can solve.',
+      'tesis.sub': "The research behind Lattice: who has the right to be heard, why good analysis vanishes from the market, and which questions can't be asked of a market without destroying the answer.",
+      'tesis.c1.title': 'Democracy of Intellect',
+      'tesis.c1.desc': 'The diploma was a verification technology. We replaced it with a track record.',
+      'tesis.c1.read': '5 min · Read →',
+      'tesis.c2.title': 'Information Asymmetry',
+      'tesis.c2.desc': 'When talk is free, good analysis finds no buyer. How collateral brings it back.',
+      'tesis.c2.read': '7 min · Read →',
+      'tesis.c3.title': 'Humanist Constitution',
+      'tesis.c3.desc': "Some markets manufacture the very fact they measure. These are the ones Lattice won't list.",
+      'tesis.c3.read': '6 min · Read →',
+      'terminal.heading': 'The edge, in numbers.',
+      'insight.closesIn': 'CLOSES IN 6D',
+      'insight.blurTitle': 'BTC breaks $128K before 09/30 — declared prob. 78%',
+      'insight.blurMeta': 'entry 122.4K · target 128K · stop 117.9K',
+      'insight.streak': 'STREAK 14×',
+      'insight.hitRate': '71% HIT RATE',
+      'insight.unlock': 'Unlock Alpha — $5.00',
+      'insight.refundNote': 'IF IT FAILS → AUTOMATIC REFUND FROM THE GUARANTEE',
+      'feat.reembolso.t': 'Refund',
+      'feat.reembolso.d': 'If the Maker fails, the contract returns what you paid. Automatic, no disputes.',
+      'feat.reputacion.t': 'Reputation',
+      'feat.reputacion.d': 'A number computed over resolved facts, not over opinions.',
+      'feat.termometro.t': 'Thermometer',
+      'feat.termometro.d': "The market's live performance: minimum, average, your Maker, and the top.",
+      'feat.categorias.t': 'Categories',
+      'feat.categorias.d': 'Only markets with an objective oracle. Nothing that can’t be resolved.',
+      'selector.heading': 'Which side of the contract are you on?',
+      'maker.eyebrow': '◆ THE MAKER',
+      'maker.h': 'I have the alpha.',
+      'maker.body': 'Publish your analysis with collateral. The contract audits every hit and builds a track record no one can erase. Your precision, at last, has a price.',
+      'maker.liveGains': 'LIVE EARNINGS',
+      'maker.takers': 'takers unlocked it',
+      'maker.streak': 'STREAK 14×',
+      'maker.collateral': 'COLLATERAL ◆2,400',
+      'maker.cta': 'Become a Maker',
+      'maker.foot': 'You stake reputation. If you fail, the contract pays.',
+      'taker.eyebrow': '◆ THE TAKER',
+      'taker.h': "I hunt for the asymmetry.",
+      'taker.body': "Buy the read of the best-calibrated forecasters on the network. If their model fails, the contract returns what you paid.",
+      'taker.reserved': '🔒 EXACT PICK RESERVED',
+      'taker.blurPick': 'France −1.5 in the semifinal · stake 3% · odds 2.4 · entry before the bracket draw.',
+      'taker.buyToSee': 'Buy for $3 to see',
+      'taker.guaranteeActive': 'GUARANTEE ACTIVE',
+      'taker.foot': 'From $1. No permission, no credentials.',
+      'th.clabel': '⚡ MAKER INSIGHT',
+      'th.author': '@quant_ia · 25 min ago',
+      'th.cbody': "The market over-discounts France for Mbappé's injury, but the team's xG without him is still top-3 in the tournament. Clear value on the line.",
+      'audit.earlyAccess': 'Early access:',
+      'audit.emailPh': 'you@email.com',
+      'audit.register': 'Sign up',
+      'audit.sending': 'Sending…',
+      'audit.done': 'Done!',
+      'audit.invalid': 'Invalid email',
+      'audit.error': 'Error, try again',
+      'footer.tagline': 'The truth has a price.',
+      'footer.col.producto': 'PRODUCT',
+      'footer.col.security': 'SECURITY',
+      'footer.howItWorks': 'How it works',
+      'footer.guarantee': 'Guarantee',
+      'footer.theSelector': 'The selector',
+      'footer.becomeMaker': 'Become a Maker',
+      'footer.signals': 'Signals',
+      'footer.guides': 'Guides',
+      'footer.audits': 'Audits',
+      'footer.terms': 'Terms',
+      'footer.privacy': 'Privacy',
+      'footer.disclaimer': 'Lattice is not a betting house or an investment platform. It is a reputation network. It operates under auditable smart contracts.',
+    },
   };
 
   navRef = React.createRef();
@@ -351,6 +524,33 @@ class Component extends DCLogic {
     this._mql = window.matchMedia('(max-width: 1020px)');
     this._onMql = () => this.setState({ isDesktop: !this._mql.matches });
     this._mql.addEventListener('change', this._onMql);
+
+    // ── Idioma (i18n) ──
+    // Expone el idioma inicial global para que los widgets (globo, etc.) lo lean
+    // al montarse, y avisa por evento a los que ya estén montados.
+    window.__latticeLang = this.state.lang;
+    window.dispatchEvent(new CustomEvent('lattice:lang', { detail: { lang: this.state.lang } }));
+    const initLang = () => {
+      const toggle = document.querySelector('[data-lang-toggle]');
+      if (!toggle) return false;
+      if (!toggle.getAttribute('data-lang-init')) {
+        toggle.setAttribute('data-lang-init', '1');
+        toggle.querySelectorAll('[data-lang-opt]').forEach((el) => {
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this._setLang(el.getAttribute('data-lang-opt'));
+          });
+        });
+        toggle.addEventListener('click', () => {
+          this._setLang(this.state.lang === 'es' ? 'en' : 'es');
+        });
+      }
+      this._applyI18n();
+      return true;
+    };
+    if (!initLang()) {
+      this._langTimer = setInterval(() => { if (initLang()) clearInterval(this._langTimer); }, 200);
+    }
 
     this._onScroll = () => {
       const el = this.navRef.current;
@@ -525,7 +725,7 @@ class Component extends DCLogic {
         const email = input.value.trim();
         if (!email) return;
         const original = btn.textContent;
-        btn.textContent = 'Enviando…';
+        btn.textContent = this._t('audit.sending');
         btn.style.pointerEvents = 'none';
         try {
           const res = await fetch('/api/waitlist', {
@@ -534,14 +734,14 @@ class Component extends DCLogic {
             body: JSON.stringify({ email }),
           });
           if (res.ok) {
-            btn.textContent = '¡Listo!';
+            btn.textContent = this._t('audit.done');
             input.value = '';
           } else {
             const data = await res.json().catch(() => ({}));
-            btn.textContent = data.error === 'invalid_email' ? 'Email inválido' : 'Error, reintentá';
+            btn.textContent = data.error === 'invalid_email' ? this._t('audit.invalid') : this._t('audit.error');
           }
         } catch (err) {
-          btn.textContent = 'Error, reintentá';
+          btn.textContent = this._t('audit.error');
         } finally {
           setTimeout(() => { btn.textContent = original; btn.style.pointerEvents = ''; }, 2400);
         }
@@ -553,6 +753,42 @@ class Component extends DCLogic {
     if (!initWaitlist()) {
       this._waitlistTimer = setInterval(() => { if (initWaitlist()) clearInterval(this._waitlistTimer); }, 400);
     }
+  }
+
+  // Aplica el idioma activo a todos los [data-i18n] y colorea el toggle.
+  _applyI18n() {
+    const dict = this.T[this.state.lang] || this.T.es;
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-ph');
+      if (dict[key] != null) el.setAttribute('placeholder', dict[key]);
+    });
+    document.querySelectorAll('[data-lang-opt]').forEach((el) => {
+      el.style.color = el.getAttribute('data-lang-opt') === this.state.lang ? '#0A0A0B' : '#B9B7B0';
+    });
+    if (typeof document !== 'undefined') document.documentElement.lang = this.state.lang;
+  }
+
+  // Texto localizado desde la lógica JS (mensajes de estado del waitlist, etc.).
+  _t(key) {
+    const dict = this.T[this.state.lang] || this.T.es;
+    return dict[key] != null ? dict[key] : key;
+  }
+
+  _setLang(lang) {
+    if ((lang !== 'es' && lang !== 'en') || this.state.lang === lang) return;
+    window.__latticeLang = lang;
+    this.setState({ lang });
+    window.dispatchEvent(new CustomEvent('lattice:lang', { detail: { lang } }));
+  }
+
+  // React re-renderiza el template en español; re-aplicamos i18n tras cada
+  // update para que el idioma activo persista.
+  componentDidUpdate() {
+    this._applyI18n();
   }
 
   componentWillUnmount() {
@@ -569,6 +805,7 @@ class Component extends DCLogic {
     clearInterval(this._cardTimer);
     clearTimeout(this._cardStop);
     clearInterval(this._waitlistTimer);
+    clearInterval(this._langTimer);
   }
 
   renderVals() {

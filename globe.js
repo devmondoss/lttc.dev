@@ -7,47 +7,90 @@
   var THETA = 0.24;
   var R_FACTOR = 0.4;
 
+  // Lista FIJA de ciudades reales (lat, lng), todas tierra-adentro para que el
+  // marker nunca caiga en agua por su radio. Nunca se generan coordenadas al
+  // azar: sólo se elige aleatoriamente CUÁLES ciudades/pares se muestran en
+  // cada carga, pero las coordenadas en sí son siempre estas.
   var CITY = {
-    nyc: [40.71, -74.0],
-    london: [51.5, -0.12],
-    singapore: [1.35, 103.82],
-    saopaulo: [-23.55, -46.63],
-    tokyo: [35.68, 139.69],
-    la: [34.05, -118.24],
-    buenosaires: [-34.6, -58.38],
-    lagos: [6.52, 3.38],
-    dubai: [25.2, 55.27],
-    sydney: [-33.87, 151.21],
-    berlin: [52.52, 13.4],
-    mumbai: [19.08, 72.88]
+    newyork:    [40.7128, -74.0060],
+    denver:     [39.7392, -104.9903],
+    mexicocity: [19.4326, -99.1332],
+    saopaulo:   [-23.5505, -46.6333],
+    cordoba:    [-31.4201, -64.1888],
+    london:     [51.5074, -0.1278],
+    madrid:     [40.4168, -3.7038],
+    abuja:      [9.0765, 7.3986],
+    nairobi:    [-1.2921, 36.8219],
+    riyadh:     [24.7136, 46.6753],
+    delhi:      [28.6139, 77.2090],
+    bangkok:    [13.7563, 100.5018],
+    seoul:      [37.5665, 126.9780],
+    canberra:   [-35.2809, 149.1300]
   };
+  var CITY_KEYS = Object.keys(CITY);
 
-  var WHALES = [
-    { city: 'nyc', color: '255,51,51' },
-    { city: 'london', color: '255,107,0' },
-    { city: 'singapore', color: '245,166,35' },
-    { city: 'saopaulo', color: '255,107,0' }
-  ];
+  var SUNSET = ['255,51,51', '255,107,0', '245,166,35'];
 
-  var MARKERS = Object.keys(CITY).map(function (k) {
-    var whale = WHALES.some(function (w) { return w.city === k; });
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function sample(arr, n) { return shuffle(arr).slice(0, n); }
+
+  function curLang() { return window.__latticeLang === 'en' ? 'en' : 'es'; }
+
+  // Whale markers: 4 ciudades al azar (todas del set fijo, todas tierra-adentro).
+  var WHALE_CITIES = sample(CITY_KEYS, 4);
+  var WHALES = WHALE_CITIES.map(function (city, i) {
+    return { city: city, color: SUNSET[i % SUNSET.length] };
+  });
+
+  var MARKERS = CITY_KEYS.map(function (k) {
+    var whale = WHALE_CITIES.indexOf(k) >= 0;
     return { location: CITY[k], size: whale ? 0.07 : 0.035 };
   });
 
-  var ARCS = [
-    { a: 'nyc', b: 'london', color: '255,51,51', hot: true },
-    { a: 'singapore', b: 'saopaulo', color: '255,107,0', hot: true },
-    { a: 'tokyo', b: 'sydney', color: '138,138,144', hot: false },
-    { a: 'berlin', b: 'lagos', color: '138,138,144', hot: false }
-  ];
+  // Arcos: 4 pares al azar entre ciudades del set fijo (todos los extremos en
+  // tierra; la línea que cruza el océano es la conexión, y es esperada).
+  // Emparejar consecutivas de un shuffle garantiza pares distintos, sin
+  // auto-loops ni ciudad repetida. Los primeros 2 arcos son "hot" (sunset).
+  var ARCS = (function () {
+    var pool = shuffle(CITY_KEYS);
+    var arcs = [];
+    for (var i = 0; arcs.length < 4 && i + 1 < pool.length; i += 2) {
+      arcs.push({
+        a: pool[i],
+        b: pool[i + 1],
+        color: arcs.length < 2 ? SUNSET[arcs.length] : '138,138,144',
+        hot: arcs.length < 2
+      });
+    }
+    return arcs;
+  })();
 
-  var CHIPS = [
-    { city: 'nyc', icon: '₿', label: 'Crypto', amount: '+$1,240', whale: true },
-    { city: 'london', icon: '🗳', label: 'Política', amount: '+$890', whale: true },
-    { city: 'saopaulo', icon: '⚽', label: 'Fútbol', amount: '$432', whale: false },
-    { city: 'la', icon: '🏀', label: 'NBA', amount: '$176', whale: false },
-    { city: 'tokyo', icon: '📈', label: 'Economía', amount: '$54', whale: false }
+  // Chips: 5 ciudades al azar del set fijo, cada una con una categoría. Los
+  // labels traen ES/EN para que el selector de idioma pueda intercambiarlos.
+  var CATEGORIES = [
+    { icon: '₿',  es: 'Crypto',   en: 'Crypto',   amount: '+$1,240' },
+    { icon: '🗳', es: 'Política', en: 'Politics', amount: '+$890' },
+    { icon: '⚽', es: 'Fútbol',   en: 'Soccer',   amount: '$432' },
+    { icon: '🏀', es: 'NBA',      en: 'NBA',      amount: '$176' },
+    { icon: '📈', es: 'Economía', en: 'Economy',  amount: '$54' }
   ];
+  var CHIP_CITIES = sample(CITY_KEYS, CATEGORIES.length);
+  var CHIPS = CATEGORIES.map(function (cat, i) {
+    return {
+      city: CHIP_CITIES[i],
+      icon: cat.icon,
+      labels: { es: cat.es, en: cat.en },
+      amount: cat.amount,
+      whale: WHALE_CITIES.indexOf(CHIP_CITIES[i]) >= 0
+    };
+  });
 
   function xyz(loc) {
     var la = loc[0] * DEG, lo = loc[1] * DEG;
@@ -109,6 +152,9 @@
 
       this._buildChips();
       this._applyAttrs();
+
+      this._onLang = function () { self._relabelChips(); };
+      window.addEventListener('lattice:lang', this._onLang);
 
       this._ro = new ResizeObserver(function () { self._resize(); });
       this._ro.observe(this);
@@ -175,6 +221,7 @@
     disconnectedCallback() {
       if (this._globe) { try { this._globe.destroy(); } catch (e) { } this._globe = null; }
       if (this._ro) { this._ro.disconnect(); this._ro = null; }
+      if (this._onLang) window.removeEventListener('lattice:lang', this._onLang);
       cancelAnimationFrame(this._raf);
       this._rafOn = false;
       clearTimeout(this._apiCheck);
@@ -224,7 +271,7 @@
         ic.textContent = c.icon;
         ic.style.cssText = 'font-size:12px;line-height:1;';
         var tx = document.createElement('span');
-        tx.textContent = c.label;
+        tx.textContent = c.labels[curLang()];
         tx.style.cssText = 'display:inline-block;text-align:center;transition:opacity 0.3s ease;line-height:1.3;';
         el.appendChild(ic);
         el.appendChild(tx);
@@ -243,10 +290,18 @@
       tx.style.opacity = '0';
       this._timers.push(setTimeout(function () {
         chip.showingAmount = !chip.showingAmount;
-        tx.textContent = chip.showingAmount ? cfg.amount : cfg.label;
+        tx.textContent = chip.showingAmount ? cfg.amount : cfg.labels[curLang()];
         tx.style.color = chip.showingAmount ? (cfg.whale ? '#F5A623' : '#1A1A1D') : '';
         tx.style.opacity = '1';
       }, 300));
+    }
+
+    // Re-etiqueta los chips cuando cambia el idioma (escucha 'lattice:lang').
+    _relabelChips() {
+      if (!this._chips) return;
+      this._chips.forEach(function (chip) {
+        if (!chip.showingAmount) chip.tx.textContent = chip.cfg.labels[curLang()];
+      });
     }
 
     _measureChips() {
@@ -256,7 +311,8 @@
       ctx.font = '600 11px "JetBrains Mono", monospace';
       this._chips.forEach(function (chip) {
         var w = Math.ceil(Math.max(
-          ctx.measureText(chip.cfg.label).width,
+          ctx.measureText(chip.cfg.labels.es).width,
+          ctx.measureText(chip.cfg.labels.en).width,
           ctx.measureText(chip.cfg.amount).width
         ));
         chip.tx.style.minWidth = w + 'px';

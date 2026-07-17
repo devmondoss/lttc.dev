@@ -28,12 +28,19 @@
   ];
 
   var BADGES = [
-    { t: 'Yield +42%', dot: '#F5A623', ang: -90 },
-    { t: 'Stake Locked', dot: '#FF6B00', ang: -28 },
-    { t: '14x Racha', dot: '#F5A623', ang: 42 },
-    { t: 'Reembolso Activo', dot: '#FF6B00', ang: 158 },
-    { t: 'Audited', dot: '#8A8A90', neutral: true, ang: 216 }
+    { t: { es: 'Yield +42%', en: 'Yield +42%' }, dot: '#F5A623', ang: -90 },
+    { t: { es: 'Stake Locked', en: 'Stake Locked' }, dot: '#FF6B00', ang: -28 },
+    { t: { es: '14x Racha', en: '14x Streak' }, dot: '#F5A623', ang: 42 },
+    { t: { es: 'Reembolso Activo', en: 'Refund Active' }, dot: '#FF6B00', ang: 158 },
+    { t: { es: 'Audited', en: 'Audited' }, dot: '#8A8A90', neutral: true, ang: 216 }
   ];
+
+  var SCENE_T = {
+    es: { heading: 'Señal, no ruido.', sub: 'El filtro financiero expulsa a los charlatanes antes de que hablen.' },
+    en: { heading: 'Signal, not noise.', sub: 'The financial filter expels the charlatans before they even speak.' }
+  };
+
+  function curLang() { return window.__latticeLang === 'en' ? 'en' : 'es'; }
 
   function clamp01(v) { return Math.max(0, Math.min(1, v)); }
   function lin(p, a, b) { return clamp01((p - a) / (b - a)); }
@@ -139,9 +146,23 @@
       var copy = document.createElement('div');
       copy.style.cssText = 'flex:0 1 340px;min-width:260px;';
       copy.innerHTML =
-        '<h2 style="margin:0 0 16px;font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em;color:#0A0A0B">Señal, no ruido.</h2>' +
-        '<p style="margin:0;font-size:16px;line-height:1.65;color:#5F5E5A;max-width:340px">El filtro financiero expulsa a los charlatanes antes de que hablen.</p>';
+        '<h2 data-sc-heading style="margin:0 0 16px;font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em;color:#0A0A0B"></h2>' +
+        '<p data-sc-sub style="margin:0;font-size:16px;line-height:1.65;color:#5F5E5A;max-width:340px"></p>';
       stage.appendChild(copy);
+      this._scHeading = copy.querySelector('[data-sc-heading]');
+      this._scSub = copy.querySelector('[data-sc-sub]');
+      this._applyLang = function () {
+        var t = SCENE_T[curLang()];
+        if (self._scHeading) self._scHeading.textContent = t.heading;
+        if (self._scSub) self._scSub.textContent = t.sub;
+        if (self._badges) {
+          self._badges.forEach(function (b) {
+            var txt = b.el.querySelector('[data-badge-txt]');
+            if (txt) txt.textContent = b.cfg.t[curLang()];
+          });
+        }
+      };
+      window.addEventListener('lattice:lang', this._applyLang);
 
       // ── escena ──
       var wrap = document.createElement('div');
@@ -300,12 +321,16 @@
         var dot = document.createElement('span');
         dot.style.cssText = 'width:6px;height:6px;border-radius:50%;background:' + bd.dot + ';flex:none;';
         var txt = document.createElement('span');
-        txt.textContent = bd.t;
+        txt.setAttribute('data-badge-txt', '');
+        txt.textContent = bd.t[curLang()];
         s.appendChild(dot);
         s.appendChild(txt);
         badgeLayer.appendChild(s);
-        return { el: s, ang: bd.ang };
+        return { el: s, cfg: bd, ang: bd.ang };
       });
+
+      // Texto inicial de heading/sub/badges según idioma activo.
+      if (this._applyLang) this._applyLang();
 
       if (this._reduced) {
         this._apply(1);
@@ -321,6 +346,7 @@
       if (this._tween) this._tween.kill && this._tween.kill();
       if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
       if (this._onResize) window.removeEventListener('resize', this._onResize);
+      if (this._applyLang) window.removeEventListener('lattice:lang', this._applyLang);
       cancelAnimationFrame(this._raf);
       this.innerHTML = '';
       this._built = false;

@@ -9,18 +9,22 @@
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var VAL_COLOR = { gold: '#F5A623', orange: '#FF6B00', crimson: '#FF3333' };
 
+  function curLang() { return window.__latticeLang === 'en' ? 'en' : 'es'; }
+
   /* ══════════ LIVE FEED ══════════ */
+  // Cada evento trae su descripción en ES/EN; las filas nuevas usan el idioma
+  // activo al momento de renderizarse.
   var EVENTS = [
-    { h: '@delta_norte', t: 'Plazas agotadas · Elección MX 2a vuelta', v: '48/48', c: 'gold' },
-    { h: '@macrolena', t: 'Garantía bloqueada en contrato', v: '◆ 880', c: 'orange' },
-    { h: '@quantfather', t: 'Insight acuñado · BTC > $128K', v: '#04218', c: 'gold' },
-    { h: '@ledgersmith', t: 'Alerta de liquidez · mercado delgado', v: 'THIN', c: 'orange' },
-    { h: '@cold_stat17', t: 'Racha actualizada on-chain', v: '14×', c: 'gold' },
-    { h: '@teatime_fx', t: 'Reembolso ejecutado al Taker', v: '−$5.00', c: 'crimson' },
-    { h: '@basilea_iv', t: 'Garantía bloqueada en contrato', v: '◆ 2,400', c: 'orange' },
-    { h: '@quantfather', t: 'Plazas agotadas · Corte Fed Sep', v: '32/32', c: 'gold' },
-    { h: '@delta_norte', t: 'Insight acuñado · Emergencia agrícola', v: '#04219', c: 'gold' },
-    { h: '@ledgersmith', t: 'Reembolso ejecutado al Taker', v: '−$3.00', c: 'crimson' }
+    { h: '@delta_norte', t: { es: 'Plazas agotadas · Elección MX 2a vuelta', en: 'Seats sold out · MX Election runoff' }, v: '48/48', c: 'gold' },
+    { h: '@macrolena', t: { es: 'Garantía bloqueada en contrato', en: 'Guarantee locked in contract' }, v: '◆ 880', c: 'orange' },
+    { h: '@quantfather', t: { es: 'Insight acuñado · BTC > $128K', en: 'Insight minted · BTC > $128K' }, v: '#04218', c: 'gold' },
+    { h: '@ledgersmith', t: { es: 'Alerta de liquidez · mercado delgado', en: 'Liquidity alert · thin market' }, v: 'THIN', c: 'orange' },
+    { h: '@cold_stat17', t: { es: 'Racha actualizada on-chain', en: 'Streak updated on-chain' }, v: '14×', c: 'gold' },
+    { h: '@teatime_fx', t: { es: 'Reembolso ejecutado al Taker', en: 'Refund executed to Taker' }, v: '−$5.00', c: 'crimson' },
+    { h: '@basilea_iv', t: { es: 'Garantía bloqueada en contrato', en: 'Guarantee locked in contract' }, v: '◆ 2,400', c: 'orange' },
+    { h: '@quantfather', t: { es: 'Plazas agotadas · Corte Fed Sep', en: 'Seats sold out · Fed Cut Sep' }, v: '32/32', c: 'gold' },
+    { h: '@delta_norte', t: { es: 'Insight acuñado · Emergencia agrícola', en: 'Insight minted · Agricultural emergency' }, v: '#04219', c: 'gold' },
+    { h: '@ledgersmith', t: { es: 'Reembolso ejecutado al Taker', en: 'Refund executed to Taker' }, v: '−$3.00', c: 'crimson' }
   ];
 
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -36,8 +40,13 @@
         head.style.cssText = 'display:flex;justify-content:flex-end;align-items:center;padding-bottom:10px;';
         head.innerHTML =
           '<span style="display:inline-flex;align-items:center;gap:7px;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:0.16em;color:#F5A623">' +
-          '<span data-pulse style="width:6px;height:6px;border-radius:50%;background:#F5A623"></span>EN VIVO</span>';
+          '<span data-pulse style="width:6px;height:6px;border-radius:50%;background:#F5A623"></span><span data-live-label></span></span>';
         this.appendChild(head);
+        var liveLabel = head.querySelector('[data-live-label]');
+        var self0 = this;
+        this._onLang = function () { liveLabel.textContent = curLang() === 'en' ? 'LIVE' : 'EN VIVO'; };
+        this._onLang();
+        window.addEventListener('lattice:lang', this._onLang);
         if (!REDUCED) {
           var dot = head.querySelector('[data-pulse]');
           dot.animate([{ opacity: 1 }, { opacity: 0.25 }, { opacity: 1 }], { duration: 1800, iterations: Infinity });
@@ -59,6 +68,7 @@
 
       disconnectedCallback() {
         clearInterval(this._timer);
+        if (this._onLang) window.removeEventListener('lattice:lang', this._onLang);
         this.innerHTML = '';
         this._built = false;
       }
@@ -68,7 +78,7 @@
         this._i++;
         this._clock = new Date(this._clock.getTime() + 2800 + Math.random() * 4000);
         return {
-          h: e.h, t: e.t, v: e.v, c: e.c,
+          h: e.h, t: e.t[curLang()], v: e.v, c: e.c,
           ts: pad(this._clock.getHours()) + ':' + pad(this._clock.getMinutes()) + ':' + pad(this._clock.getSeconds())
         };
       }
@@ -120,6 +130,11 @@
     var IDX_MAKER = 11;    // la más alta (naranja)
     var GRAYS = [15, 16, 17]; // sin dato
 
+    var TERMO_T = {
+      es: { head: 'RENTABILIDAD DEL MERCADO', min: 'MÍN', avg: 'PROM', maker: 'MAKER', top: 'TOPE' },
+      en: { head: 'MARKET RETURN', min: 'MIN', avg: 'AVG', maker: 'MAKER', top: 'TOP' }
+    };
+
     class Termometro extends HTMLElement {
       connectedCallback() {
         if (this._built) return;
@@ -128,8 +143,8 @@
 
         var head = document.createElement('p');
         head.style.cssText = "margin:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8A90;";
-        head.textContent = 'RENTABILIDAD DEL MERCADO';
         this.appendChild(head);
+        this._head = head;
 
         var rail = document.createElement('div');
         rail.style.cssText = 'flex:1;min-height:120px;display:flex;align-items:flex-end;gap:6px;';
@@ -151,15 +166,26 @@
         var met = document.createElement('div');
         met.style.cssText = 'display:flex;justify-content:space-between;gap:10px;margin-top:auto;';
         met.innerHTML =
-          this._metric('+2%', 'MÍN', '#FF3333', '') +
-          this._metric('+4.9%', 'PROM', '#3A3A38', 'prom') +
-          this._metric('+15%', 'MAKER', '#FF6B00', '') +
-          this._metric('+15.0%', 'TOPE', '#F5A623', 'tope');
+          this._metric('+2%', 'min', '#FF3333', '') +
+          this._metric('+4.9%', 'avg', '#3A3A38', 'prom') +
+          this._metric('+15%', 'maker', '#FF6B00', '') +
+          this._metric('+15.0%', 'top', '#F5A623', 'tope');
         this.appendChild(met);
         this._prom = met.querySelector('[data-v="prom"]');
         this._tope = met.querySelector('[data-v="tope"]');
         this._topeVal = 15.0;
         this._lastTop = performance.now();
+
+        var self0 = this;
+        this._onLang = function () {
+          var t = TERMO_T[curLang()];
+          self0._head.textContent = t.head;
+          self0.querySelectorAll('[data-mlabel]').forEach(function (el) {
+            el.textContent = t[el.getAttribute('data-mlabel')];
+          });
+        };
+        this._onLang();
+        window.addEventListener('lattice:lang', this._onLang);
 
         if (!REDUCED) {
           var self = this;
@@ -171,14 +197,15 @@
         clearInterval(this._timer);
         cancelAnimationFrame(this._raf);
         if (this._mq) this._mq.removeEventListener('change', this._onMq);
+        if (this._onLang) window.removeEventListener('lattice:lang', this._onLang);
         this.innerHTML = '';
         this._built = false;
       }
 
-      _metric(v, l, color, key) {
+      _metric(v, labelKey, color, key) {
         return '<div style="min-width:0">' +
           '<p data-v="' + key + '" style="margin:0 0 3px;font-family:\'JetBrains Mono\',monospace;font-weight:600;font-size:16px;letter-spacing:-0.01em;color:' + color + '">' + v + '</p>' +
-          '<p style="margin:0;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90">' + l + '</p></div>';
+          '<p data-mlabel="' + labelKey + '" style="margin:0;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:0.14em;color:#8A8A90"></p></div>';
       }
 
       _h(i) {
@@ -224,11 +251,11 @@
   /* ══════════ SYSTEM AUDIT LOG ══════════ */
   if (!customElements.get('lattice-audit-log')) {
     var LOG_LINES = [
-      { pre: '> ', tag: '[SYS]', rest: ' Lattice Core v1.0 inicializado.' },
-      { pre: '> ', tag: '[SEC]', rest: ' Smart contracts auditados en cadena.' },
-      { pre: '> ', tag: '[NET]', rest: ' Protocolo de reembolso en stand-by.' },
-      { pre: '> ', tag: '[ORC]', rest: ' Oráculos verificados: 5 categorías.' },
-      { pre: '> ', tag: '[WAIT]', rest: ' Esperando el Bloque Génesis…' }
+      { pre: '> ', tag: '[SYS]', rest: { es: ' Lattice Core v1.0 inicializado.', en: ' Lattice Core v1.0 initialized.' } },
+      { pre: '> ', tag: '[SEC]', rest: { es: ' Smart contracts auditados en cadena.', en: ' Smart contracts audited on-chain.' } },
+      { pre: '> ', tag: '[NET]', rest: { es: ' Protocolo de reembolso en stand-by.', en: ' Refund protocol on stand-by.' } },
+      { pre: '> ', tag: '[ORC]', rest: { es: ' Oráculos verificados: 5 categorías.', en: ' Oracles verified: 5 categories.' } },
+      { pre: '> ', tag: '[WAIT]', rest: { es: ' Esperando el Bloque Génesis…', en: ' Awaiting the Genesis Block…' } }
     ];
 
     class AuditLog extends HTMLElement {
@@ -264,7 +291,7 @@
         r.innerHTML =
           '<span style="color:#8A8A90">' + l.pre + '</span>' +
           '<span style="color:#FF6B00;font-weight:600">' + l.tag + '</span>' +
-          '<span>' + l.rest + '</span>';
+          '<span>' + l.rest[curLang()] + '</span>';
         return r;
       }
 
