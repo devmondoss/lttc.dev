@@ -113,7 +113,7 @@ export default function Footer() {
               <p style={{ margin: '0 0 4px', fontFamily: "'JetBrains Mono',monospace", fontSize: 10.5, letterSpacing: '0.16em', color: '#8A8A90' }}>
                 MAKERS
               </p>
-              <Hoverable as="a" href="https://lattice-app-three.vercel.app/inicio" style={linkStyle} hoverStyle={linkHover}>
+              <Hoverable as="a" href="https://www.lttc.app/" style={linkStyle} hoverStyle={linkHover}>
                 {t('footer.becomeMaker')}
               </Hoverable>
               <Hoverable as={Link} href={langHref('/#terminal', lang)} style={linkStyle} hoverStyle={linkHover}>

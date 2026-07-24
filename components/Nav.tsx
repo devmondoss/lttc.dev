@@ -147,7 +147,7 @@ export default function Nav({ variant = 'solid' }: { variant?: 'landing' | 'soli
           </Hoverable>
           <Hoverable
             as="a"
-            href="https://lattice-app-three.vercel.app/inicio"
+            href="https://www.lttc.app/"
             style={{
               flex: 'none',
               whiteSpace: 'nowrap',

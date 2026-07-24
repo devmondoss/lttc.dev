@@ -162,7 +162,7 @@ export default function LandingPage() {
             <div style={s('display:flex;flex-wrap:wrap;align-items:center;gap:14px')}>
               <Hoverable
                 as="a"
-                href="https://lattice-app-three.vercel.app/inicio"
+                href="https://www.lttc.app/"
                 style={s('padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 24px rgba(255,80,20,0.28);transition:box-shadow 0.25s ease, transform 0.25s ease')}
                 hoverStyle={s('box-shadow:0 10px 32px rgba(255,80,20,0.45);transform:translateY(-2px);color:#FFFFFF')}
               >

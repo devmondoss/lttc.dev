@@ -256,7 +256,7 @@ export default function Selector() {
               </div>
 
               <a
-                href="https://lattice-app-three.vercel.app/inicio"
+                href="https://www.lttc.app/"
                 style={{
                   alignSelf: 'flex-start',
                   padding: '13px 26px',
@@ -394,7 +394,7 @@ export default function Selector() {
               </div>
 
               <a
-                href="https://lattice-app-three.vercel.app/inicio"
+                href="https://www.lttc.app/"
                 style={{
                   alignSelf: 'flex-start',
                   padding: '13px 26px',
