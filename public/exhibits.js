@@ -376,6 +376,7 @@ h2{font-size:20px;line-height:1.3;font-weight:700;letter-spacing:-.015em;margin:
     }
 
     disconnectedCallback() {
+      this._built = false;
       if (this._onLang) window.removeEventListener('lattice:lang', this._onLang);
     }
 

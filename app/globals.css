@@ -1,0 +1,65 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #FAFAF8;
+  color: #0A0A0B;
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: #0A0A0B;
+  text-decoration: none;
+}
+
+.nav-cta-short {
+  display: none;
+}
+
+.nav-links-desktop {
+  display: flex;
+}
+
+.nav-login-desktop {
+  display: inline-block;
+}
+
+@media (max-width: 1020px) {
+  .nav-links-desktop,
+  .nav-login-desktop {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-cta-full {
+    display: none;
+  }
+  .nav-cta-short {
+    display: inline;
+  }
+  .nav-actions {
+    gap: 6px;
+  }
+  .lang-toggle {
+    padding: 5px 8px !important;
+  }
+}
+
+@keyframes latticePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

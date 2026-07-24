@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./dc-shared.js"></script>
 </head>
 <body>
 <x-dc>
@@ -48,7 +49,7 @@
         </nav>
       </sc-if>
       <div class="nav-actions" style="display:flex;align-items:center;gap:10px">
-        <div data-lang-toggle="" role="group" aria-label="Idioma / Language" style="display:flex;align-items:center;gap:6px;flex:none;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:0.04em;cursor:pointer;user-select:none;padding:6px 11px;border-radius:999px;border:1px solid rgba(10,10,11,0.12)">
+        <div data-lang-toggle="" role="group" tabindex="0" aria-label="Idioma / Language" style="display:flex;align-items:center;gap:6px;flex:none;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:0.04em;cursor:pointer;user-select:none;padding:6px 11px;border-radius:999px;border:1px solid rgba(10,10,11,0.12)">
           <span data-lang-opt="es" style="transition:color 0.2s ease">ES</span>
           <span aria-hidden="true" style="color:#C9C7BF">·</span>
           <span data-lang-opt="en" style="transition:color 0.2s ease">EN</span>
@@ -180,21 +181,12 @@
 class Component extends DCLogic {
   state = {
     isDesktop: typeof window === 'undefined' ? true : !window.matchMedia('(max-width: 1020px)').matches,
-    lang: (function () {
-      if (typeof window === 'undefined') return 'es';
-      try {
-        const q = new URLSearchParams(window.location.search).get('lang');
-        if (q === 'en' || q === 'es') return q;
-      } catch (e) {}
-      return (typeof navigator !== 'undefined' && (navigator.language || '').toLowerCase().indexOf('en') === 0) ? 'en' : 'es';
-    })(),
+    lang: DCShared.initialLang(),
   };
 
   // Traducciones propias de este ensayo. No se traducen Lattice, Maker, Taker.
   T = {
     es: {
-      'nav.research': 'Research', 'nav.makers': 'Makers', 'nav.terminal': 'Terminal', 'nav.docs': 'Docs', 'nav.login': 'Log in',
-      'cta.openTerminal': 'Abrir la terminal',
       'meta.breadcrumbTail': ' / Asimetría de Información',
       'h1': 'El mercado de los limones tiene canal de Telegram',
       'dek': 'Cuando hablar es gratis, el buen análisis no encuentra comprador. El equipo de Lattice partió de ese diagnóstico y llegó a una sola conclusión operativa: la única forma de arreglar un mercado de información es hacer que equivocarse cueste.',
@@ -240,8 +232,6 @@ class Component extends DCLogic {
       'nav.backToResearch': 'Volver a Research', 'nav.next': 'SIGUIENTE →', 'nav.nextTitle': 'Constitución Humanista',
     },
     en: {
-      'nav.research': 'Research', 'nav.makers': 'Makers', 'nav.terminal': 'Terminal', 'nav.docs': 'Docs', 'nav.login': 'Log in',
-      'cta.openTerminal': 'Open the terminal',
       'meta.breadcrumbTail': ' / Information Asymmetry',
       'h1': 'The market for lemons has a Telegram channel',
       'dek': "When talk is free, good analysis can't find a buyer. The Lattice team started from that diagnosis and arrived at a single operational conclusion: the only way to fix an information market is to make being wrong cost something.",
@@ -293,91 +283,20 @@ class Component extends DCLogic {
     this._onMql = () => this.setState({ isDesktop: !this._mql.matches });
     this._mql.addEventListener('change', this._onMql);
 
-    window.__latticeLang = this.state.lang;
-    window.dispatchEvent(new CustomEvent('lattice:lang', { detail: { lang: this.state.lang } }));
-    const initLang = () => {
-      const toggle = document.querySelector('[data-lang-toggle]');
-      if (!toggle) return false;
-      if (!toggle.getAttribute('data-lang-init')) {
-        toggle.setAttribute('data-lang-init', '1');
-        toggle.querySelectorAll('[data-lang-opt]').forEach((el) => {
-          el.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this._setLang(el.getAttribute('data-lang-opt'));
-          });
-        });
-        toggle.addEventListener('click', () => {
-          this._setLang(this.state.lang === 'es' ? 'en' : 'es');
-        });
-      }
-      this._applyI18n();
-      return true;
-    };
-    if (!initLang()) {
-      this._langTimer = setInterval(() => { if (initLang()) clearInterval(this._langTimer); }, 200);
-    }
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) return;
-    this._io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
-          this._io.unobserve(e.target);
-        }
-      }
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
-    const scan = () => {
-      document.querySelectorAll('[data-reveal]:not([data-reveal-on])').forEach((el) => {
-        el.setAttribute('data-reveal-on', '1');
-        const r = el.getBoundingClientRect();
-        if (r.top > window.innerHeight * 0.92) {
-          el.style.opacity = '0';
-          el.style.transform = 'translateY(22px)';
-        }
-        el.style.transition = 'opacity 0.7s cubic-bezier(0.2,0.6,0.2,1), transform 0.7s cubic-bezier(0.2,0.6,0.2,1)';
-        this._io.observe(el);
-      });
-    };
-    scan();
-    this._t = setInterval(scan, 800);
-    this._t2 = setTimeout(() => clearInterval(this._t), 6000);
+    DCShared.wireLangToggle(this);
+    DCShared.setupReveal(this);
   }
 
   _applyI18n() {
-    const dict = this.T[this.state.lang] || this.T.es;
-    document.querySelectorAll('[data-i18n]').forEach((el) => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[key] != null) el.textContent = dict[key];
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
-      const key = el.getAttribute('data-i18n-html');
-      if (dict[key] != null) el.innerHTML = dict[key];
-    });
-    document.querySelectorAll('[data-lang-opt]').forEach((el) => {
-      el.style.color = el.getAttribute('data-lang-opt') === this.state.lang ? '#0A0A0B' : '#B9B7B0';
-    });
-    document.querySelectorAll('[data-i18n-href-base]').forEach((el) => {
-      const base = el.getAttribute('data-i18n-href-base');
-      const hashIdx = base.indexOf('#');
-      const path = hashIdx >= 0 ? base.slice(0, hashIdx) : base;
-      const hash = hashIdx >= 0 ? base.slice(hashIdx) : '';
-      el.setAttribute('href', path + (this.state.lang === 'en' ? '?lang=en' : '') + hash);
-    });
-    if (typeof document !== 'undefined') document.documentElement.lang = this.state.lang;
+    DCShared.applyI18n(this);
   }
 
   _t(key) {
-    const dict = this.T[this.state.lang] || this.T.es;
-    return dict[key] != null ? dict[key] : key;
+    return DCShared.t(this, key);
   }
 
   _setLang(lang) {
-    if ((lang !== 'es' && lang !== 'en') || this.state.lang === lang) return;
-    window.__latticeLang = lang;
-    this.setState({ lang });
-    window.dispatchEvent(new CustomEvent('lattice:lang', { detail: { lang } }));
+    DCShared.setLang(this, lang);
   }
 
   componentDidUpdate() {
@@ -386,10 +305,8 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     if (this._mql) this._mql.removeEventListener('change', this._onMql);
-    if (this._io) this._io.disconnect();
-    clearInterval(this._t);
-    clearTimeout(this._t2);
-    clearInterval(this._langTimer);
+    DCShared.unwireLangToggle(this);
+    DCShared.teardownReveal(this);
   }
 
   renderVals() {

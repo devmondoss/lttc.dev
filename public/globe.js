@@ -304,7 +304,7 @@
         document.fonts.ready.then(function () { self._measureChips(); });
       }
 
-      import('https://esm.sh/cobe').then(function (mod) {
+      import('https://esm.sh/cobe@0.6.3').then(function (mod) {
         if (!self.isConnected) return;
         self._createGlobe = mod.default;
         self._initGlobe();

@@ -355,8 +355,8 @@
     _initScrub() {
       var self = this;
       Promise.all([
-        import('https://esm.sh/gsap'),
-        import('https://esm.sh/gsap/ScrollTrigger')
+        import('https://esm.sh/gsap@3.12.5'),
+        import('https://esm.sh/gsap@3.12.5/ScrollTrigger')
       ]).then(function (mods) {
         var gsap = mods[0].gsap || mods[0].default;
         var ScrollTrigger = mods[1].ScrollTrigger || mods[1].default;
