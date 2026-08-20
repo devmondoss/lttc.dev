@@ -148,7 +148,7 @@ export default function LandingPage() {
       <section style={s('position:relative;padding:clamp(96px,14vh,150px) 24px clamp(48px,7vw,96px)')}>
         <div style={s('max-width:1200px;margin:0 auto;display:flex;flex-direction:row-reverse;flex-wrap:wrap;align-items:center;gap:clamp(20px,4vw,56px)')}>
           <div style={s('flex:1 1 380px;min-width:300px;max-width:620px;margin:0 auto')}>
-            <lattice-globe speed="1" show-chips="true" style={{ display: 'block', width: '100%', height: 420 }} />
+            <lattice-globe speed="1" show-chips="true" style={{ display: 'block', width: '100%', aspectRatio: '1 / 1' }} />
           </div>
           <div style={s('flex:1 1 420px;min-width:290px')}>
             <h1 style={s("margin:0 0 22px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(40px,5.4vw,68px);line-height:1.04;letter-spacing:-0.035em")}>
@@ -188,7 +188,7 @@ export default function LandingPage() {
 
       {/* LA TESIS */}
       <section id="producto" style={s('padding:clamp(88px,12vw,150px) 24px')}>
-        <div style={s('max-width:1160px;margin:0 auto')}>
+        <div style={s('max-width:1200px;margin:0 auto')}>
           <Reveal style={s('max-width:760px;margin-bottom:clamp(40px,6vw,64px)')}>
             <h2 style={s("margin:0 0 18px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em")}>
               {t('tesis.heading')}
@@ -205,7 +205,7 @@ export default function LandingPage() {
 
       {/* TERMINAL */}
       <section id="terminal" style={s('background:#FFFFFF;border-top:1px solid rgba(10,10,11,0.06);padding:clamp(88px,12vw,150px) 24px')}>
-        <div style={s('max-width:1240px;margin:0 auto')}>
+        <div style={s('max-width:1200px;margin:0 auto')}>
           <Reveal style={s('max-width:720px;margin-bottom:clamp(40px,6vw,60px)')}>
             <h2 style={s("margin:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.1;letter-spacing:-0.03em")}>
               {t('terminal.heading')}
@@ -279,7 +279,7 @@ export default function LandingPage() {
 
       {/* SYSTEM AUDIT LOG */}
       <section id="auditoria" style={s('padding:0 24px clamp(88px,12vw,140px)')}>
-        <Reveal style={s('max-width:1160px;margin:0 auto;background:#FAFAF8;border:1px solid rgba(10,10,11,0.12);border-radius:14px;padding:clamp(20px,3vw,28px)')}>
+        <Reveal style={s('max-width:1200px;box-sizing:border-box;margin:0 auto;background:#FAFAF8;border:1px solid rgba(10,10,11,0.12);border-radius:14px;padding:clamp(20px,3vw,28px)')}>
           <p style={s("margin:0 0 14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8A8A90")}>◆ SYSTEM AUDIT LOG</p>
           <lattice-audit-log style={{ display: 'block', width: '100%', minHeight: 140 }} />
           <WaitlistForm />

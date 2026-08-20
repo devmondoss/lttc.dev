@@ -1,30 +1,51 @@
 /* Lattice — "Signal vs Noise": escena full-height scrubbeada por scroll.
    GSAP + ScrollTrigger desde CDN; fallback a scroll listener + rAF.
-   Fase A: circle packing caótico (grises + brasas sunset) con aro interrumpido por texto.
-   Fase B: el ruido sale a la izquierda, entra el círculo ordenado.
-   Fase C: distribución pareja sunset, aro grafito instrumental, tags monospace fuera del aro.
+   Escena 1: el Maker sunset y sus métricas verificadas apareciendo una por una en órbita.
+     Las categorías y los números se sortean en cada carga, así la landing no muestra
+     siempre las mismas (podés caer en NBA, cripto, política, clima, etc.).
+   Escena 2: zoom-out al ruido, circle packing gris (el único sunset es el del medio).
+   Escena 3: el ruido sale a la izquierda y entra la red Lattice: distribución pareja
+     sunset, aro grafito instrumental, tags monospace fuera del aro.
    prefers-reduced-motion → estado ORDEN final estático. */
 (function () {
   'use strict';
   if (customElements.get('signal-noise-scene')) return;
 
   var SVGNS = 'http://www.w3.org/2000/svg';
-  var SUNSET = { r: 255, g: 107, b: 0 };
-  var INK = { r: 10, g: 10, b: 11 };
-  var EMBERS = ['#FF3333', '#FF6B00', '#F5A623'];
 
   var RING_PHRASES = [
     { t: '1000x gem', ang: -38 },
     { t: "it's pointless", ang: 62 },
-    { t: 'lmao', ang: 148 },
+    { t: 'dump', ang: 148 },
     { t: 'buy my coin', ang: 232 }
   ];
 
   var OUT_WORDS = [
     { t: 'wen', x: 88, y: 12, rot: 8, s: 14 },
     { t: 'to the moon', x: 6, y: 9, rot: -6, s: 16 },
-    { t: 'jsjs', x: 92, y: 60, rot: -10, s: 13 },
-    { t: 'xd', x: 4, y: 68, rot: 12, s: 14 }
+    { t: 'nepo pick', x: 90, y: 60, rot: -10, s: 13 },
+    { t: 'trust me bro', x: 1, y: 84, rot: 12, s: 14 }
+  ];
+
+  // Escena 1: las métricas del Maker son fijas; lo que rota en cada carga son las dos
+  // categorías, para mostrar que la red no vive de una sola vertical.
+  var SCENE1_CATS = [
+    { es: 'NBA', en: 'NBA' },
+    { es: 'Cripto', en: 'Crypto' },
+    { es: 'Política', en: 'Politics' },
+    { es: 'Fútbol', en: 'Soccer' },
+    { es: 'Clima', en: 'Climate' },
+    { es: 'Economía', en: 'Economy' },
+    { es: 'IA', en: 'AI' },
+    { es: 'Comercio', en: 'Trade' },
+    { es: 'Elecciones', en: 'Elections' },
+    { es: 'F1', en: 'F1' }
+  ];
+
+  var SCENE1_STATS = [
+    { es: '95% win rate', en: '95% win rate' },
+    { es: '45% yield', en: '45% yield' },
+    { es: 'racha 10', en: '10 streak' }
   ];
 
   var BADGES = [
@@ -36,11 +57,21 @@
   ];
 
   var SCENE_T = {
-    es: { heading: 'Señal, no ruido.', sub: 'El filtro financiero expulsa a los charlatanes antes de que hablen.' },
-    en: { heading: 'Signal, not noise.', sub: 'The financial filter expels the charlatans before they even speak.' }
+    es: { heading: 'Señal, no ruido.', sub: 'Cuando equivocarse cuesta, los charlatanes se callan solos.' },
+    en: { heading: 'Signal, not noise.', sub: 'When being wrong costs money, the charlatans go quiet on their own.' }
   };
 
   function curLang() { return window.__latticeLang === 'en' ? 'en' : 'es'; }
+
+  // Fisher-Yates parcial: devuelve n elementos al azar, sin repetir.
+  function sample(arr, n) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a.slice(0, n);
+  }
 
   function clamp01(v) { return Math.max(0, Math.min(1, v)); }
   function lin(p, a, b) { return clamp01((p - a) / (b - a)); }
@@ -50,9 +81,6 @@
   }
   function easeOut(t) { return 1 - Math.pow(1 - t, 2); }
   function mix(a, b, t) { return a + (b - a) * t; }
-  function lerpColor(a, b, t) {
-    return 'rgb(' + Math.round(mix(a.r, b.r, t)) + ',' + Math.round(mix(a.g, b.g, t)) + ',' + Math.round(mix(a.b, b.b, t)) + ')';
-  }
   function svg(tag, attrs) {
     var n = document.createElementNS(SVGNS, tag);
     for (var k in attrs) n.setAttribute(k, attrs[k]);
@@ -64,18 +92,18 @@
   }
 
   // Circle packing caótico: relleno parejo del disco (r = sqrt(rand) * R), radios variados.
+  // Todo el ruido es gris: el único punto sunset de la escena 2 es el Maker del centro.
   function chaosPts(count, rMax) {
     var out = [];
     for (var i = 0; i < count; i++) {
       var a = Math.random() * Math.PI * 2;
       var r = Math.sqrt(Math.random()) * rMax;
-      var ember = Math.random() < 0.15;
       var v = 10 + Math.floor(Math.random() * 175); // negro → gris claro
       out.push({
         x: 300 + Math.cos(a) * r,
         y: 300 + Math.sin(a) * r,
         rad: 1.5 + Math.random() * 5,
-        fill: ember ? EMBERS[Math.floor(Math.random() * 3)] : 'rgb(' + v + ',' + v + ',' + v + ')',
+        fill: 'rgb(' + v + ',' + v + ',' + v + ')',
         o: Math.random()
       });
     }
@@ -161,6 +189,12 @@
             if (txt) txt.textContent = b.cfg.t[curLang()];
           });
         }
+        if (self._concepts) {
+          self._concepts.forEach(function (c) {
+            var txt = c.el.querySelector('[data-concept-txt]');
+            if (txt) txt.textContent = c.cfg[curLang()];
+          });
+        }
       };
       window.addEventListener('lattice:lang', this._applyLang);
 
@@ -180,6 +214,15 @@
         var avail = vh - 96 - (stacked ? copy.offsetHeight + 32 : 0);
         var size = Math.max(240, Math.min(500, 0.82 * vw, avail));
         wrap.style.width = size + 'px';
+        // En pantallas chicas los chips ocupan una fracción mucho mayor del círculo:
+        // se achican para no pisar la tarjeta del Maker.
+        self._narrow = size < 400;
+        if (self._concepts) {
+          self._concepts.forEach(function (c) {
+            c.el.style.fontSize = self._narrow ? '9.5px' : '11px';
+            c.el.style.padding = self._narrow ? '4px 9px' : '5px 12px';
+          });
+        }
       };
       this._onResize = function () { self._layoutScene(); };
       window.addEventListener('resize', this._onResize);
@@ -226,32 +269,16 @@
       // mini-card del experto (close-up)
       var card = svg('g', {});
       card.appendChild(svg('rect', { x: 254, y: 268, width: 92, height: 64, rx: 10, fill: '#FFFFFF', stroke: '#0A0A0B', 'stroke-width': 1.5 }));
-      card.appendChild(svg('circle', { cx: 274, cy: 290, r: 8, fill: '#0A0A0B' }));
+      card.appendChild(svg('circle', { cx: 274, cy: 290, r: 8, fill: '#FF6B00' }));
       card.appendChild(svg('rect', { x: 290, y: 284, width: 42, height: 4, rx: 2, fill: '#C9C7BF' }));
       card.appendChild(svg('rect', { x: 290, y: 294, width: 30, height: 4, rx: 2, fill: '#C9C7BF' }));
       card.appendChild(svg('rect', { x: 266, y: 310, width: 66, height: 4, rx: 2, fill: '#E4E2DA' }));
       gA.appendChild(card);
       this._card = card;
 
-      // nodo experto (vista de multitud): brasa más entre las brasas
-      this._expert = svg('circle', { cx: 300, cy: 300, r: 6, fill: '#0A0A0B', opacity: 0 });
+      // nodo Maker (vista de multitud): el único sunset en el mar de gris
+      this._expert = svg('circle', { cx: 300, cy: 300, r: 7, fill: '#FF6B00', opacity: 0 });
       gA.appendChild(this._expert);
-
-      // estallido de micro-notificaciones
-      this._burst = [];
-      for (var b = 0; b < 18; b++) {
-        var ang = Math.random() * Math.PI * 2;
-        var isHeart = b % 5 === 0;
-        var n;
-        if (isHeart) {
-          n = svg('text', { x: 0, y: 0, 'font-size': 12, fill: '#1A1A1D', 'text-anchor': 'middle', opacity: 0 });
-          n.textContent = '♥';
-        } else {
-          n = svg('circle', { cx: 0, cy: 0, r: 2.6, fill: '#1A1A1D', opacity: 0 });
-        }
-        gA.appendChild(n);
-        this._burst.push({ el: n, heart: isHeart, dx: Math.cos(ang), dy: Math.sin(ang), dist: 60 + Math.random() * 95, start: 0.03 + Math.random() * 0.07 });
-      }
 
       // jerga flotando FUERA del aro, gris muy tenue (HTML)
       var wordLayer = document.createElement('div');
@@ -268,6 +295,32 @@
         return { el: s, rot: w.rot, i: i };
       });
 
+      // ── ESCENA 1: métricas del Maker orbitando, apareciendo una por una ──
+      // Las tres métricas son siempre las mismas y ocupan siempre el mismo lugar. Sólo
+      // rotan las dos categorías, en dos slots no contiguos para que queden repartidas.
+      var conceptLayer = document.createElement('div');
+      conceptLayer.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
+      wrap.appendChild(conceptLayer);
+      var baseAng = -90;
+      var cats = sample(SCENE1_CATS, 2);
+      var picked = [cats[0], SCENE1_STATS[0], SCENE1_STATS[1], cats[1], SCENE1_STATS[2]];
+      this._concepts = picked.map(function (cfg, i) {
+        var s = document.createElement('span');
+        s.style.cssText =
+          'position:absolute;left:0;top:0;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;white-space:nowrap;' +
+          "font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.03em;opacity:0;will-change:transform,opacity;" +
+          'background:#FFF1E3;border:0.5px solid #FBDBB6;color:#3F3F44;';
+        var dot = document.createElement('span');
+        dot.style.cssText = 'width:6px;height:6px;border-radius:50%;flex:none;background:' + (i % 2 ? '#F5A623' : '#FF6B00') + ';';
+        var txt = document.createElement('span');
+        txt.setAttribute('data-concept-txt', '');
+        txt.textContent = cfg[curLang()];
+        s.appendChild(dot);
+        s.appendChild(txt);
+        conceptLayer.appendChild(s);
+        return { el: s, cfg: cfg, ang: baseAng + i * 72, start: 0.03 + i * 0.032 };
+      });
+
       // ═ FASES B+C: círculo Lattice (instrumento) ═
       var gB = svg('g', { opacity: 0 });
       svgRoot.appendChild(gB);
@@ -277,10 +330,11 @@
       gB.appendChild(svg('circle', { cx: 300, cy: 300, r: 262, fill: 'none', stroke: '#EDEBE4', 'stroke-width': 1 }));
       gB.appendChild(svg('circle', { cx: 300, cy: 300, r: 250, fill: 'none', stroke: '#3A3A42', 'stroke-width': 1.8 }));
 
-      // puntos sunset parejos (Poisson-disc)
+      // puntos sunset parejos (Poisson-disc). Radio fijo: entran escalonados por opacidad,
+      // pero todos miden lo mismo en todo momento para que la señal se lea pareja.
       this._latticeNodes = evenPts(30, 226).map(function (pt) {
         var gold = Math.random() < 0.3;
-        var c = svg('circle', { cx: pt.x, cy: pt.y, r: 3, fill: gold ? '#F5A623' : '#FF6B00', opacity: 0 });
+        var c = svg('circle', { cx: pt.x, cy: pt.y, r: 5, fill: gold ? '#F5A623' : '#FF6B00', opacity: 0 });
         gB.appendChild(c);
         return { el: c, o: pt.o };
       });
@@ -407,23 +461,25 @@
       var cardOp = 1 - lin(p, 0.14, 0.26);
       this._card.setAttribute('opacity', String(cardOp));
 
-      var expertColor = lerpColor(INK, SUNSET, seg(p, 0.16, 0.3));
       this._expert.setAttribute('opacity', String(lin(p, 0.14, 0.24)));
-      this._expert.setAttribute('fill', expertColor);
 
       for (var i = 0; i < this._crowd.length; i++) {
         var cr = this._crowd[i];
         cr.el.setAttribute('opacity', String(seg(p, 0.14 + cr.o * 0.12, 0.3 + cr.o * 0.06) * 0.92));
       }
 
-      for (var b = 0; b < this._burst.length; b++) {
-        var bu = this._burst[b];
-        var t = lin(p, bu.start, bu.start + 0.14);
-        var d = 18 + bu.dist * easeOut(t);
-        var x = 300 + bu.dx * d, y = 300 + bu.dy * d;
-        if (bu.heart) { bu.el.setAttribute('x', x); bu.el.setAttribute('y', y); }
-        else { bu.el.setAttribute('cx', x); bu.el.setAttribute('cy', y); }
-        bu.el.setAttribute('opacity', String(clamp01(4 * t * (1 - t))));
+      // conceptos de la escena 1: entran uno por uno, orbitan y el ruido se los traga
+      var cOut = 1 - lin(p, 0.21, 0.30);
+      var cRad = (this._narrow ? 27 : 20) + 14 * (zoom - 1) / 1.2;  // acompañan el zoom-out
+      var cSpin = p * 120;
+      for (var b = 0; b < this._concepts.length; b++) {
+        var cc = this._concepts[b];
+        var cIn = seg(p, cc.start, cc.start + 0.04);
+        var ca = (cc.ang + cSpin) * Math.PI / 180;
+        cc.el.style.left = (50 + Math.cos(ca) * cRad) + '%';
+        cc.el.style.top = (50 + Math.sin(ca) * cRad) + '%';
+        cc.el.style.opacity = String(cIn * cOut);
+        cc.el.style.transform = 'translate(-50%,-50%) scale(' + (0.86 + 0.14 * cIn).toFixed(3) + ')';
       }
 
       var wordOp = crowdIn * (1 - lin(p, 0.33, 0.46));
@@ -463,7 +519,6 @@
         var ln = this._latticeNodes[n];
         var np = seg(p, 0.82 + ln.o * 0.08, 0.88 + ln.o * 0.08);
         ln.el.setAttribute('opacity', String(np));
-        ln.el.setAttribute('r', String(3 * (0.3 + 0.7 * np)));
       }
 
       // tags fuera del aro: fade + leve float, nunca tocan el aro

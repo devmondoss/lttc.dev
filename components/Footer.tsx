@@ -55,7 +55,7 @@ export default function Footer() {
         padding: 'clamp(56px,8vw,88px) 24px 36px',
       }}
     >
-      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(36px,6vw,80px)', marginBottom: 'clamp(44px,6vw,64px)' }}>
           <div style={{ flex: '1 1 260px', minWidth: 240 }}>
             <Link

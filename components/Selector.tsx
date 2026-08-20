@@ -113,7 +113,7 @@ export default function Selector() {
 
   return (
     <section id="selector" style={{ padding: 'clamp(88px,12vw,150px) 24px clamp(48px,6vw,72px)' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <Reveal style={{ maxWidth: 720, margin: '0 auto clamp(40px,6vw,60px)', textAlign: 'center' }}>
           <h2
             style={{
