@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import { LangProvider } from '@/lib/i18n';
 import WidgetScripts from '@/components/WidgetScripts';
+import './tokens.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -16,7 +19,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
