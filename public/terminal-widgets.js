@@ -295,7 +295,12 @@
         this._built = true;
         this.style.cssText += 'display:block;';
         this._list = document.createElement('div');
-        this._list.style.cssText = 'display:flex;flex-direction:column;min-height:132px;justify-content:flex-end;';
+        // Alto fijo + overflow:hidden: las líneas entran/salen adentro de esta
+        // ventana, nunca empujan el contenedor. Con min-height, apilar varias
+        // líneas de golpe (p. ej. al pausarse y reanudar) hacía crecer el
+        // bloque y arrastraba todo lo que viene después en la página.
+        this._list.style.cssText =
+          'display:flex;flex-direction:column;height:140px;overflow:hidden;justify-content:flex-end;';
         this.appendChild(this._list);
         this._i = 0;
         if (REDUCED) {

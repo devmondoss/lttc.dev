@@ -61,17 +61,19 @@ export default function WaitlistForm() {
   return (
     <div
       style={{
-        borderTop: '1px solid rgba(10,10,11,0.1)',
-        marginTop: 16,
-        paddingTop: 16,
+        marginTop: 20,
+        padding: '16px 18px',
+        borderRadius: 14,
+        background: 'var(--color-accent-soft)',
+        border: '1px solid var(--color-accent-line)',
         display: 'flex',
         flexWrap: 'wrap',
         alignItems: 'center',
         gap: 12,
       }}
     >
-      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, color: '#3F3F44' }}>
-        &gt; <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>[REG]</span> {t('audit.earlyAccess')}
+      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, fontWeight: 600, color: '#0A0A0B', flex: 'none' }}>
+        <span style={{ color: 'var(--color-accent)' }}>[REG]</span> {t('audit.earlyAccess')}
       </span>
       <input
         ref={inputRef}
@@ -84,14 +86,15 @@ export default function WaitlistForm() {
         style={{
           flex: 1,
           minWidth: 180,
-          padding: '11px 16px',
-          border: '1px solid rgba(10,10,11,0.18)',
+          padding: '12px 16px',
+          border: '1px solid rgba(10,10,11,0.16)',
           borderRadius: 999,
           background: '#FFFFFF',
           fontFamily: "'JetBrains Mono',monospace",
-          fontSize: 12.5,
+          fontSize: 13,
           color: '#0A0A0B',
           outline: 'none',
+          boxShadow: '0 1px 2px rgba(10,10,11,0.04)',
         }}
       />
       <button
@@ -101,7 +104,7 @@ export default function WaitlistForm() {
         style={{
           flex: 'none',
           whiteSpace: 'nowrap',
-          padding: '11px 22px',
+          padding: '12px 24px',
           borderRadius: 999,
           fontSize: 13.5,
           fontWeight: 600,
