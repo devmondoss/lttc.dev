@@ -310,6 +310,14 @@
       this._ro.observe(this);
       this._resize();
 
+      // El globo y sus chips no necesitan seguir animando cuando el hero
+      // quedó scrolleado lejos de la vista.
+      this._visible = true;
+      this._io = new IntersectionObserver(function (entries) {
+        self._visible = entries[0].isIntersecting;
+      }, { rootMargin: '200px 0px' });
+      this._io.observe(this);
+
       if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(function () { self._measureChips(); });
       }
@@ -359,10 +367,12 @@
       var self = this;
       var step = function () {
         if (!self.isConnected || !self._globe) { self._rafOn = false; return; }
-        var base = self._reduced ? 0.0007 : 0.004;
-        self._phi += base * self._speed;
-        try { self._globe.update({ phi: self._phi }); } catch (e) { }
-        self._drawOverlay();
+        if (self._visible) {
+          var base = self._reduced ? 0.0007 : 0.004;
+          self._phi += base * self._speed;
+          try { self._globe.update({ phi: self._phi }); } catch (e) { }
+          self._drawOverlay();
+        }
         self._raf = requestAnimationFrame(step);
       };
       this._raf = requestAnimationFrame(step);
@@ -371,6 +381,7 @@
     disconnectedCallback() {
       if (this._globe) { try { this._globe.destroy(); } catch (e) { } this._globe = null; }
       if (this._ro) { this._ro.disconnect(); this._ro = null; }
+      if (this._io) { this._io.disconnect(); this._io = null; }
       if (this._onLang) window.removeEventListener('lattice:lang', this._onLang);
       cancelAnimationFrame(this._raf);
       this._rafOn = false;
@@ -436,6 +447,7 @@
     }
 
     _toggleChip(chip) {
+      if (!this._visible) return;
       var tx = chip.tx, cfg = chip.cfg;
       tx.style.opacity = '0';
       this._timers.push(setTimeout(function () {
@@ -475,7 +487,7 @@
       state.phi = this._phi;
       state.width = this._size * 2;
       state.height = this._size * 2;
-      this._drawOverlay();
+      if (this._visible) this._drawOverlay();
     }
 
     _project(p) {

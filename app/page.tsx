@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import BrandOutro from '@/components/BrandOutro';
 import Reveal from '@/components/Reveal';
 import Hoverable from '@/components/Hoverable';
 import TesisCard from '@/components/TesisCard';
@@ -288,6 +289,7 @@ export default function LandingPage() {
       </section>
 
       <Footer />
+      <BrandOutro />
     </div>
   );
 }

@@ -13,6 +13,22 @@
 
   function curLang() { return window.__latticeLang === 'en' ? 'en' : 'es'; }
 
+  /* Corre onEnter/onLeave según el elemento esté o no en pantalla, para no
+     seguir moviendo el DOM de un ticker que nadie está viendo. Devuelve el
+     observer para poder desconectarlo en disconnectedCallback. */
+  function watchVisibility(el, onEnter, onLeave) {
+    var io = new IntersectionObserver(
+      function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) onEnter(); else onLeave();
+        }
+      },
+      { rootMargin: '200px 0px' }
+    );
+    io.observe(el);
+    return io;
+  }
+
   /* ══════════ LIVE FEED ══════════ */
   // Cada evento trae su descripción en ES/EN; las filas nuevas usan el idioma
   // activo al momento de renderizarse.
@@ -64,12 +80,17 @@
 
         if (!REDUCED) {
           var self = this;
-          this._timer = setInterval(function () { self._tick(); }, 2800);
+          this._io = watchVisibility(
+            this,
+            function () { if (!self._timer) self._timer = setInterval(function () { self._tick(); }, 2800); },
+            function () { clearInterval(self._timer); self._timer = null; }
+          );
         }
       }
 
       disconnectedCallback() {
         clearInterval(this._timer);
+        if (this._io) this._io.disconnect();
         if (this._onLang) window.removeEventListener('lattice:lang', this._onLang);
         this.innerHTML = '';
         this._built = false;
@@ -193,13 +214,18 @@
 
         if (!REDUCED) {
           var self = this;
-          this._timer = setInterval(function () { self._breathe(); }, 2000);
+          this._io = watchVisibility(
+            this,
+            function () { if (!self._timer) self._timer = setInterval(function () { self._breathe(); }, 2000); },
+            function () { clearInterval(self._timer); self._timer = null; }
+          );
         }
       }
 
       disconnectedCallback() {
         clearInterval(this._timer);
         cancelAnimationFrame(this._raf);
+        if (this._io) this._io.disconnect();
         if (this._mq) this._mq.removeEventListener('change', this._onMq);
         if (this._onLang) window.removeEventListener('lattice:lang', this._onLang);
         this.innerHTML = '';
@@ -276,13 +302,24 @@
           for (var k = 0; k < LOG_LINES.length; k++) this._list.appendChild(this._line(LOG_LINES[k], true));
           return;
         }
+        // Es un log de arranque, no un ticker infinito: corre una vez la
+        // secuencia hasta "Awaiting the Genesis Block…" y se detiene ahí.
+        // Sólo arranca cuando entra en pantalla, para no picar CPU de fondo.
         var self = this;
-        this._tick();
-        this._timer = setInterval(function () { self._tick(); }, 1400);
+        this._io = watchVisibility(
+          this,
+          function () {
+            if (self._done || self._timer) return;
+            self._tick();
+            self._timer = setInterval(function () { self._tick(); }, 1400);
+          },
+          function () { clearInterval(self._timer); self._timer = null; }
+        );
       }
 
       disconnectedCallback() {
         clearInterval(this._timer);
+        if (this._io) this._io.disconnect();
         this.innerHTML = '';
         this._built = false;
       }
@@ -301,21 +338,19 @@
       }
 
       _tick() {
-        var l = LOG_LINES[this._i % LOG_LINES.length];
+        var l = LOG_LINES[this._i];
         this._i++;
+        if (this._i >= LOG_LINES.length) {
+          this._done = true;
+          clearInterval(this._timer);
+          this._timer = null;
+        }
         var row = this._line(l, false);
         this._list.appendChild(row);
         void row.offsetHeight;
         row.style.opacity = '1';
         row.style.transform = 'none';
         row.style.maxHeight = '28px';
-        var kids = this._list.children;
-        if (kids.length > 5) {
-          var first = kids[0];
-          first.style.opacity = '0';
-          first.style.maxHeight = '0';
-          setTimeout(function () { if (first.parentNode) first.parentNode.removeChild(first); }, 520);
-        }
       }
     }
     customElements.define('lattice-audit-log', AuditLog);
