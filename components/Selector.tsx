@@ -70,6 +70,7 @@ export default function Selector() {
 
   const makerRef = useRef<HTMLDivElement | null>(null);
   const takerRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   // Inversión de tema: hover/foco en desktop, IntersectionObserver en touch.
   useEffect(() => {
@@ -90,17 +91,42 @@ export default function Selector() {
     return () => io.disconnect();
   }, []);
 
-  // Ganancias en vivo del Maker.
+  // Ganancias en vivo del Maker — sólo corre mientras la sección está en
+  // pantalla, para no seguir re-renderizando de fondo en todo el resto
+  // del scroll.
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const id = setInterval(() => {
-      const inc = 1 + Math.floor(Math.random() * 5);
-      setEarnTakers((v) => v + 1);
-      setFloatAmount(inc);
-      setTimeout(() => setFloatAmount(null), 950);
-      setEarnTotal((v) => v + inc);
-    }, 2700);
-    return () => clearInterval(id);
+    const el = sectionRef.current;
+    if (!el) return;
+
+    let id: ReturnType<typeof setInterval> | undefined;
+    const start = () => {
+      if (id) return;
+      id = setInterval(() => {
+        const inc = 1 + Math.floor(Math.random() * 5);
+        setEarnTakers((v) => v + 1);
+        setFloatAmount(inc);
+        setTimeout(() => setFloatAmount(null), 950);
+        setEarnTotal((v) => v + inc);
+      }, 2700);
+    };
+    const stop = () => {
+      clearInterval(id);
+      id = undefined;
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) start();
+        else stop();
+      },
+      { rootMargin: '200px 0px' },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      stop();
+    };
   }, []);
 
   const cardBg = (light: boolean) => (light ? '#F1EFE8' : '#111113');
@@ -112,7 +138,7 @@ export default function Selector() {
   const ctaColor = (light: boolean) => '#F5F5F3';
 
   return (
-    <section id="selector" style={{ padding: 'clamp(88px,12vw,150px) 24px clamp(48px,6vw,72px)' }}>
+    <section ref={sectionRef} id="selector" style={{ padding: 'clamp(88px,12vw,150px) 24px clamp(48px,6vw,72px)' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <Reveal style={{ maxWidth: 720, margin: '0 auto clamp(40px,6vw,60px)', textAlign: 'center' }}>
           <h2
