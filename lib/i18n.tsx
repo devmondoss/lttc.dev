@@ -84,3 +84,44 @@ export function langHref(base: string, lang: Lang): string {
   const hash = hashIdx >= 0 ? base.slice(hashIdx) : '';
   return path + (lang === 'en' ? '?lang=en' : '') + hash;
 }
+
+/** Sección «Señal, no ruido» — copy de docs/LANDING - Señal, no ruido.md.
+ * Los handles (valen.macro, quant.ar) son nombres propios: no se traducen. */
+export const SENAL: PageDict = {
+  es: {
+    'senal.title.signal': 'Señal,',
+    'senal.title.noise': 'no ruido.',
+    'senal.sub': 'Cualquiera dice que lo vio venir. Acá hay que decirlo antes.',
+
+    'senal.e1.label.signal': 'Antes,',
+    'senal.e1.label.noise': 'no después.',
+    'senal.e1.body':
+      'Cada pronóstico se sella con fecha y hora antes de que se sepa el resultado, y queda bloqueado hasta que alguien lo compra. Nadie lo puede editar ni borrar, ni siquiera quien lo publicó.',
+
+    'senal.e1.sealedBy': 'Sellado por',
+    'senal.e1.row1.handle': 'valen.macro',
+    'senal.e1.row1.event': 'FED · reunión de octubre',
+    'senal.e1.row1.time': '14:32',
+    'senal.e1.row2.handle': 'quant.ar',
+    'senal.e1.row2.event': 'BTC · cierre del 30/09',
+    'senal.e1.row2.time': '14:35',
+  },
+  en: {
+    'senal.title.signal': 'Signal,',
+    'senal.title.noise': 'not noise.',
+    'senal.sub': 'Anyone can say they saw it coming. Here you have to say it first.',
+
+    'senal.e1.label.signal': 'Before,',
+    'senal.e1.label.noise': 'not after.',
+    'senal.e1.body':
+      'Every forecast is sealed with a date and time before the outcome is known, and stays locked until someone buys it. No one can edit or delete it — not even the person who made it.',
+
+    'senal.e1.sealedBy': 'Sealed by',
+    'senal.e1.row1.handle': 'valen.macro',
+    'senal.e1.row1.event': 'FED · October meeting',
+    'senal.e1.row1.time': '14:32',
+    'senal.e1.row2.handle': 'quant.ar',
+    'senal.e1.row2.event': 'BTC · Sept 30 close',
+    'senal.e1.row2.time': '14:35',
+  },
+};
