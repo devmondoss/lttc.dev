@@ -8,7 +8,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Lattice — Haz que la verdad sea rentable',
-  description: 'Accede a pronósticos de expertos auditados on-chain. Si su modelo falla, el smart contract te devuelve tu dinero automáticamente.',
+  description: 'Pronósticos sellados antes del resultado, liquidados por contrato y verificables por cualquiera.',
   icons: { icon: '/assets/isotipo.svg' },
 };
 

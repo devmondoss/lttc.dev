@@ -154,7 +154,14 @@ export default function SceneSinRuido() {
               se desmontan, para que la tarjeta se contraiga una sola vez */}
           <AnimatePresence initial={false}>
             {!contracted && (
-              <motion.div key="noise" initial={false} exit={{ opacity: 0 }}>
+              <motion.div
+                key="noise"
+                initial={false}
+                exit={{ opacity: 0 }}
+                // Sin esto el desmontaje usaba la curva por defecto: bajo
+                // movimiento reducido el ruido se desvanecía en vez de no estar.
+                transition={instant ? { duration: 0 } : { duration: 0.2, ease: easeOut }}
+              >
                 <div className={styles.counters}>
                   <Noise part="likes" gone={gone} instant={instant} className={styles.counter}>
                     <svg className={styles.counterIcon} viewBox="0 0 14 14">
