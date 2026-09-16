@@ -88,6 +88,9 @@ export default function SceneSinRuido() {
   const inView = useInView(ref, { amount: 0.6 });
   const reduced = useReducedMotion();
   const [stage, setStage] = useState<number>(STAGE.idle);
+  // Se reproduce una sola vez: pasar por la sección de nuevo (en cualquier
+  // dirección de scroll) no debe re-disparar la coreografía completa.
+  const playedRef = useRef(false);
 
   useEffect(() => {
     // Movimiento reducido: estado final directo, sin coreografía.
@@ -95,11 +98,17 @@ export default function SceneSinRuido() {
       setStage(STAGE.verdict);
       return;
     }
+    if (playedRef.current) return;
     if (!inView) {
       setStage(STAGE.idle);
       return;
     }
-    const timers = SCHEDULE.map(([at, next]) => window.setTimeout(() => setStage(next), at * 1000));
+    const timers = SCHEDULE.map(([at, next]) =>
+      window.setTimeout(() => {
+        setStage(next);
+        if (next === STAGE.verdict) playedRef.current = true;
+      }, at * 1000),
+    );
     return () => timers.forEach(window.clearTimeout);
   }, [inView, reduced]);
 
