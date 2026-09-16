@@ -106,10 +106,10 @@ export default function Selector() {
   const cardBg = (light: boolean) => (light ? '#F1EFE8' : '#111113');
   const cardBorder = (light: boolean) => (light ? 'rgba(10,10,11,0.35)' : 'rgba(245,245,243,0.18)');
   const bodyColor = (light: boolean) => (light ? '#3F3F44' : '#B4B2AA');
-  const clabelColor = (light: boolean) => (light ? '#0A0A0B' : '#F5A623');
+  const clabelColor = (light: boolean) => (light ? '#0A0A0B' : 'var(--color-accent)');
   const lockBorder = (light: boolean) => (light ? 'rgba(10,10,11,0.25)' : 'rgba(245,245,243,0.2)');
-  const ctaBg = (light: boolean) => (light ? '#0A0A0B' : '#F5A623');
-  const ctaColor = (light: boolean) => (light ? '#F5F5F3' : '#0A0A0B');
+  const ctaBg = (light: boolean) => (light ? '#0A0A0B' : 'var(--color-accent)');
+  const ctaColor = (light: boolean) => '#F5F5F3';
 
   return (
     <section id="selector" style={{ padding: 'clamp(88px,12vw,150px) 24px clamp(48px,6vw,72px)' }}>
@@ -200,7 +200,7 @@ export default function Selector() {
                       width: 24,
                       height: 24,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg,#FF6B00,#F5A623)',
+                      background: 'var(--color-accent)',
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -238,7 +238,7 @@ export default function Selector() {
                         fontFamily: "'JetBrains Mono',monospace",
                         fontWeight: 600,
                         fontSize: 13,
-                        color: '#FF6B00',
+                        color: 'var(--color-accent)',
                         pointerEvents: 'none',
                       }}
                     >
@@ -335,7 +335,7 @@ export default function Selector() {
                       width: 24,
                       height: 24,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg,#FF6B00,#F5A623)',
+                      background: 'var(--color-accent)',
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -379,8 +379,8 @@ export default function Selector() {
                       borderRadius: 999,
                       fontSize: 13,
                       fontWeight: 600,
-                      background: !makerLight ? '#0A0A0B' : '#F5A623',
-                      color: !makerLight ? '#F5F5F3' : '#0A0A0B',
+                      background: !makerLight ? '#0A0A0B' : 'var(--color-accent)',
+                      color: '#F5F5F3',
                       transition: 'background-color 0.5s ease, color 0.5s ease',
                     }}
                   >
@@ -388,7 +388,7 @@ export default function Selector() {
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: 16, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: '0.1em' }}>
-                  <span style={{ color: '#F5A623' }}>🔥 +31%</span>
+                  <span style={{ color: 'var(--color-accent)' }}>🔥 +31%</span>
                   <span style={{ color: '#8A8A90' }}>{t('taker.guaranteeActive')}</span>
                 </div>
               </div>
@@ -401,8 +401,8 @@ export default function Selector() {
                   borderRadius: 999,
                   fontSize: 14.5,
                   fontWeight: 600,
-                  background: !makerLight ? '#0A0A0B' : '#F5A623',
-                  color: !makerLight ? '#F5F5F3' : '#0A0A0B',
+                  background: !makerLight ? '#0A0A0B' : 'var(--color-accent)',
+                  color: '#F5F5F3',
                   transition: 'background-color 0.5s ease, color 0.5s ease',
                   textDecoration: 'none',
                 }}

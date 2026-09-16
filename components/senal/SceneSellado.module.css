@@ -1,0 +1,189 @@
+/* Escena 1 · «Antes, no después.» — sólo tokens de app/tokens.css. */
+
+.block {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-3);
+}
+
+.labelSignal {
+  color: var(--color-accent);
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+
+/* Contenedor de escena */
+.scene {
+  background: var(--color-surface);
+  border-radius: var(--radius-container);
+  min-width: 0;
+  padding: 32px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  /* alto reservado: la fila 2 y las capas fantasma ya ocupan su lugar,
+     así que la caja no cambia de tamaño durante la animación */
+}
+
+/* Fila */
+.row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 14px 16px;
+  transform-origin: 50% 0%;
+  will-change: transform, opacity;
+}
+
+.avatar {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+}
+
+/* El degradado dice quién publica: valen.macro y quant.ar no comparten el suyo */
+.avatarValen {
+  background: var(--avatar-valen);
+}
+
+.avatarQuant {
+  background: var(--avatar-quant);
+}
+
+.ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-accent);
+  opacity: 0;
+}
+
+.text {
+  min-width: 0;
+}
+
+.meta {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event {
+  margin-top: 2px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.seal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-ink-3);
+}
+
+/* Candado construido en CSS: cuerpo + arco */
+.lock {
+  position: relative;
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.lock::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border: 1.5px solid currentColor;
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.time {
+  display: flex;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-2);
+}
+
+.digit {
+  display: inline-block;
+}
+
+/* Capas fantasma: el registro sigue creciendo */
+.ghosts {
+  display: grid;
+  gap: 6px;
+  padding: 0 10px;
+}
+
+.ghost {
+  height: 10px;
+  border-radius: var(--radius-card);
+  background: var(--color-card);
+  box-shadow: var(--shadow-card);
+  transform-origin: 50% 0%;
+}
+
+.ghost:last-child {
+  height: 8px;
+  margin: 0 12px;
+}
+
+@media (max-width: 520px) {
+  .scene {
+    padding: 20px;
+  }
+  .row {
+    grid-template-columns: 32px 1fr auto;
+    gap: 10px;
+    padding: 12px;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .event,
+  .meta {
+    font-size: var(--text-sm);
+  }
+}

@@ -84,3 +84,100 @@ export function langHref(base: string, lang: Lang): string {
   const hash = hashIdx >= 0 ? base.slice(hashIdx) : '';
   return path + (lang === 'en' ? '?lang=en' : '') + hash;
 }
+
+/** Sección «Señal, no ruido» — copy de docs/LANDING - Señal, no ruido.md.
+ * Los handles (valen.macro, quant.ar) son nombres propios: no se traducen.
+ * El párrafo de la escena 2 usa la versión segura: no afirma el reembolso al
+ * comprador hasta que el mecanismo esté confirmado en backend-spec.md. */
+export const SENAL: PageDict = {
+  es: {
+    'senal.title.signal': 'Señal,',
+    'senal.title.noise': 'no ruido.',
+    'senal.sub': 'Cualquiera dice que lo vio venir. Acá hay que decirlo antes.',
+
+    'senal.e1.label.signal': 'Antes,',
+    'senal.e1.label.noise': 'no después.',
+    'senal.e1.body':
+      'Cada pronóstico se sella con fecha y hora antes de que se sepa el resultado, y queda bloqueado hasta que alguien lo compra. Nadie lo puede editar ni borrar, ni siquiera quien lo publicó.',
+
+    'senal.e1.sealedBy': 'Sellado por',
+    'senal.e1.row1.handle': 'valen.macro',
+    'senal.e1.row1.event': 'FED · reunión de octubre',
+    'senal.e1.row1.time': '14:32',
+    'senal.e1.row2.handle': 'quant.ar',
+    'senal.e1.row2.event': 'BTC · cierre del 30/09',
+    'senal.e1.row2.time': '14:35',
+
+    'senal.e2.label.signal': 'Contrato,',
+    'senal.e2.label.noise': 'no promesa.',
+    'senal.e2.body':
+      'Cuando el evento termina, el resultado sale de una fuente oficial y el contrato liquida en el acto. Nadie decide quién ganó, nadie puede frenarlo, y todo queda asentado en el historial de quien lo publicó.',
+    'senal.e2.waiting': 'Esperando el resultado',
+    'senal.e2.settled': 'Liquidado sin intervención',
+    'senal.e2.source': 'fuente: FOMC · 14:00 ET',
+
+    'senal.e3.label.signal': 'Pruebas,',
+    'senal.e3.label.noise': 'no likes.',
+    'senal.e3.body':
+      'Sin likes, sin contador de seguidores, sin un algoritmo que premie al que grita más fuerte. Solo pronósticos con fecha y resultado, donde tu análisis no compite con memes: se mide contra lo que pasó.',
+    'senal.e3.handle': 'valen.macro',
+    'senal.e3.followersCount': '12,4 mil',
+    'senal.e3.followersWord': 'seguidores',
+    'senal.e3.follow': 'Seguir',
+    'senal.e3.reco': 'Recomendado para vos',
+    'senal.e3.forecast': 'La FED recorta tasas en octubre.',
+    'senal.e3.likes': '2.341',
+    'senal.e3.replies': '187',
+    'senal.e3.reposts': '94',
+    'senal.e3.c1': 'wen',
+    'senal.e3.c2': 'trust me bro',
+    'senal.e3.c3': 'to the moon',
+    'senal.e3.sealed': 'sellado 02/10',
+    'senal.e3.hit': 'acertó',
+  },
+  en: {
+    'senal.title.signal': 'Signal,',
+    'senal.title.noise': 'not noise.',
+    'senal.sub': 'Anyone can say they saw it coming. Here you have to say it first.',
+
+    'senal.e1.label.signal': 'Before,',
+    'senal.e1.label.noise': 'not after.',
+    'senal.e1.body':
+      'Every forecast is sealed with a date and time before the outcome is known, and stays locked until someone buys it. No one can edit or delete it — not even the person who made it.',
+
+    'senal.e1.sealedBy': 'Sealed by',
+    'senal.e1.row1.handle': 'valen.macro',
+    'senal.e1.row1.event': 'FED · October meeting',
+    'senal.e1.row1.time': '14:32',
+    'senal.e1.row2.handle': 'quant.ar',
+    'senal.e1.row2.event': 'BTC · Sept 30 close',
+    'senal.e1.row2.time': '14:35',
+
+    'senal.e2.label.signal': 'Contract,',
+    'senal.e2.label.noise': 'not promise.',
+    'senal.e2.body':
+      'When the event ends, the result comes from an official source and the contract settles on the spot. No one decides who won, no one can stop it, and everything is recorded in the history of whoever published it.',
+    'senal.e2.waiting': 'Waiting for the result',
+    'senal.e2.settled': 'Settled with no intervention',
+    'senal.e2.source': 'source: FOMC · 14:00 ET',
+
+    'senal.e3.label.signal': 'Proof,',
+    'senal.e3.label.noise': 'not likes.',
+    'senal.e3.body':
+      "No likes, no follower count, no algorithm rewarding whoever shouts loudest. Just forecasts with a date and a result — where your analysis doesn't compete with memes. It's measured against what happened.",
+    'senal.e3.handle': 'valen.macro',
+    'senal.e3.followersCount': '12.4k',
+    'senal.e3.followersWord': 'followers',
+    'senal.e3.follow': 'Follow',
+    'senal.e3.reco': 'Recommended for you',
+    'senal.e3.forecast': 'The FED cuts rates in October.',
+    'senal.e3.likes': '2,341',
+    'senal.e3.replies': '187',
+    'senal.e3.reposts': '94',
+    'senal.e3.c1': 'wen',
+    'senal.e3.c2': 'trust me bro',
+    'senal.e3.c3': 'to the moon',
+    'senal.e3.sealed': 'sealed 02/10',
+    'senal.e3.hit': 'called it',
+  },
+};

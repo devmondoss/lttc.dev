@@ -1,0 +1,167 @@
+/* Escena 2 · «Contrato, no promesa.» — sólo tokens de app/tokens.css.
+   Sin verde en ningún estado: el neutro pasa directo a sunset. */
+
+.block {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-3);
+}
+
+.labelSignal {
+  color: var(--color-accent);
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+
+/* Contenedor de escena */
+.scene {
+  background: var(--color-surface);
+  border-radius: var(--radius-container);
+  min-width: 0;
+  padding: 32px;
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+}
+
+/* Píldora de estado: alto fijo de 44px */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  box-shadow: var(--shadow-card);
+  color: var(--color-ink-2);
+  transition:
+    background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.pillSettled {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+/* Ícono de 20px: spinner, disco, check y onda comparten la misma caja */
+.icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.spinnerTrack {
+  fill: none;
+  stroke: var(--color-hairline);
+  stroke-width: 2;
+}
+
+.spinnerArc {
+  fill: none;
+  stroke: var(--color-ink-3);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.disc {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+}
+
+.check {
+  fill: none;
+  stroke: var(--color-card);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Onda: una sola, de 12 a 42px */
+.wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-accent);
+  pointer-events: none;
+}
+
+/* El texto se recorta para que el viejo salga y el nuevo entre */
+.textWrap {
+  position: relative;
+  overflow: hidden;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Fantasma en el flujo: fija el ancho que la prop layout después anima */
+.textGhost {
+  visibility: hidden;
+}
+
+.textLive {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.source {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-3);
+  padding-left: 18px;
+}
+
+@media (max-width: 520px) {
+  .scene {
+    padding: 20px;
+  }
+  .pill {
+    padding: 0 14px;
+  }
+  .textWrap {
+    font-size: var(--text-xs);
+  }
+}

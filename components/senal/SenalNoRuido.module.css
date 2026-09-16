@@ -1,0 +1,67 @@
+/* Sección «Señal, no ruido» — layout de dos columnas del spec.
+   Escritorio: izquierda fija con título y subtítulo, derecha con las escenas.
+   Móvil: apilado, título sin fijar. */
+
+.section {
+  padding: clamp(88px, 12vw, 150px) 24px;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 64px);
+}
+
+.asideInner {
+  max-width: 420px;
+}
+
+.title {
+  margin: 0 0 18px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-display);
+  line-height: 1.05;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-3);
+}
+
+.titleSignal {
+  color: var(--color-ink);
+}
+
+.sub {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+
+.scenes {
+  display: grid;
+  gap: clamp(48px, 7vw, 88px);
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: clamp(48px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .aside {
+    position: sticky;
+    top: clamp(88px, 14vh, 160px);
+  }
+}
+
+/* El título fijo sólo tiene sentido si el usuario ve el movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .aside {
+    position: static;
+  }
+}

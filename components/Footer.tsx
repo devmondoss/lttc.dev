@@ -40,7 +40,7 @@ const FOOTER_T = {
 };
 
 const linkStyle = { fontSize: 13.5, color: '#3F3F44' };
-const linkHover = { color: '#FF6B00' };
+const linkHover = { color: 'var(--color-accent)' };
 
 export default function Footer() {
   const { lang } = useLang();

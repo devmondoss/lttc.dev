@@ -1,13 +1,15 @@
 /* Lattice — widgets vivos de la sección "La ventaja, en números."
    <lattice-live-feed> — feed en vivo (filas entran por arriba, loop).
    <lattice-termometro> — barras de rentabilidad que respiran + PROM/TOPE vivos.
-   Sin verde: oro #F5A623 (live/yield/tope) · naranja #FF6B00 (calor/liquidez) ·
-   carmesí #FF3333 (mínimo/reembolso). Respeta prefers-reduced-motion. */
+   Un solo acento: var(--color-accent). El estado no se comunica por color de
+   semáforo — lo cargan el texto, la jerarquía y la posición. Respeta
+   prefers-reduced-motion. */
 (function () {
   'use strict';
 
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var VAL_COLOR = { gold: '#F5A623', orange: '#FF6B00', crimson: '#FF3333' };
+  var ACCENT = 'var(--color-accent)';
+  var VAL_COLOR = { gold: ACCENT, orange: ACCENT, crimson: ACCENT };
 
   function curLang() { return window.__latticeLang === 'en' ? 'en' : 'es'; }
 
@@ -39,8 +41,8 @@
         var head = document.createElement('div');
         head.style.cssText = 'display:flex;justify-content:flex-end;align-items:center;padding-bottom:10px;';
         head.innerHTML =
-          '<span style="display:inline-flex;align-items:center;gap:7px;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:0.16em;color:#F5A623">' +
-          '<span data-pulse style="width:6px;height:6px;border-radius:50%;background:#F5A623"></span><span data-live-label></span></span>';
+          '<span style="display:inline-flex;align-items:center;gap:7px;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:0.16em;color:var(--color-accent)">' +
+          '<span data-pulse style="width:6px;height:6px;border-radius:50%;background:var(--color-accent)"></span><span data-live-label></span></span>';
         this.appendChild(head);
         var liveLabel = head.querySelector('[data-live-label]');
         var self0 = this;
@@ -126,7 +128,7 @@
   /* ══════════ TERMÓMETRO ══════════ */
   if (!customElements.get('lattice-termometro')) {
     var N = 18;
-    var IDX_CRIMSON = 4;   // el mínimo
+    var IDX_MIN = 4;   // el mínimo
     var IDX_MAKER = 11;    // la más alta (naranja)
     var GRAYS = [15, 16, 17]; // sin dato
 
@@ -152,9 +154,11 @@
         this._bars = [];
         for (var i = 0; i < N; i++) {
           var b = document.createElement('div');
-          var bg = 'linear-gradient(180deg,#F7CE6B,#E09A2E)', glow = '';
-          if (i === IDX_CRIMSON) bg = 'linear-gradient(180deg,#EF6152,#D93A2B)';
-          else if (i === IDX_MAKER) { bg = 'linear-gradient(180deg,#FF7A18,#EF5C09)'; glow = 'box-shadow:0 6px 22px rgba(255,107,0,0.38);'; }
+          // Un solo acento: la barra del maker es lo que hay que mirar. El resto
+          // queda en línea suave; al mínimo lo identifican su posición y su
+          // etiqueta, no un color de alarma.
+          var bg = 'var(--color-accent-line)', glow = '';
+          if (i === IDX_MAKER) { bg = 'var(--color-accent)'; glow = 'box-shadow:var(--shadow-card);'; }
           else if (GRAYS.indexOf(i) >= 0) bg = '#E4E0D6';
           b.style.cssText =
             'flex:1;max-width:34px;border-radius:5px;background:' + bg + ';' + glow + 'height:' + this._h(i) + '%;' +
@@ -166,10 +170,10 @@
         var met = document.createElement('div');
         met.style.cssText = 'display:flex;justify-content:space-between;gap:10px;margin-top:auto;';
         met.innerHTML =
-          this._metric('+2%', 'min', '#FF3333', '') +
+          this._metric('+2%', 'min', 'var(--color-ink-3)', '') +
           this._metric('+4.9%', 'avg', '#3A3A38', 'prom') +
-          this._metric('+15%', 'maker', '#FF6B00', '') +
-          this._metric('+15.0%', 'top', '#F5A623', 'tope');
+          this._metric('+15%', 'maker', 'var(--color-accent)', '') +
+          this._metric('+15.0%', 'top', 'var(--color-ink-2)', 'tope');
         this.appendChild(met);
         this._prom = met.querySelector('[data-v="prom"]');
         this._tope = met.querySelector('[data-v="tope"]');
@@ -209,7 +213,7 @@
       }
 
       _h(i) {
-        if (i === IDX_CRIMSON) return 12;
+        if (i === IDX_MIN) return 12;
         if (i === IDX_MAKER) return 96;
         if (GRAYS.indexOf(i) >= 0) return 16;
         return 26 + Math.random() * 48;
@@ -217,7 +221,7 @@
 
       _breathe() {
         for (var i = 0; i < N; i++) {
-          if (i === IDX_CRIMSON || i === IDX_MAKER || GRAYS.indexOf(i) >= 0) continue;
+          if (i === IDX_MIN || i === IDX_MAKER || GRAYS.indexOf(i) >= 0) continue;
           this._bars[i].style.height = this._h(i) + '%';
         }
         this._prom.textContent = '+' + (4.2 + Math.random() * 1.4).toFixed(1) + '%';
@@ -231,8 +235,9 @@
           this._topeVal = to;
           var maker = this._bars[IDX_MAKER];
           maker.style.height = '100%';
+          // Latido sin halo de neón: sólo opacidad, que además es barata de animar
           maker.animate(
-            [{ boxShadow: '0 0 0 rgba(255,107,0,0)' }, { boxShadow: '0 0 22px rgba(255,107,0,0.65)' }, { boxShadow: '0 0 0 rgba(255,107,0,0)' }],
+            [{ opacity: 1 }, { opacity: 0.68 }, { opacity: 1 }],
             { duration: 900, easing: 'ease-out' }
           );
           var t0 = performance.now(), self = this;
@@ -290,7 +295,7 @@
           'transition:opacity 0.5s ease, transform 0.5s ease, max-height 0.4s ease;';
         r.innerHTML =
           '<span style="color:#8A8A90">' + l.pre + '</span>' +
-          '<span style="color:#FF6B00;font-weight:600">' + l.tag + '</span>' +
+          '<span style="color:var(--color-accent);font-weight:600">' + l.tag + '</span>' +
           '<span>' + l.rest[curLang()] + '</span>';
         return r;
       }

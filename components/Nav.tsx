@@ -104,7 +104,7 @@ export default function Nav({ variant = 'solid' }: { variant?: 'landing' | 'soli
             as={Link}
             href={langHref(`${base}#producto`, lang)}
             style={{ color: '#3F3F44' }}
-            hoverStyle={{ color: '#FF6B00' }}
+            hoverStyle={{ color: 'var(--color-accent)' }}
           >
             {t('nav.research')}
           </Hoverable>
@@ -112,7 +112,7 @@ export default function Nav({ variant = 'solid' }: { variant?: 'landing' | 'soli
             as={Link}
             href={langHref(`${base}#terminal`, lang)}
             style={{ color: '#3F3F44' }}
-            hoverStyle={{ color: '#FF6B00' }}
+            hoverStyle={{ color: 'var(--color-accent)' }}
           >
             {t('nav.terminal')}
           </Hoverable>
@@ -120,7 +120,7 @@ export default function Nav({ variant = 'solid' }: { variant?: 'landing' | 'soli
             as={Link}
             href={langHref(`${base}#selector`, lang)}
             style={{ color: '#3F3F44' }}
-            hoverStyle={{ color: '#FF6B00' }}
+            hoverStyle={{ color: 'var(--color-accent)' }}
           >
             {t('nav.makers')}
           </Hoverable>
@@ -128,7 +128,7 @@ export default function Nav({ variant = 'solid' }: { variant?: 'landing' | 'soli
             as={Link}
             href={langHref(`${base}#docs`, lang)}
             style={{ color: '#3F3F44' }}
-            hoverStyle={{ color: '#FF6B00' }}
+            hoverStyle={{ color: 'var(--color-accent)' }}
           >
             {t('nav.docs')}
           </Hoverable>
@@ -156,11 +156,11 @@ export default function Nav({ variant = 'solid' }: { variant?: 'landing' | 'soli
               fontSize: 'clamp(12px,3vw,13px)',
               fontWeight: 600,
               color: '#FFFFFF',
-              background: 'linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623)',
-              boxShadow: '0 6px 18px rgba(255,80,20,0.25)',
+              background: 'var(--color-accent)',
+              boxShadow: 'var(--shadow-card)',
               transition: 'box-shadow 0.25s ease, transform 0.25s ease',
             }}
-            hoverStyle={{ boxShadow: '0 8px 26px rgba(255,80,20,0.4)', transform: 'translateY(-1px)', color: '#FFFFFF' }}
+            hoverStyle={{ transform: 'translateY(-1px)', color: '#FFFFFF' }}
           >
             <span className="nav-cta-full">{t('cta.openTerminal')}</span>
             <span className="nav-cta-short">{t('nav.terminal')}</span>

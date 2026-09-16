@@ -34,7 +34,17 @@
   };
   var CITY_KEYS = Object.keys(CITY);
 
-  var SUNSET = ['255,51,51', '255,107,0', '245,166,35'];
+  // Un solo acento, leído de app/tokens.css: el canvas necesita la tripleta
+  // numérica para rgba(), así que se convierte una vez desde la variable.
+  function accentRGB() {
+    var hex = getComputedStyle(document.documentElement)
+      .getPropertyValue('--color-accent').trim().replace('#', '');
+    if (hex.length !== 6) return '232,92,21';
+    return parseInt(hex.slice(0, 2), 16) + ',' +
+           parseInt(hex.slice(2, 4), 16) + ',' +
+           parseInt(hex.slice(4, 6), 16);
+  }
+  var SUNSET = [accentRGB()];
 
   function shuffle(arr) {
     var a = arr.slice();
@@ -405,7 +415,7 @@
           "font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.02em;" +
           'will-change:transform,opacity;' +
           (c.whale
-            ? 'background:#0A0A0B;color:#F5F5F3;border:1px solid rgba(245,166,35,0.6);box-shadow:0 6px 20px rgba(255,80,20,0.28);'
+            ? 'background:#0A0A0B;color:#F5F5F3;border:1px solid var(--color-accent-line);box-shadow:var(--shadow-card);'
             : 'background:#F1EFE8;color:#5F5E5A;border:1px solid rgba(10,10,11,0.08);box-shadow:0 3px 10px rgba(10,10,11,0.08);');
         var ic = document.createElement('span');
         ic.textContent = c.icon;
@@ -431,7 +441,7 @@
       this._timers.push(setTimeout(function () {
         chip.showingAmount = !chip.showingAmount;
         tx.textContent = chip.showingAmount ? cfg.amount : cfg.labels[curLang()];
-        tx.style.color = chip.showingAmount ? (cfg.whale ? '#F5A623' : '#1A1A1D') : '';
+        tx.style.color = chip.showingAmount ? (cfg.whale ? 'var(--color-accent)' : '#1A1A1D') : '';
         tx.style.opacity = '1';
       }, 300));
     }

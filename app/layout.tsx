@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import { LangProvider } from '@/lib/i18n';
 import WidgetScripts from '@/components/WidgetScripts';
+import './tokens.css';
 import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Lattice — Haz que la verdad sea rentable',
-  description: 'Accede a pronósticos de expertos auditados on-chain. Si su modelo falla, el smart contract te devuelve tu dinero automáticamente.',
+  description: 'Pronósticos sellados antes del resultado, liquidados por contrato y verificables por cualquiera.',
   icons: { icon: '/assets/isotipo.svg' },
 };
 
@@ -16,7 +19,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
