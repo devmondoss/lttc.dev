@@ -1,5 +1,9 @@
 html {
-  scroll-behavior: smooth;
+  /* El suavizado ahora lo maneja SmoothScroll (Lenis) en desktop; dejar
+     "smooth" acá hacía que el scroll nativo del navegador (anchors,
+     rueda) peleara contra el de Lenis. Donde Lenis no corre (reduced
+     motion, táctil), "auto" es el comportamiento nativo correcto. */
+  scroll-behavior: auto;
 }
 
 body {

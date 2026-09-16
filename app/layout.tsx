@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { LangProvider } from '@/lib/i18n';
 import WidgetScripts from '@/components/WidgetScripts';
+import SmoothScroll from '@/components/SmoothScroll';
 import './tokens.css';
 import './globals.css';
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body style={{ minHeight: '100vh', background: '#FAFAF8' }}>
+        <SmoothScroll />
         <LangProvider>{children}</LangProvider>
         <WidgetScripts />
       </body>

@@ -202,9 +202,15 @@ export default function LandingPage() {
             <p style={s('margin:0;font-size:clamp(15px,1.8vw,17px);line-height:1.7;color:#5F5E5A')}>{t('tesis.sub')}</p>
           </Reveal>
           <div style={s('display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px')}>
-            <TesisCard num="01" href="/research/democracia-del-intelecto" bg="/assets/gradient-1.png" title={t('tesis.c1.title')} desc={t('tesis.c1.desc')} read={t('tesis.c1.read')} />
-            <TesisCard num="02" href="/research/asimetria-de-informacion" bg="/assets/gradient-2.png" title={t('tesis.c2.title')} desc={t('tesis.c2.desc')} read={t('tesis.c2.read')} />
-            <TesisCard num="03" href="/research/constitucion-humanista" bg="/assets/gradient-3.png" title={t('tesis.c3.title')} desc={t('tesis.c3.desc')} read={t('tesis.c3.read')} />
+            <Reveal>
+              <TesisCard num="01" href="/research/democracia-del-intelecto" bg="/assets/gradient-1.png" title={t('tesis.c1.title')} desc={t('tesis.c1.desc')} read={t('tesis.c1.read')} />
+            </Reveal>
+            <Reveal>
+              <TesisCard num="02" href="/research/asimetria-de-informacion" bg="/assets/gradient-2.png" title={t('tesis.c2.title')} desc={t('tesis.c2.desc')} read={t('tesis.c2.read')} />
+            </Reveal>
+            <Reveal>
+              <TesisCard num="03" href="/research/constitucion-humanista" bg="/assets/gradient-3.png" title={t('tesis.c3.title')} desc={t('tesis.c3.desc')} read={t('tesis.c3.read')} />
+            </Reveal>
           </div>
         </div>
       </section>
