@@ -154,7 +154,7 @@ export default function LandingPage() {
           <div style={s('flex:1 1 420px;min-width:290px')}>
             <h1 style={s("margin:0 0 22px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(40px,5.4vw,68px);line-height:1.04;letter-spacing:-0.035em")}>
               <span>{t('hero.h1a')}</span>
-              <span style={s('background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);-webkit-background-clip:text;background-clip:text;color:transparent')}>
+              <span style={s('color:var(--color-accent)')}>
                 {t('hero.h1b')}
               </span>
               <span>{t('hero.h1c')}</span>
@@ -164,8 +164,8 @@ export default function LandingPage() {
               <Hoverable
                 as="a"
                 href="https://www.lttc.app/"
-                style={s('padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 24px rgba(255,80,20,0.28);transition:box-shadow 0.25s ease, transform 0.25s ease')}
-                hoverStyle={s('box-shadow:0 10px 32px rgba(255,80,20,0.45);transform:translateY(-2px);color:#FFFFFF')}
+                style={s('padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;color:#FFFFFF;background:var(--color-accent);box-shadow:var(--shadow-card);transition:transform 0.25s ease')}
+                hoverStyle={s('transform:translateY(-1px);color:#FFFFFF')}
               >
                 {t('cta.openTerminal')}
               </Hoverable>
@@ -215,10 +215,10 @@ export default function LandingPage() {
 
           <div style={s('display:flex;flex-wrap:wrap;gap:20px;align-items:stretch;margin-bottom:20px')}>
             <Reveal style={s('flex:1.25 1 460px;min-width:300px;min-height:330px;background:#0A0A0B;border-radius:16px;padding:clamp(16px,2.2vw,26px);display:flex;flex-wrap:wrap;gap:clamp(16px,2vw,24px);box-shadow:0 24px 60px rgba(10,10,11,0.18)')}>
-              <div style={s('flex:1 1 230px;min-width:225px;background:linear-gradient(160deg,#221510,#0F0C0A 55%,#181008);border:1px solid rgba(245,166,35,0.2);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px')}>
+              <div style={s('flex:1 1 230px;min-width:225px;background:linear-gradient(160deg,#221510,#0F0C0A 55%,#181008);border:1px solid var(--color-accent-line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px')}>
                 <div style={s('display:flex;align-items:center;justify-content:space-between;gap:10px')}>
                   <span style={s("font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#F5F5F3")}>INSIGHT #04217</span>
-                  <span style={s("flex:none;padding:3px 9px;border:1px solid rgba(245,166,35,0.55);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#F5A623")}>
+                  <span style={s("flex:none;padding:3px 9px;border:1px solid var(--color-accent-line);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--color-accent)")}>
                     {t('insight.closesIn')}
                   </span>
                 </div>
@@ -228,11 +228,11 @@ export default function LandingPage() {
                   <p style={s("margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#B4B2AA")}>{t('insight.blurMeta')}</p>
                 </div>
                 <div style={s('display:flex;align-items:center;gap:8px;flex-wrap:wrap')}>
-                  <span style={s("width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#F5A623);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B")}>
+                  <span style={s("width:26px;height:26px;border-radius:50%;background:var(--color-accent);display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:#0A0A0B")}>
                     C
                   </span>
                   <span style={s("font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:#F5F5F3")}>@cold_stat17</span>
-                  <span style={s("padding:2px 8px;border:1px solid rgba(245,166,35,0.5);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#F5A623")}>
+                  <span style={s("padding:2px 8px;border:1px solid var(--color-accent-line);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--color-accent)")}>
                     {t('insight.streak')}
                   </span>
                   <span style={s("font-family:'JetBrains Mono',monospace;font-size:10px;color:#B4B2AA")}>{t('insight.hitRate')}</span>
@@ -240,8 +240,8 @@ export default function LandingPage() {
                 <Hoverable
                   as="a"
                   href="#selector"
-                  style={s('margin-top:auto;text-align:center;padding:12px 16px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623);box-shadow:0 8px 22px rgba(255,80,20,0.35);transition:box-shadow 0.25s ease')}
-                  hoverStyle={s('box-shadow:0 10px 30px rgba(255,80,20,0.55);color:#FFFFFF')}
+                  style={s('margin-top:auto;text-align:center;padding:12px 16px;border-radius:999px;font-size:14px;font-weight:600;color:#FFFFFF;background:var(--color-accent);box-shadow:var(--shadow-card);transition:transform 0.25s ease')}
+                  hoverStyle={s('transform:translateY(-1px);color:#FFFFFF')}
                 >
                   {t('insight.unlock')}
                 </Hoverable>

@@ -71,7 +71,7 @@ export default function WaitlistForm() {
       }}
     >
       <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, color: '#3F3F44' }}>
-        &gt; <span style={{ color: '#FF6B00', fontWeight: 600 }}>[REG]</span> {t('audit.earlyAccess')}
+        &gt; <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>[REG]</span> {t('audit.earlyAccess')}
       </span>
       <input
         ref={inputRef}
@@ -106,8 +106,8 @@ export default function WaitlistForm() {
           fontSize: 13.5,
           fontWeight: 600,
           color: '#FFFFFF',
-          background: 'linear-gradient(92deg,#FF3333,#FF6B00 55%,#F5A623)',
-          boxShadow: '0 6px 18px rgba(255,80,20,0.25)',
+          background: 'var(--color-accent)',
+          boxShadow: 'var(--shadow-card)',
           border: 'none',
           cursor: busy ? 'default' : 'pointer',
           fontFamily: 'inherit',
