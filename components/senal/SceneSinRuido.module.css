@@ -66,7 +66,8 @@
   height: 36px;
   flex: none;
   border-radius: var(--radius-pill);
-  background: var(--color-surface);
+  /* El mismo maker de la escena 1: misma identidad, mismo degradado */
+  background: var(--avatar-valen);
   border: 1px solid var(--color-hairline);
 }
 

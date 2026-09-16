@@ -56,6 +56,8 @@ function SealTime({ value, sealed, instant }: { value: string; sealed: boolean; 
 }
 
 type RowProps = {
+  /** Identidad visual del maker: su degradado no se repite entre personas. */
+  avatar: 'valen' | 'quant';
   handle: string;
   event: string;
   time: string;
@@ -67,7 +69,7 @@ type RowProps = {
   instant: boolean;
 };
 
-function Row({ handle, event, time, sealedBy, position, sealed, pulsing, instant }: RowProps) {
+function Row({ avatar, handle, event, time, sealedBy, position, sealed, pulsing, instant }: RowProps) {
   const target =
     position === 'hidden'
       ? { opacity: 0, scale: 0.96, y: 28 }
@@ -88,7 +90,9 @@ function Row({ handle, event, time, sealedBy, position, sealed, pulsing, instant
             : springSoft
       }
     >
-      <div className={styles.avatar}>
+      <div
+        className={`${styles.avatar} ${avatar === 'valen' ? styles.avatarValen : styles.avatarQuant}`}
+      >
         <motion.span
           className={styles.ring}
           initial={false}
@@ -147,6 +151,7 @@ export default function SceneSellado() {
           cronometrar, porque el panel de preview throttlea el render. */}
       <div ref={ref} className={styles.scene} data-stage={stage} aria-hidden="true">
         <Row
+          avatar="valen"
           sealedBy={t('senal.e1.sealedBy')}
           handle={t('senal.e1.row1.handle')}
           event={t('senal.e1.row1.event')}
@@ -158,6 +163,7 @@ export default function SceneSellado() {
         />
 
         <Row
+          avatar="quant"
           sealedBy={t('senal.e1.sealedBy')}
           handle={t('senal.e1.row2.handle')}
           event={t('senal.e1.row2.event')}

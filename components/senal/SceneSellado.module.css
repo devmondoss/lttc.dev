@@ -65,6 +65,15 @@
   border: 1px solid var(--color-hairline);
 }
 
+/* El degradado dice quién publica: valen.macro y quant.ar no comparten el suyo */
+.avatarValen {
+  background: var(--avatar-valen);
+}
+
+.avatarQuant {
+  background: var(--avatar-quant);
+}
+
 .ring {
   position: absolute;
   inset: -3px;
