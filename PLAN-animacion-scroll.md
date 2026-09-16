@@ -1,21 +1,25 @@
 # Animación de scroll "Señal, no ruido" — rediseño
 
-> Estado: **IMPLEMENTADO**. Este doc registra qué se cambió, dónde y por qué.
-> Portado desde el repo anterior (sitio estático dc-runtime) a este repo Next.js.
-> Última actualización: 2026-08-20.
+> Estado: **SUPERADO**. Las secciones 1-7 de abajo documentan el sistema viejo
+> (`public/scene.js`, `<signal-noise-scene>`), que fue **reemplazado por completo**
+> el 2026-09-16 al mergear `feat/landing-senal-v3`: se borró `public/scene.js` y la
+> animación ahora vive como componentes React en `components/senal/` (ver sección 9).
+> Se dejan las secciones viejas como referencia histórica de las decisiones de diseño,
+> pero **ningún archivo que mencionan sigue existiendo**.
+> Última actualización: 2026-09-16.
 
 ---
 
-## 0. Dónde vive
+## 0. Dónde vivía (sistema viejo, ya no existe)
 
 | Cosa | Ubicación |
 |---|---|
-| Lógica de la animación | `public/scene.js` (custom element `<signal-noise-scene>`) |
-| Montaje en la página | `app/page.tsx` → `<signal-noise-scene />`, script cargado por `components/WidgetScripts.tsx` |
-| Altura del scroll-scrub | `public/scene.js` → `height = '360vh'` |
-| Driver del scroll | GSAP ScrollTrigger `@3.12.5` (`scrub: 0.4`), con fallback a `scroll` + `rAF` |
+| Lógica de la animación | ~~`public/scene.js`~~ (custom element `<signal-noise-scene>`) — **borrado** |
+| Montaje en la página | ~~`app/page.tsx` → `<signal-noise-scene />`~~ |
+| Altura del scroll-scrub | ~~`public/scene.js` → `height = '360vh'`~~ |
+| Driver del scroll | ~~GSAP ScrollTrigger `@3.12.5`~~ |
 
-La animación es un **scrub por scroll**: un progreso `p` de 0 → 1 que redibuja todo en
+La animación era un **scrub por scroll**: un progreso `p` de 0 → 1 que redibujaba todo en
 `_apply(p)`. Tres escenas encadenadas:
 
 - **Escena 1 (p 0 → 0.21)** — el Maker sunset y sus métricas verificadas.
@@ -165,3 +169,93 @@ contenedores unificados a **1200px**, que es el ancho del nav (el ancla visual d
 página). El card de auditoría lleva `box-sizing: border-box` para que su borde exterior
 caiga en el mismo eje. Verificado: todas las secciones alinean a 360-1560 en 1920px, y a
 32-343 en 375px, sin overflow horizontal.
+
+---
+
+## 9. Sesión 2026-09-16 — rework "Señal, no ruido" + performance + scroll
+
+### 9.1 La animación vieja fue reemplazada
+
+`public/scene.js` (sección 0-8 de arriba) se borró. La sección "Señal, no ruido" ahora
+es React puro:
+
+| Cosa | Ubicación |
+|---|---|
+| Wrapper de la sección | `components/senal/SenalNoRuido.tsx` + `.module.css` |
+| Escena 1 — "Antes, no después" (sellado) | `components/senal/SceneSellado.tsx` |
+| Escena 2 — "Contrato, no promesa" (liquidado) | `components/senal/SceneLiquidado.tsx` |
+| Escena 3 — "Pruebas, no likes" (sin ruido) | `components/senal/SceneSinRuido.tsx` |
+| Motor de animación | `motion/react` (Framer Motion) + `lib/motion.ts` (beats/easings compartidos) |
+
+Cada escena usa `useInView` (umbral 60%) y una tabla `SCHEDULE` de `[segundo, stage]`
+para coreografiar su secuencia con `setTimeout`. **Juegan una sola vez**: un
+`playedRef` evita que la coreografía completa se repita cada vez que se vuelve a
+scrollear la sección (antes se reiniciaba en cada entrada/salida del viewport, en
+cualquier dirección — costaba rendimiento y se sentía repetitivo).
+
+El título de la izquierda (`SenalNoRuido.module.css` `.aside`) **ya no usa
+`position: sticky`** — combinado con `align-items: center` producía un salto/glitch de
+scroll inconsistente entre navegadores (confirmado en WebKit real). Ahora es estático,
+centrado verticalmente en su columna vía `align-items: center` en `.inner`.
+
+### 9.2 Bug real: timers de fondo sin pausar (la causa del lag)
+
+Varios widgets corrían `setInterval` **para siempre**, sin importar si estaban en
+pantalla, moviendo DOM/estado de React en segundo plano durante todo el scroll:
+
+| Widget | Archivo | Intervalo | Fix |
+|---|---|---|---|
+| System Audit Log | `public/terminal-widgets.js` | 1400ms | Pausa/reanuda con `IntersectionObserver` (helper `watchVisibility`) |
+| Live Feed | `public/terminal-widgets.js` | 2800ms | Idem |
+| Termómetro | `public/terminal-widgets.js` | 2000ms | Idem |
+| Globo (rotación + chips) | `public/globe.js` | rAF continuo + 2000ms/chip | Flag `_visible` vía `IntersectionObserver`; se salta `_drawOverlay`/`update` y el toggle de chips cuando no es visible |
+| Selector — contador de ganancias del Maker | `components/Selector.tsx` | 2700ms | Mismo patrón: `IntersectionObserver` sobre la `<section>`, `start()`/`stop()` del interval |
+
+El audit log además tenía un bug de **layout shift real**: su lista usaba
+`min-height` sin `overflow`, así que al apilar varias líneas de golpe la caja crecía y
+empujaba todo lo que venía después en la página (formulario, footer). Fix: altura fija
+(`140px`) + `overflow: hidden`.
+
+Verificado con tests automatizados (no solo visual):
+- Conteo de nodos DOM estable (343, sin cambio) durante 60s con los widgets activos.
+- Heap de JS con el patrón normal de sube-y-baja de GC, sin fuga.
+- Conteo de `setInterval` activos **constante** (10) a lo largo de 15 ciclos de
+  scroll-adentro/scroll-afuera, mientras el total creado-y-limpiado sube — confirma que
+  cada pausa cancela de verdad el timer, no se acumulan.
+- Trace de CPU real (Chrome DevTools Protocol) antes/después: ~40% menos tiempo de hilo
+  principal en el mismo recorrido de scroll completo.
+- Barrido completo del repo (`grep` de `setInterval`/`setTimeout`/`requestAnimationFrame`/
+  `addEventListener` en `app/`, `components/`, `public/*.js`) confirmando que no quedan
+  más timers sin pausar fuera de lo ya listado.
+
+### 9.3 Scroll con velocidad tope (Lenis)
+
+`components/SmoothScroll.tsx` inicializa [Lenis](https://github.com/darkroomengineering/lenis)
+en el layout raíz: por más fuerte/rápido que se scrollee, el movimiento queda acotado y
+eased (`duration: 1.1`, ease-out cúbico) en vez de saltar directo al destino. Se
+desactiva completo bajo `prefers-reduced-motion` y en `pointer: coarse` (táctil), donde
+el scroll nativo con momentum es el comportamiento correcto.
+
+`wheelMultiplier` quedó en `1` (no `0.75`): bajarlo reduce cuánto avanza cada gesto de
+scroll, lo que se siente como que "cuesta más" scrollear en vez de sentirse "más lento".
+Lo que se frena es solo la transición (duration/easing), no la distancia por gesto.
+
+`app/globals.css` — `scroll-behavior` pasó de `smooth` a `auto` en el selector `html`
+base: el smooth nativo del navegador peleaba contra el de Lenis (por ejemplo en
+navegación por anchors).
+
+### 9.4 Otros fixes de UI
+
+- **Hero** (`app/page.tsx`): pasó a `min-height: calc(100svh - 68px)` con contenido
+  centrado — antes su alto dependía solo del contenido, así que en pantallas anchas y
+  bajas se asomaba la siguiente sección antes de scrollear.
+- **"Tres problemas no feed puede resolver"**: las 3 `TesisCard` no tenían animación de
+  entrada (única sección grande sin `Reveal`). Ya quedan envueltas en `<Reveal>`.
+- **Formulario de "Early access"** (`components/WaitlistForm.tsx`): antes se confundía
+  visualmente con el log de arriba (mismo gris monoespaciado). Ahora tiene su propia
+  tarjeta con fondo `--color-accent-soft` y borde, para leerse como CTA.
+- **Cierre de marca** (`components/BrandOutro.tsx`, nuevo): sección debajo del footer
+  con el wordmark de Lattice en degradado (blanco → dorado → naranja) sobre un panel de
+  vidrio (`backdrop-filter: blur(10px)`, más liviano que el blur original de 18px + una
+  capa decorativa `blur(40px)` que se sacó por completo — medible: ~40% menos costo de
+  hilo principal en el mismo trace de scroll tras sacarla).
