@@ -35,23 +35,11 @@ export default function BrandOutro() {
         <span
           style={{
             display: 'inline-block',
-            flex: 'none',
-            width: 'clamp(48px,9vw,108px)',
-            height: 'clamp(48px,9vw,108px)',
-            background: '#FFFFFF',
-            WebkitMask: "url('/assets/isotipo.svg') center/contain no-repeat",
-            mask: "url('/assets/isotipo.svg') center/contain no-repeat",
-          }}
-        />
-        <span
-          style={{
-            display: 'inline-block',
-            flex: 'none',
-            width: 'clamp(160px,30vw,360px)',
-            height: 'clamp(48px,9vw,108px)',
-            background: '#FFFFFF',
-            WebkitMask: "url('/assets/wordmark-text.svg') left center/contain no-repeat",
-            mask: "url('/assets/wordmark-text.svg') left center/contain no-repeat",
+            width: 'clamp(220px,40vw,480px)',
+            height: 'clamp(64px,11vw,132px)',
+            background: 'linear-gradient(120deg,#FFFFFF 0%,#FFE8CE 45%,#FFB05C 80%,#FF7A33 100%)',
+            WebkitMask: "url('/assets/wordmark-text.svg') center/contain no-repeat",
+            mask: "url('/assets/wordmark-text.svg') center/contain no-repeat",
           }}
         />
       </div>

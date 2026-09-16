@@ -50,23 +50,12 @@
   .inner {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
     gap: clamp(48px, 6vw, 96px);
-    /* «start» dejaba el título pegado arriba durante todo el scroll de las
-       3 escenas y liberaba recién al final, con un tramo largo en blanco
-       debajo del título antes de que empezara la siguiente sección —
-       se veía como si un módulo se extendiera vacío dentro de otro.
-       «center» reparte ese espacio sobrante arriba y abajo. */
+    /* Antes el título iba con position:sticky. Con «start» quedaba pegado
+       arriba durante todo el scroll de las 3 escenas y soltaba recién al
+       final, dejando un tramo largo en blanco debajo antes de la siguiente
+       sección. «center» sin sticky reparte ese espacio arriba y abajo sin
+       los saltos que sticky + alineación no-start meten en algunos
+       navegadores. */
     align-items: center;
-  }
-
-  .aside {
-    position: sticky;
-    top: clamp(88px, 14vh, 160px);
-  }
-}
-
-/* El título fijo sólo tiene sentido si el usuario ve el movimiento */
-@media (prefers-reduced-motion: reduce) {
-  .aside {
-    position: static;
   }
 }
