@@ -11,7 +11,6 @@ declare global {
         speed?: string | number;
         'show-chips'?: string;
       };
-      'signal-noise-scene': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'lattice-exhibit': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         exhibit?: string;
       };

@@ -7,7 +7,6 @@ export default function WidgetScripts() {
   return (
     <>
       <Script src="/globe.js" strategy="afterInteractive" />
-      <Script src="/scene.js" strategy="afterInteractive" />
       <Script src="/exhibits.js" strategy="afterInteractive" />
       <Script src="/terminal-widgets.js" strategy="afterInteractive" />
     </>

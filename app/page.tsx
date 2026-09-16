@@ -8,6 +8,7 @@ import Hoverable from '@/components/Hoverable';
 import TesisCard from '@/components/TesisCard';
 import Selector from '@/components/Selector';
 import WaitlistForm from '@/components/WaitlistForm';
+import SenalNoRuido from '@/components/senal/SenalNoRuido';
 import { useLang, usePageT, langHref } from '@/lib/i18n';
 import { s } from '@/lib/styleString';
 
@@ -183,7 +184,7 @@ export default function LandingPage() {
 
       {/* SEÑAL VS RUIDO */}
       <section id="manifiesto" style={s('background:#FFFFFF;border-top:1px solid rgba(10,10,11,0.06)')}>
-        <signal-noise-scene style={{ display: 'block', width: '100%', minHeight: 640 }} />
+        <SenalNoRuido />
       </section>
 
       {/* LA TESIS */}
