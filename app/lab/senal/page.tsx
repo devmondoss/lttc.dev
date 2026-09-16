@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SceneSellado from '@/components/senal/SceneSellado';
+import SceneLiquidado from '@/components/senal/SceneLiquidado';
 
 /** Laboratorio: sólo las escenas nuevas de «Señal, no ruido», para iterar sin
  * tocar la home. Fuera del índice: no es una página pública. */
@@ -29,13 +30,18 @@ export default function LabSenalPage() {
           color: 'var(--color-ink-3)',
         }}
       >
-        Lab · Señal, no ruido · escena 1
+        Lab · Señal, no ruido · escenas 1–2
       </p>
 
       {/* Espacio para que el disparo al 60% del viewport se pueda ver entrar. */}
       <div style={{ height: '40vh' }} aria-hidden="true" />
 
       <SceneSellado />
+
+      {/* Separación para que cada escena dispare por su cuenta al 60%. */}
+      <div style={{ height: '40vh' }} aria-hidden="true" />
+
+      <SceneLiquidado />
 
       <div style={{ height: '60vh' }} aria-hidden="true" />
     </main>

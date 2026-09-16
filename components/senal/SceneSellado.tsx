@@ -143,7 +143,9 @@ export default function SceneSellado() {
 
   return (
     <div className={styles.block}>
-      <div ref={ref} className={styles.scene} aria-hidden="true">
+      {/* data-stage expone la etapa para QA: el control visual la lee en vez de
+          cronometrar, porque el panel de preview throttlea el render. */}
+      <div ref={ref} className={styles.scene} data-stage={stage} aria-hidden="true">
         <Row
           sealedBy={t('senal.e1.sealedBy')}
           handle={t('senal.e1.row1.handle')}

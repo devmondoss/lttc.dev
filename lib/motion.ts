@@ -22,3 +22,12 @@ export const sceneSelladoBeats = {
   row2Seal: 2.1,
   ghost: 2.6,
 } as const;
+
+/** Tiempos de la escena 2 (segundos), tal como los define la tabla del spec. */
+export const sceneLiquidadoBeats = {
+  pillEnter: 0,
+  arcClose: 1.4,
+  settle: 1.6,
+  source: 2.1,
+  wave: 2.3,
+} as const;

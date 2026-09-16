@@ -86,7 +86,9 @@ export function langHref(base: string, lang: Lang): string {
 }
 
 /** Sección «Señal, no ruido» — copy de docs/LANDING - Señal, no ruido.md.
- * Los handles (valen.macro, quant.ar) son nombres propios: no se traducen. */
+ * Los handles (valen.macro, quant.ar) son nombres propios: no se traducen.
+ * El párrafo de la escena 2 usa la versión segura: no afirma el reembolso al
+ * comprador hasta que el mecanismo esté confirmado en backend-spec.md. */
 export const SENAL: PageDict = {
   es: {
     'senal.title.signal': 'Señal,',
@@ -105,6 +107,14 @@ export const SENAL: PageDict = {
     'senal.e1.row2.handle': 'quant.ar',
     'senal.e1.row2.event': 'BTC · cierre del 30/09',
     'senal.e1.row2.time': '14:35',
+
+    'senal.e2.label.signal': 'Contrato,',
+    'senal.e2.label.noise': 'no promesa.',
+    'senal.e2.body':
+      'Cuando el evento termina, el resultado sale de una fuente oficial y el contrato liquida en el acto. Nadie decide quién ganó, nadie puede frenarlo, y todo queda asentado en el historial de quien lo publicó.',
+    'senal.e2.waiting': 'Esperando el resultado',
+    'senal.e2.settled': 'Liquidado sin intervención',
+    'senal.e2.source': 'fuente: FOMC · 14:00 ET',
   },
   en: {
     'senal.title.signal': 'Signal,',
@@ -123,5 +133,13 @@ export const SENAL: PageDict = {
     'senal.e1.row2.handle': 'quant.ar',
     'senal.e1.row2.event': 'BTC · Sept 30 close',
     'senal.e1.row2.time': '14:35',
+
+    'senal.e2.label.signal': 'Contract,',
+    'senal.e2.label.noise': 'not promise.',
+    'senal.e2.body':
+      'When the event ends, the result comes from an official source and the contract settles on the spot. No one decides who won, no one can stop it, and everything is recorded in the history of whoever published it.',
+    'senal.e2.waiting': 'Waiting for the result',
+    'senal.e2.settled': 'Settled with no intervention',
+    'senal.e2.source': 'source: FOMC · 14:00 ET',
   },
 };
