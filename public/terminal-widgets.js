@@ -302,17 +302,14 @@
           for (var k = 0; k < LOG_LINES.length; k++) this._list.appendChild(this._line(LOG_LINES[k], true));
           return;
         }
-        // Es un log de arranque, no un ticker infinito: corre una vez la
-        // secuencia hasta "Awaiting the Genesis Block…" y se detiene ahí.
-        // Sólo arranca cuando entra en pantalla, para no picar CPU de fondo.
+        // Ticker en loop, como siempre — pero pausado mientras está fuera de
+        // pantalla, para no seguir moviendo el DOM de fondo en todo el resto
+        // del scroll.
         var self = this;
+        this._tick();
         this._io = watchVisibility(
           this,
-          function () {
-            if (self._done || self._timer) return;
-            self._tick();
-            self._timer = setInterval(function () { self._tick(); }, 1400);
-          },
+          function () { if (!self._timer) self._timer = setInterval(function () { self._tick(); }, 1400); },
           function () { clearInterval(self._timer); self._timer = null; }
         );
       }
@@ -338,19 +335,21 @@
       }
 
       _tick() {
-        var l = LOG_LINES[this._i];
+        var l = LOG_LINES[this._i % LOG_LINES.length];
         this._i++;
-        if (this._i >= LOG_LINES.length) {
-          this._done = true;
-          clearInterval(this._timer);
-          this._timer = null;
-        }
         var row = this._line(l, false);
         this._list.appendChild(row);
         void row.offsetHeight;
         row.style.opacity = '1';
         row.style.transform = 'none';
         row.style.maxHeight = '28px';
+        var kids = this._list.children;
+        if (kids.length > 5) {
+          var first = kids[0];
+          first.style.opacity = '0';
+          first.style.maxHeight = '0';
+          setTimeout(function () { if (first.parentNode) first.parentNode.removeChild(first); }, 520);
+        }
       }
     }
     customElements.define('lattice-audit-log', AuditLog);
