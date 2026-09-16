@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SceneSellado from '@/components/senal/SceneSellado';
 import SceneLiquidado from '@/components/senal/SceneLiquidado';
+import SceneSinRuido from '@/components/senal/SceneSinRuido';
 
 /** Laboratorio: sólo las escenas nuevas de «Señal, no ruido», para iterar sin
  * tocar la home. Fuera del índice: no es una página pública. */
@@ -16,6 +17,9 @@ export default function LabSenalPage() {
         minHeight: '100vh',
         padding: '80px 24px 160px',
         display: 'grid',
+        /* minmax(0, …): sin esto la columna crece hasta el max-content del
+           contenido y recorta las etiquetas en pantallas angostas */
+        gridTemplateColumns: 'minmax(0, 560px)',
         justifyContent: 'center',
         gap: 48,
       }}
@@ -30,7 +34,7 @@ export default function LabSenalPage() {
           color: 'var(--color-ink-3)',
         }}
       >
-        Lab · Señal, no ruido · escenas 1–2
+        Lab · Señal, no ruido · escenas 1–3
       </p>
 
       {/* Espacio para que el disparo al 60% del viewport se pueda ver entrar. */}
@@ -42,6 +46,10 @@ export default function LabSenalPage() {
       <div style={{ height: '40vh' }} aria-hidden="true" />
 
       <SceneLiquidado />
+
+      <div style={{ height: '40vh' }} aria-hidden="true" />
+
+      <SceneSinRuido />
 
       <div style={{ height: '60vh' }} aria-hidden="true" />
     </main>

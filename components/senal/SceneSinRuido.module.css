@@ -1,0 +1,272 @@
+/* Escena 3 · «Pruebas, no likes.» — sólo tokens de app/tokens.css.
+   El post es genérico a propósito: ninguna red tiene logo acá. */
+
+.block {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-3);
+}
+
+.labelSignal {
+  color: var(--color-accent);
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+
+/* Contenedor de escena */
+.scene {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-container);
+  min-width: 0;
+  padding: 32px;
+}
+
+/* El post */
+.card {
+  position: relative;
+  min-width: 0;
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  /* min-width:0 en la fila y en sus hijos: sin esto el ancho intrínseco del
+     ruido (que sigue montado) revienta la tarjeta en pantallas angostas */
+  min-width: 0;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+}
+
+.handle {
+  flex: none;
+  min-width: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.followers {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  color: var(--color-ink-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.follow {
+  margin-left: auto;
+  flex: none;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-hairline);
+  background: var(--color-card);
+  color: var(--color-ink-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: 6px 14px;
+}
+
+/* Ranura reservada: «Recomendado» se va, su espacio queda.
+   Así el texto del pronóstico no se mueve nunca. */
+.recoSlot {
+  position: relative;
+  height: 22px;
+  margin-top: 10px;
+}
+
+.reco {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+.forecast {
+  margin: 8px 0 0;
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+.counters {
+  display: flex;
+  gap: 18px;
+  margin-top: 14px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  color: var(--color-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.counterIcon {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: var(--color-ink-3);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.comments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.comment {
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-ink-3);
+  font-size: var(--text-xs);
+  padding: 4px 10px;
+}
+
+/* Sello y veredicto: reservan su lugar desde el inicio, así la tarjeta
+   se contrae una sola vez y después nada se mueve. */
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 16px;
+  font-size: var(--text-sm);
+}
+
+.sealed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.hit {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.hitIcon {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Candado construido en CSS, igual que en la escena 1 */
+.lock {
+  position: relative;
+  display: inline-block;
+  width: 10px;
+  height: 8px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.lock::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border: 1.5px solid currentColor;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Indicador táctil */
+.touch {
+  position: absolute;
+  top: 50%;
+  right: 22%;
+  width: 28px;
+  height: 28px;
+  margin-top: -14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  /* Hairline: sobre la tarjeta blanca, la sombra sola no se ve */
+  border: 1px solid var(--color-hairline);
+  box-shadow: var(--shadow-card);
+  pointer-events: none;
+}
+
+@media (max-width: 520px) {
+  .scene {
+    padding: 20px;
+  }
+  .card {
+    padding: 14px;
+  }
+  .head {
+    gap: 8px;
+  }
+  .handle,
+  .followers,
+  .follow {
+    font-size: var(--text-xs);
+  }
+  .followersWord {
+    display: none;
+  }
+  .follow {
+    padding: 5px 10px;
+  }
+  .counters {
+    gap: 14px;
+  }
+  .forecast {
+    font-size: var(--text-sm);
+  }
+}

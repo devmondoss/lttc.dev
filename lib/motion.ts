@@ -31,3 +31,12 @@ export const sceneLiquidadoBeats = {
   source: 2.1,
   wave: 2.3,
 } as const;
+
+/** Tiempos de la escena 3 (segundos), tal como los define la tabla del spec. */
+export const sceneSinRuidoBeats = {
+  postIn: 0,
+  press: 0.8,
+  swipe: 1,
+  contract: 2.1,
+  verdict: 2.4,
+} as const;
