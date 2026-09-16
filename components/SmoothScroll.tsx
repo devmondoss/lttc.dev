@@ -20,10 +20,14 @@ export default function SmoothScroll() {
     import('lenis').then(({ default: Lenis }) => {
       if (cancelled) return;
       lenis = new Lenis({
-        duration: 1.35,
+        duration: 1.1,
         easing: (t: number) => 1 - Math.pow(1 - t, 3),
-        wheelMultiplier: 0.75,
-        touchMultiplier: 0,
+        // 0.75 acá hacía que cada vuelta de rueda moviera menos distancia,
+        // o sea que había que scrollear MÁS para llegar al mismo lugar —
+        // eso se siente como que cuesta más, no como que va más lento.
+        // En 1, la distancia por gesto es la normal; lo que se frena es
+        // sólo la transición (duration + easing), que es lo que se pidió.
+        wheelMultiplier: 1,
       });
       const loop = (time: number) => {
         lenis?.raf(time);
