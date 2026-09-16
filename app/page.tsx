@@ -147,8 +147,12 @@ export default function LandingPage() {
       <Nav variant="landing" />
 
       {/* HERO */}
-      <section style={s('position:relative;padding:clamp(96px,14vh,150px) 24px clamp(48px,7vw,96px)')}>
-        <div style={s('max-width:1200px;margin:0 auto;display:flex;flex-direction:row-reverse;flex-wrap:wrap;align-items:center;gap:clamp(20px,4vw,56px)')}>
+      <section
+        style={s(
+          'position:relative;min-height:calc(100svh - 68px);display:flex;align-items:center;padding:clamp(96px,14vh,150px) 24px clamp(48px,7vw,96px);box-sizing:border-box',
+        )}
+      >
+        <div style={s('width:100%;max-width:1200px;margin:0 auto;display:flex;flex-direction:row-reverse;flex-wrap:wrap;align-items:center;gap:clamp(20px,4vw,56px)')}>
           <div style={s('flex:1 1 380px;min-width:300px;max-width:620px;margin:0 auto')}>
             <lattice-globe speed="1" show-chips="true" style={{ display: 'block', width: '100%', aspectRatio: '1 / 1' }} />
           </div>
