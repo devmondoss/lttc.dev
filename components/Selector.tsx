@@ -72,23 +72,39 @@ export default function Selector() {
   const takerRef = useRef<HTMLDivElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
 
-  // Inversión de tema: hover/foco en desktop, IntersectionObserver en touch.
+  // Inversión de tema: hover/foco arriba de 900px, IntersectionObserver
+  // debajo — por ancho de pantalla, no por si el dispositivo tiene mouse,
+  // así que también reacciona si la ventana se achica/agranda en vivo.
   useEffect(() => {
     const maker = makerRef.current;
     const taker = takerRef.current;
     if (!maker || !taker) return;
-    if (window.matchMedia('(hover: hover)').matches) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setMakerLight(e.target === maker);
-        });
-      },
-      { rootMargin: '-40% 0px -40% 0px', threshold: 0 },
-    );
-    io.observe(maker);
-    io.observe(taker);
-    return () => io.disconnect();
+
+    const mq = window.matchMedia('(max-width: 899px)');
+    let io: IntersectionObserver | null = null;
+
+    const update = () => {
+      io?.disconnect();
+      io = null;
+      if (!mq.matches) return;
+      io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) setMakerLight(e.target === maker);
+          });
+        },
+        { rootMargin: '-40% 0px -40% 0px', threshold: 0 },
+      );
+      io.observe(maker);
+      io.observe(taker);
+    };
+
+    update();
+    mq.addEventListener('change', update);
+    return () => {
+      mq.removeEventListener('change', update);
+      io?.disconnect();
+    };
   }, []);
 
   // Ganancias en vivo del Maker — sólo corre mientras la sección está en
