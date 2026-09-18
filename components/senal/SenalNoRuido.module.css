@@ -50,12 +50,11 @@
   .inner {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
     gap: clamp(48px, 6vw, 96px);
-    /* Antes el título iba con position:sticky. Con «start» quedaba pegado
-       arriba durante todo el scroll de las 3 escenas y soltaba recién al
-       final, dejando un tramo largo en blanco debajo antes de la siguiente
-       sección. «center» sin sticky reparte ese espacio arriba y abajo sin
-       los saltos que sticky + alineación no-start meten en algunos
-       navegadores. */
-    align-items: center;
+    /* «center» dejaba el título a la altura de la escena 2, apareciendo
+       recién a mitad del scroll de la sección y tapando el detalle de esa
+       escena. «start» lo alinea con la escena 1 desde el principio, como
+       un encabezado editorial normal: se lee una vez y se va con el
+       scroll junto a la primera escena. */
+    align-items: start;
   }
 }
