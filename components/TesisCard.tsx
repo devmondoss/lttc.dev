@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useInView } from 'motion/react';
 import { useLang, langHref } from '@/lib/i18n';
 
 export default function TesisCard({
@@ -20,15 +21,32 @@ export default function TesisCard({
   read: string;
 }) {
   const { lang } = useLang();
-  const [hover, setHover] = useState(false);
+  const [mouseHover, setMouseHover] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const ref = useRef<HTMLAnchorElement | null>(null);
+  const inView = useInView(ref, { amount: 0.3 });
+
+  // Por ancho de pantalla, no por si el dispositivo tiene mouse: debajo de
+  // 900px la tarjeta toma su estado "hovered" sola al entrar en el
+  // viewport, como en Selector. Reactivo si la ventana cambia de tamaño.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 899px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  const hover = isMobile ? inView : mouseHover;
 
   return (
     <Link
+      ref={ref}
       href={langHref(href, lang)}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onFocus={() => setHover(true)}
-      onBlur={() => setHover(false)}
+      onMouseEnter={() => setMouseHover(true)}
+      onMouseLeave={() => setMouseHover(false)}
+      onFocus={() => setMouseHover(true)}
+      onBlur={() => setMouseHover(false)}
       style={{
         position: 'relative',
         overflow: 'hidden',
